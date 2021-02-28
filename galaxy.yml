@@ -1,0 +1,17 @@
+---
+namespace: brennanfee
+name: deb_collection
+version: 0.1.0
+readme: README.md
+authors:
+  - Brennan Fee (https://github.com/brennanfee)
+description: My collection of shared Ansible Debian/Ubuntu content to be used in multiple playbooks.
+license_file: license.md
+tags:
+  - collection
+dependencies:
+  - community.general
+repository: https://github.com/brennanfee/ansible-deb-collection
+documentation: https://github.com/brennanfee/ansible-deb-collection/README.md
+homepage: https://github.com/brennanfee/ansible-deb-collection
+issues: https://github.com/brennanfee/ansible-deb-collection/issues
