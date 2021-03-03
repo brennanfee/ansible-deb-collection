@@ -37,7 +37,8 @@
 # - Do not to list sensitive information in TXT records.
 # - You can get a listing of TXT records with: 'dig +short -t TXT example.com'
 ###############################################################################
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 import os
@@ -56,4 +57,4 @@ class InventoryModule(BaseInventoryPlugin):
     def verify_file(self, domain):
 
         valid = False
-        records = dns.resolver.resolve(domain, 'TXT', search=True)
+        records = dns.resolver.resolve(domain, "TXT", search=True)
