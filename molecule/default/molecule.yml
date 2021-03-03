@@ -1,0 +1,40 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+platforms:
+  - name: instance-ubuntu-lts
+    image: ubuntu:latest
+    privileged: true
+    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: instance-ubuntu-rolling
+    image: ubuntu:rolling
+    privileged: true
+    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: instance-debian-stable
+    image: debian:stable
+    privileged: true
+    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: instance-debian-testing
+    image: debian:testing
+    privileged: true
+    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_ROLES_PATH: "../../roles"
+verifier:
+  name: ansible
