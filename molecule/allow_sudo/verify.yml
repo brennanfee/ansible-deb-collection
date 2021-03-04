@@ -1,0 +1,14 @@
+---
+- name: Allow_Sudo Role Verify
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Sudoers has sudo group set up
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        line: "%sudo  ALL=(ALL:ALL) ALL"
+        backup: no
+      check_mode: yes
+      register: conf
+      failed_when: (conf is changed) or (conf is failed)
