@@ -7,8 +7,3 @@
     update_cache_retry_max_delay: 10
     cache_valid_time: 3600
   changed_when: false
-
-- name: Upgrade the packages
-  become: true
-  ansible.builtin.apt:
-    upgrade: '{{ apt_upgrade_level | default(safe) }}'

@@ -3,10 +3,11 @@
   hosts: all
 
   tasks:
-    - name: Update package cache
-      package: update_cache=yes
+    - name: Update the package cache
+      become: true
+      ansible.builtin.apt:
+        update_cache: yes
+        update_cache_retries: 10
+        update_cache_retry_max_delay: 10
+        cache_valid_time: 3600
       changed_when: false
-      register: task_result
-      until: task_result is success
-      retries: 10
-      delay: 2
