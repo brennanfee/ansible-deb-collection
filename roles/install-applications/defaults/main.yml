@@ -1,0 +1,16 @@
+---
+# Apt
+apt_keys: []
+ppa_repositories: []
+apt_repositories: []
+apt_packages: []
+
+# Debs (.deb files to be installed)
+deb_packages: []
+
+# Flatpak and Snaps
+flatpak_remotes: []
+flatpak_packages: []
+snap_packages: []
+
+package_set: "-- UNKNOWN --"
