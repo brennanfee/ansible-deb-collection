@@ -9,11 +9,31 @@ Afterword, you can execute any of these tasks in the terminal with `inv {task na
 """
 
 
-@task
-def lint(ctx):
-    ctx.run("poetry run ./molecule/lint")
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
+def lint(ctx, scenario="default"):
+    ctx.run(f"poetry run molecule lint -s {scenario}")
 
 
-@task(help={"scenario": "The test scenario you wish to run.  Default is the default scenario."})
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
 def test(ctx, scenario="default"):
     ctx.run(f"poetry run molecule test -s {scenario}")
+
+
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
+def create(ctx, scenario="default"):
+    ctx.run(f"poetry run molecule create -s {scenario}")
+
+
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
+def converge(ctx, scenario="default"):
+    ctx.run(f"poetry run molecule converge -s {scenario}")
+
+
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
+def login(ctx, scenario="default"):
+    ctx.run(f"poetry run molecule login -s {scenario}")
+
+
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
+def verify(ctx, scenario="default"):
+    ctx.run(f"poetry run molecule verify -s {scenario}")
