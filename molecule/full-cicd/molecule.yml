@@ -8,11 +8,12 @@ lint: |
   ./molecule/lint
 platforms:
   - name: instance
-    image: ${MOLECULE_DISTRO:-ubuntu:latest}
-    privileged: true
-    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    image: brennanfee/docker-${MOLECULE_DISTRO:-ubuntu-latest}-systemd
+    command: ""
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
 provisioner:
   name: ansible
   env:

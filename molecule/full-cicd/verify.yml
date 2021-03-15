@@ -1,3 +1,4 @@
 ---
 - import_playbook: ../allow_sudo/verify.yml
 - import_playbook: ../ssh/verify.yml
+- import_playbook: ../timezone/verify.yml

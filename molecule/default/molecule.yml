@@ -8,29 +8,33 @@ lint: |
   ./molecule/lint
 platforms:
   - name: instance-ubuntu-lts
-    image: ubuntu:latest
-    privileged: true
-    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    image: brennanfee/docker-ubuntu-latest-systemd
+    command: ""
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
   - name: instance-ubuntu-rolling
-    image: ubuntu:rolling
-    privileged: true
-    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    image: brennanfee/docker-ubuntu-rolling-systemd
+    command: ""
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
   - name: instance-debian-stable
-    image: debian:stable
-    privileged: true
-    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    image: brennanfee/docker-debian-stable-systemd
+    command: ""
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
   - name: instance-debian-testing
-    image: debian:testing
-    privileged: true
-    command: ${MOLECULE_COMMAND:-"sleep infinity"}
+    image: brennanfee/docker-debian-testing-systemd
+    command: ""
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
 provisioner:
   name: ansible
   env:

@@ -1,0 +1,17 @@
+---
+- name: Timezone Verify
+  hosts: all
+  gather_facts: false
+
+# US/Central
+# Europe/Berlin
+
+  tasks:
+    - name: Read current time zone
+      ansible.builtin.shell: cat /etc/timezone
+      changed_when: false
+      register: current_time_zone
+
+    - name: Assert we have the correct Timezone
+      ansible.builtin.assert:
+        that: current_time_zone.stdout == 'US/Central'

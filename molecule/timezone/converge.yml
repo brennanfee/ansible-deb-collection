@@ -3,7 +3,4 @@
   hosts: all
 
   roles:
-    - upgrade
-    - allow_sudo
-    - ssh
     - { role: timezone, desired_time_zone: 'Europe/Berlin' }
