@@ -85,7 +85,7 @@ EXAMPLES = """
 """
 
 
-class ManageAptKey(object):
+class ManageAptKey():
     def __init__(self, module):
         self.m = module
         self.changed = False
@@ -93,7 +93,7 @@ class ManageAptKey(object):
 
         self._determine_key_file_name()
         if self.m.state == "absent":
-            self._remove_key()
+            self.changed = self._remove_key()
         else:
             self.changed = self._execute_task()
 
@@ -102,7 +102,7 @@ class ManageAptKey(object):
 
     def _determine_key_file_name(self):
         # Check to make sure the key name ends in the .gpg extension, add it if not
-        _, output_ext = os.path.split_text(self.output_key_file)
+        _, output_ext = os.path.splitext(self.output_key_file)
         if output_ext != ".gpg":
             self.output_key_file = f"{self.output_key_file}.gpg"
 
@@ -116,10 +116,10 @@ class ManageAptKey(object):
         if os.path.exists(self.output_key_file):
             self._debug("Removing key file.")
             os.remove(self.output_key_file)
-            self.changed = True
+            return True
         else:
             self._debug("No key file to remove.")
-            self.changed = False
+            return False
 
     def _execute_task(self):
         if os.path.exists(self.output_key_file) and self.m.state == "present":
@@ -156,14 +156,14 @@ class ManageAptKey(object):
 
             res = self._execute_gpg(
                 '--batch --yes --no-default-keyring --keyring=gnupg-ring:"'
-                + f'{temp_keyring}" --quiet --import "{temp_file}"'
+                f'{temp_keyring}" --quiet --import "{temp_file}"'
             )
             if res["rc"] != 0:
                 raise Exception(f"GPG returned error {res['rc']} during import.")
 
             res = self._execute_gpg(
                 '--batch --yes --no-default-keyring --keyring=gnupg-ring:"'
-                + f'{temp_keyring}" --export --output "{gpg_file}"'
+                f'{temp_keyring}" --export --output "{gpg_file}"'
             )
             if res["rc"] != 0:
                 raise Exception(f"GPG returned error {res['rc']} during export.")
@@ -181,10 +181,10 @@ class ManageAptKey(object):
                 self._debug("Key file is already latest.")
                 return False
 
-        dir = os.path.dirname(self.output_key_file)
-        if not os.path.exists(dir):
+        output_dir = os.path.dirname(self.output_key_file)
+        if not os.path.exists(output_dir):
             self._debug("Creating output key path because it does not exist.")
-            os.makedirs(dir)
+            os.makedirs(output_dir)
 
         self._debug("Copy new or updated key file into place.")
         shutil.move(gpg_file, self.output_key_file)
@@ -199,6 +199,7 @@ class ManageAptKey(object):
         raw_res = self.m.run_command(to_execute)
         return self._convert_to_dict(raw_res)
 
+    @staticmethod
     def _convert_to_dict(res):
         """turn tuple to dict"""
         result_dictionary = dict([k, res[i]] for i, k in enumerate(("rc", "stdout", "stderr")))
