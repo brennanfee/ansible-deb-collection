@@ -1,4 +1,13 @@
 ---
+- name: Install ssh
+  become: true
+  ansible.builtin.apt:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - tzdata
+    - systemd-timesyncd
+
 - name: Read current time zone
   become: false
   ansible.builtin.shell: cat /etc/timezone
@@ -9,3 +18,19 @@
   become: true
   ansible.builtin.shell: timedatectl set-timezone '{{ desired_time_zone or 'US/Central' }}'
   when: current_time_zone.stdout != desired_time_zone
+
+- name: Setup time sync settings
+  ansible.builtin.template:
+    src: etc-systemd--timesyncd.conf.j2
+    dest: /etc/systemd/timesyncd.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: true
+  notify: Restart timesyncd
+
+- name: Start and enable the time sync service
+  ansible.builtin.service:
+    name: systemd-timesyncd.service
+    state: started
+    enabled: true

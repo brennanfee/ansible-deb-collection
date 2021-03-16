@@ -85,7 +85,7 @@ EXAMPLES = """
 """
 
 
-class ManageAptKey():
+class ManageAptKey:
     def __init__(self, module):
         self.m = module
         self.changed = False
