@@ -1,11 +1,19 @@
 ---
-- name: Install ssh
+- name: Install Time tools
   become: true
   ansible.builtin.apt:
     name: '{{ item }}'
     state: present
   with_items:
     - tzdata
+
+- name: Install Timesyncd
+  become: true
+  ansible.builtin.apt:
+    name: '{{ item }}'
+    state: present
+  when: ansible_lsb.codename != "buster"
+  with_items:
     - systemd-timesyncd
 
 - name: Read current time zone
