@@ -1,0 +1,37 @@
+---
+- name: Install apt required tools
+  become: true
+  ansible.builtin.apt:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - apt-utils
+    - curl
+    - wget
+    - apt-transport-https
+    - dirmngr
+    - python3-apt
+
+- name: Copy apt sources configuration (Debian)
+  become: true
+  ansible.builtin.template:
+    src: etc-apt--sources-debian.list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  when: ansible_distribution == "Debian"
+  register: apt_sources
+
+- name: Copy apt sources configuration (Ubuntu)
+  become: true
+  ansible.builtin.template:
+    src: etc-apt--sources-ubuntu.list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  when: ansible_distribution == "Ubuntu"
+  register: apt_sources

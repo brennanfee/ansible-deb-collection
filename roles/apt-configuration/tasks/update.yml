@@ -1,0 +1,9 @@
+---
+- name: Update the package cache due to sources changes
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    update_cache_retries: 10
+    update_cache_retry_max_delay: 10
+    cache_valid_time: 3600
+  when: apt_sources.changed

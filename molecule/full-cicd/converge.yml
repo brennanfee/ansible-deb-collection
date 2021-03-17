@@ -7,3 +7,4 @@
     - allow_sudo
     - ssh
     - { role: time, desired_time_zone: 'Europe/Berlin' }
+    - apt-configuration

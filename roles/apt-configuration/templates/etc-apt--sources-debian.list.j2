@@ -1,0 +1,36 @@
+# APT Sources
+# {{ ansible_managed }}
+
+# Main
+deb https://deb.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }} main contrib non-free
+{% if apt_include_source|default(False, True) %}
+deb-src https://deb.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }} main contrib non-free
+{% endif %}
+
+# Updates
+deb https://deb.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }}-updates main contrib non-free
+{% if apt_include_source|default(False, True) %}
+deb-src https://deb.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }}-updates main contrib non-free
+{% endif %}
+
+{% if apt_edition|default(ansible_lsb.codename, true) == "testing" %}
+# Secuirty
+deb https://deb.debian.org/debian-security {{ apt_edition|default(ansible_lsb.codename, true) }}-security main
+{% if apt_include_source|default(False, True) %}
+deb-src https://deb.debian.org/debian-security {{ apt_edition|default(ansible_lsb.codename, true) }}-security main
+{% endif %}
+{% else %}
+# Secuirty
+deb https://deb.debian.org/debian-security {{ apt_edition|default(ansible_lsb.codename, true) }}/updates main
+{% if apt_include_source|default(False, True) %}
+deb-src https://deb.debian.org/debian-security {{ apt_edition|default(ansible_lsb.codename, true) }}/updates main
+{% endif %}
+{% endif %}
+
+# Backports
+{% if apt_include_backports|default(True, True) and apt_edition|default(ansible_lsb.codename, true) != "testing" %}
+deb https://ftp.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main
+{% if apt_include_source|default(False, True) %}
+deb-src https://ftp.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main
+{% endif %}
+{% endif %}
