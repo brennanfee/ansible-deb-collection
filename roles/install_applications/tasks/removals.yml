@@ -1,0 +1,8 @@
+---
+### Remove apt packages
+- name: Remove apt packages ({{ package_set }})
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ removed_apt_packages }}"

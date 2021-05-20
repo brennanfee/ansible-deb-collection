@@ -14,3 +14,6 @@ flatpak_packages: []
 snap_packages: []
 
 package_set: "-- UNKNOWN --"
+
+# Removed Apt packages
+removed_apt_packages: []

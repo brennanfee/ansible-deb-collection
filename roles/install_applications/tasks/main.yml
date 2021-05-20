@@ -3,5 +3,7 @@
 - include: keys.yml
 ## Then repositories
 - include: repositories.yml
-## Finally, the installs
+## The installs
 - include: installs.yml
+## Finally, the removals
+- include: removals.yml
