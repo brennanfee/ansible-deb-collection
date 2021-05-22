@@ -16,16 +16,10 @@
   with_items:
     - systemd-timesyncd
 
-- name: Read current time zone
-  become: false
-  ansible.builtin.shell: cat /etc/timezone
-  changed_when: false
-  register: current_time_zone
-
 - name: Set the time zone
   become: true
-  ansible.builtin.shell: timedatectl set-timezone '{{ desired_time_zone or 'US/Central' }}'
-  when: current_time_zone.stdout != desired_time_zone
+  community.general.timezone:
+    name: '{{ desired_time_zone or "US/Central" }}'
 
 - name: Setup time sync settings
   ansible.builtin.template:
