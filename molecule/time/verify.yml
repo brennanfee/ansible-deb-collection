@@ -13,11 +13,13 @@
     - name: Gather service facts
       ansible.builtin.service_facts:
 
-    - name: Verify packages are installed
+    - name: Verify tzdata package is installed
       ansible.builtin.assert:
         that:
           - "'tzdata' in ansible_facts.packages"
-          - "'systemd-timesyncd' in ansible_facts.packages"
+
+# TODO: Re-enable this after the next Debian stable release
+#          - "'systemd-timesyncd' in ansible_facts.packages"
 
     - name: Read current time zone
       ansible.builtin.shell: cat /etc/timezone
