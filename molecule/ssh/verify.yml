@@ -19,18 +19,26 @@
     - name: Host Key Regeneration File Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_keys_regenerated
+        mode: 0644
+        state: present
 
     - name: RSA Host File Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_rsa_key
+        mode: 0644
+        state: present
 
     - name: ED25519 Host File Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_ed25519_key
+        mode: 0644
+        state: present
 
     - name: ECDSA Host File Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_ecdsa_key
+        mode: 0644
+        state: present
 
     - name: DSA Host File DOES NOT Exists
       ansible.builtin.file:

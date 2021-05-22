@@ -3,4 +3,4 @@
   hosts: all
 
   roles:
-    - apt-configuration
+    - apt_configuration
