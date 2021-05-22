@@ -6,6 +6,8 @@ To use this script you need to install 'invoke'.  This is best done globally usi
 `pipx install invoke`
 
 Afterword, you can execute any of these tasks in the terminal with `inv {task name}`.
+
+For more info:  https://www.pyinvoke.org
 """
 
 

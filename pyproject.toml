@@ -9,13 +9,12 @@ license = "MIT"
 python = "^3.8"
 
 [tool.poetry.dev-dependencies]
-ansible = "^3.0.0"
-ansible-lint = "^5.0.2"
-yamllint = "^1.26.0"
-black = "^20.8b1"
-molecule = "^3.2.3"
-docker = "^4.4.4"
+ansible = "^4.0.0"
+ansible-lint = "^5.0.10"
+black = "^21.5b1"
+molecule = "^3.3.2"
 molecule-docker = "^0.3.3"
+yamllint = "^1.26.1"
 
 [tool.black]
 line-length = 120
