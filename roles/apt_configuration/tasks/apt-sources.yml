@@ -12,26 +12,13 @@
     - dirmngr
     - python3-apt
 
-- name: Copy apt sources configuration (Debian)
+- name: Copy apt sources configuration
   become: true
   ansible.builtin.template:
-    src: etc-apt--sources-debian.list.j2
+    src: "etc-apt--sources-{{ ansible_distribution }}.list.j2"
     dest: /etc/apt/sources.list
     owner: root
     group: root
     mode: 0644
     backup: yes
-  when: ansible_distribution == "Debian"
-  register: apt_sources
-
-- name: Copy apt sources configuration (Ubuntu)
-  become: true
-  ansible.builtin.template:
-    src: etc-apt--sources-ubuntu.list.j2
-    dest: /etc/apt/sources.list
-    owner: root
-    group: root
-    mode: 0644
-    backup: yes
-  when: ansible_distribution == "Ubuntu"
-  register: apt_sources
+  notify: Update Cache

@@ -59,7 +59,7 @@
     create: yes
     owner: root
     group: root
-    mode: '0644'
+    mode: 0644
   when: not host_keys.stat.exists
 
 - name: Remove outdated host keys
