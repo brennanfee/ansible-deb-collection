@@ -1,0 +1,739 @@
+Thoughts:
+
+Install process should be:
+  1. Setup machine (using either ventoy on usb OR network boot).
+    - Two install configs... single disk, dual(multi) disk.  No need for it to figure it out which, just select which one when booting.  All disks encrypted.
+    - Ansible should be installed (using pip?) on the machines as part of the initial setup.
+    - Ansible user should also be setup as well.
+  2. Use ansible to do ansible-pull for the "system" script (see below), reboot
+  3. Use ansible to do ansible-pull for the "user" script (see below), reboot (consider automating this as part of the ldap installation/setup of the user after first boot/login?)
+
+Currently considering two (possibly three) levels of ansible setups on my machines...
+
+1. A global "system" setup (could be different per system or generic for "desktops").  This would be setup inside the ansible user (passwordless sudo? ssh key? ssh key with/without password?) using ansible-pull and scheduled to run on an interval (cron).
+  1. desktop - generic desktop configuration, for most machines)
+  2. aristotle - specific script for ansible (plex/jellyfin, samba, sshfs, ntp - all access to the array)
+  3. xxx - specific script for base services of the house (ldap, vault, ...?)
+  4. xxx - specific script for docker machine running all other house services (but not considered base/critical)
+  5. turing - VM/proxmox setup (this machine is for running vm's and not much else)
+  6. columbus - some day, if I ever switch to just an ubuntu/debian firewall rather than pfSense or OpnSense
+2. A "user" setup.  This would be in my own user account, it would also be ansible-pull but run only with my users's perms.  It could be within the dotfiles or separate but it should fully configure my dotfiles as well as everything else I want customized on my machines.
+  1. Should this support two "modes"?  One for machines with X-Window and one without? (I still want my dotfiles on servers most of the time so, stands to reason).
+
+Possibly a third ansible level? I forgot what it is though...
+
+While most of main scripts (two or three described above) should use ansible-pull, I still want to maintain the ability to use ansible with SSH.  So the "system" script should always setup the Ansible user with the ansible SSH key.
+
+--
+Desired services/systems
+
+Certain:
+
+- openldap
+- vault
+- gotify (may need/want to host outside the house in a vps)
+- piHole & full DNS - DoH (may need/want to host outside the house in a vps, or maybe twice)
+- matrix/synology server - (this should run outside the house in a VPS)
+- nginx proxy manager (reverse proxy for EVERYTHING in the house, may have two one in the house and one on an external vps)
+- plex media server
+- jellyfin (test until can replace plex)
+- samba (for array)
+- sshfs (for array)
+- nfs (for array - maybe not as I use sshfs almost always and would use samba for windows)
+- debian/ubuntu/apt mirror or proxy - decide between full mirror or proxy but needs to support both (would be great to support arch repos and AUR as well)
+- watchtower (wherever docker containers are running, decided between central install monitoring multiple places or just an install on each docker machine)
+- proxmox - vm server
+- remotely or meshcentral - remote machine desktop access (rdp like), may want to host outside the house in a vps
+- dashboard/site status (ala homer) - other monitoring tool to view how everything is doing (Homer, Ward, Linux-Dash, ciao, monitorr)
+- home assistant
+
+Considering:
+
+- portainer - docker tool, might be good
+- NextCloud - has long since been a dream to have one of these, but using google seems fine
+- GitLab - only desired if I build an automated script that replicates my GitHub projects here regularly (for backup purposes)
+
+
+Other Ideas:
+
+- Search for a generic media streamer, just browses a folder(s) and allows viewing images, playing videos, playing music, playing music playlists - would need a client for Roku/Chromecast.  No "media info" collection like the others (where it downloads movie/tv/actor info).  Nice if it supported simple search by name or maybe tags as well (regex support?).  Ability to save searches?  Just media files and streaming them.  If I find a good one than only use Plex/Jellyfin for Movies and TV shows.  (Check into the NAS variants: OpenMediaVault, TrueNAS, Rockstor, AirSonic, Ampache [music only], etc.)
+- FusionPBX (phone routing, etc.)?
+- OpenSnitch (maybe central or maybe on each machine?)
+- Monitoring: Netdata, Glances
+- WebMap - nmap with a web interface for your network?
+- Blog? - Ghost, Wordpress
+- RocketChat or DeltaChat
+- FreeIPA - As opposed to manually doing ldap and related services
+- db management: dBeaver, CloudBeaver
+- link shortner:  kutt.it
+- SnapDrop (free version of apple's AirDrop, what does that do?)
+- ERP:  ERPNext
+- Google analytics alternative: Matomo
+- MySQL Workbench
+- Mistborn - WireGuard server with piHole and cockpit built-in
+- IP Security cameras: Shinobi
+- VPN: Pritunl wireguard server,
+- Ticketing systems/project mgmt:  zammad, openproject
+- Metabase (data analytics)
+- Wiki: XWiki
+- Video conf & chat systems (like slack, teams, etc.) - Jitsi, OpenMeetings, Zulip, Mattermost
+- Forum:  Discourse
+- Sandstorm - web app management system?
+- Mail-in-a-box, only if I can replace simplelogin.io in the process
+
+--
+Command line tools or gui apps to check out
+
+rdfind - file dup finder
+espanso - free text expander, cross plat
+flameshot - screenhot and markup tool
+olive video editor
+notify-send and ntfy (command line notification apps)
+joplin (migrate away from evernote)
+Barrier KVM
+
+
+---
+Ubuntu roles needed:
+
+install_fonts (incorporate the nerd fonts role within this role, may not need with fonts in dotfiles)
+virtualbox_guest
+network - setup local firewall, interfaces
+security - role to harden the default install (disable root, host.equiv, etc.)
+
+---
+Possible roles, haven't decided yet:
+
+ansible-user
+users
+systemd - May not need, current one just enables wpa_supplicant which should be system default (NEED TO VERIFY)
+audio - setup pulseaudio
+install-dev-frameworks (break up to individual frameworks)
+configure-alternatives
+
+---
+Ubuntu roles evaluated but NOT needed:
+
+base-packages - Just use install_applications
+desktop-kde - Just use install_applications
+desktop-addon-i3 - Could just use install_applications, also not planning on using i3 anymore
+
+---
+Done
+
+upgrade
+allow-sudo
+ssh
+timezone - was merged into the new "time" role
+apt-configuration
+ntp - was merged into the new "time" role, using systemd now
+popularity-contest
+
+
+---
+List of packages (and source) from old scripts
+
+[current list of things from ventoy]
+  - (ppa: ppa:kubuntu-ppa/backports)
+  - (ppa: ppa:git-core/ppa)
+  - (ppa: ppa:jonathonf/vim)
+  - (ppa: ppa:papirus/papirus, not on 21.04)
+  - (ppa: ppa:neovim-ppa/stable, not on 21.04)
+  - ubuntu-restricted-extras
+  - build-essential
+  - dkms
+  - tmux
+  - flatpak
+  - git
+  - gitk
+  - git-gui
+  - git-doc
+  - meld
+  - exuberant-ctags
+  - vim-doc
+  - vim-gtk3
+  - gnome-icon-theme
+  - fonts-dejavu
+  - plasma-discover-backend-flatpak
+  - atool
+  - rcm
+  - curl
+  - golang
+  - ripgrep
+  - conky-all
+  - inxi
+  - papirus-icon-theme
+  - (optional: libreoffice-style-papirus)
+(flatpaks)
+  - (remote: flathub https://flathub.org/repo/flathub.flatpakrepo)
+  - (remote: plex-media-player https://flatpak.knapsu.eu/plex-media-player.flatpakrepo`)
+  - com.bitwarden.desktop
+  - com.getferdi.Ferdi
+  - com.github.tchx84.Flatseal
+  - com.jgraph.drawio.desktop
+  - com.spotify.Client
+  - org.gnu.emacs
+  - org.libreoffice.LibreOffice
+  - org.signal.Signal
+  - org.speedcrunch.SpeedCrunch
+  - com.plexamp.Plexamp
+  - tv.plex.PlexMediaPlayer
+  - (manually configure to have access to all system files: com.jgraph.drawio.desktop, org.gnu.emacs, org.libreoffice.LibreOffice, org.signal.Signal)
+  - (manually configure to have access to all system files: com.jgraph.drawio.desktop, org.gnu.emacs, org.libreoffice.LibreOffice, org.signal.Signal)
+
+[base packages]
+(base tasks)
+  - ubuntu-server
+  - ubuntu-standard
+  - ubuntu-server
+(laptop packages)
+  - acpi
+  - avahi-autoipd
+  - bluetooth
+  - powertop
+  - iw
+  - wireless-tools
+  - wpasupplicant
+(base packages)
+  - sudo
+  - acl
+  - build-essential
+  - dkms
+  - vim-nox
+  - curl
+  - git
+  - aptitude [REMOVE]
+  - python
+  - python3
+  - plymouth-themes
+  - plymouth-label
+  - [ADD ubuntu-restricted-extras - should add, but only on ubuntu]
+
+[ssh]
+  - openssh-server
+  - [ADD - openssh-client]
+  - [Add - sshfs]
+
+[security]
+  - whois
+  - gnupg2
+  - gpgv2
+  - pinentry-curses
+  - pinentry-doc
+  - gnupg-agent
+  - rush
+  - rssh
+  - sshfs
+  - mosh
+  - molly-guard
+
+[audio]
+  - alsa-utils
+  - libasound2-plugins
+  - pulseaudio
+  - pulseaudio-module-bluetooth
+  - pulseaudio-utils
+  - gstreamer1.0-pulseaudio
+
+[install-dev-frameworks]
+(python)
+  - python-dev
+  - python3-dev
+  - python-examples
+  - python3-examples
+  - libkrb5-dev
+  - libssl-dev
+  - libffi-dev
+  - python-pip
+  - python3-pip
+  - virtualenv
+  - virtualenvwrapper
+(ruby)
+  - ruby-dev
+  - (manually installs ruby-install)
+  - (manually installs chruby)
+(rust)
+  - (manually installs using rustup.sh script)
+(node)
+  - nodejs
+  - npm
+(go)
+  - golang
+  - golang-go
+(php)
+  - php-all-dev
+  - php
+  - php-cli
+(lua)
+  - lua5.2
+  - lua5.3
+(java)
+  - default-jdk
+  - ant
+  - maven
+  - ivy
+  - (commented out: openjdk-9-jdk)
+  - (commented out: openjdk-9-demo)
+  - (commented out: openjdk-9-source)
+(tcl/tk - move to python?)
+  - tcl
+  - tcl-dev
+  - tk
+  - tk-dev
+(dotnet core)
+  - (currently manual by setting up apt repo)
+
+[printer-install]
+  - foomatic-db-engine
+  - hp-ppd
+  - hplip
+  - hplip-doc
+  - openprinting-ppds
+  - cups-bsd
+  - psutils
+  - printer-driver-all
+  - printer-driver-cups-pdf
+
+[desktop-kde]
+  - (installs kubuntu backports ppa)
+  - kubuntu-full
+  - kleopatra
+  - dolphin-plugins
+  - kde-thumbnailer-openoffice
+  - kde-wallpapers
+  - kdeartwork-wallpapers
+
+[desktop-addon-i3]
+  - (installs i3 apt repository)
+  - i3
+  - i3blocks
+  - zenity
+  - feh
+
+[install-nerdfonts]
+  - (manually pulls repo)
+(fonts)
+  - Hack
+  - Hasklig
+  - SourceCodePro
+  - UbuntuMono
+  - RobotoMono
+  - DroidSansMono
+  - DejaVuSansMono
+
+[install-fonts]
+(base fonts)
+  - fonts-font-awesome
+  - fonts-materialdesignicons-webfont
+  - fonts-noto
+(extra fonts)
+  - fonts-liberation
+  - fonts-dejavu
+  - ttf-anonymous-pro
+  - fonts-roboto
+  - fonts-octicons
+  - fonts-freefont-otf
+  - fonts-cantarell
+  - fonts-humor-sans
+  - fonts-kristi
+  - fonts-lindenhill
+  - fonts-linuxlibertine
+  - fonts-lyx
+  - fonts-oxygen
+  - fonts-powerline
+  - fonts-stix
+  - fonts-vollkorn
+(url fonts-  all from google?)
+  - PassionOne
+  - CinzelDecorative
+  - Bangers
+  - Pacifico
+  - Courgette
+  - FiraSans?
+  - CrimsonText
+  - Merriweather
+  - NotoEmoji
+  - NotoColorEmoji
+  - DroidSansMono
+  - DroidSans
+  - DroidSerif
+  - RobotoMono
+  - RobotoSlab
+  - Bungee
+  - FiraCode - https://raw.githubusercontent.com/tonsky
+  - Hack - https://raw.githubusercontent.com/chrissimpkins
+
+[install-applications -> shared applications]
+  - (manully install beyond compare)
+  - (ppa for rcm)
+  - (manually install google chrome stable)
+  - (deb: visual studio code)
+  - (deb: Atom)
+# Hardware tools
+  - intel-microcode
+  - amd64-microcode
+  - hwdata
+  - lsb-release
+# Disk & Filesystem Tools
+  - attr
+  - eject
+  - ntfs-3g
+  - dosfstools
+  - gdisk
+  - parted
+  - btrfs-tools
+  - exfat-utils
+  - xfsprogs
+  - cryptsetup
+  - mhddfs
+  - gvfs-bin
+  - cifs-utils
+# Apt tools
+  - apt-transport-https
+  - ca-certificates
+  - unattended-upgrades
+  - apt-listchanges
+  - gdebi-core
+# Monitoring & Networking Tools
+  - htop
+  - iotop
+  - cpuid
+  - cpustat
+  - nmap
+  - smbclient
+  - sshfs
+# Git & Subversion
+  - git
+  - git-doc
+  - git-flow
+  - git-extras
+  - subversion
+  - subversion-tools
+  - git-svn
+  - git-gui
+  - gitk
+# Install Zsh
+  - zsh
+  - zsh-doc
+  - zsh-syntax-highlighting
+  - zsh-antigen
+# RCM (from PPA)
+  - rcm
+# Common applications
+  - moreutils
+  - command-not-found
+  - most
+  - vifm
+  - ranger
+  - tmux
+  - curl
+  - wget
+  - rsync
+  - atool
+  - unrar
+  - silversearcher-ag
+  - jq
+  - tree
+  - screenfetch
+  - scrot
+  - xscreensaver
+  - xscreensaver-data-extra
+  - xscreensaver-gl-extra
+# Editors
+  - emacs24
+  - emacs24-el
+  - emacs24-common-non-dfsg
+  - emacs-goodies-el
+  - vim-gtk3
+  - exuberant-ctags
+# Goolge Chrome
+  - google-chrome-stable
+# Beyond Compare
+  - bcompare
+# X11 apps
+  - firefox
+  - firefox-locale-en
+  - rxvt-unicode-256color
+  - gnome-icon-theme-extras
+  - gdebi
+  - gparted
+  - libsqlite3-0
+  - feh
+  - systemd-ui
+  - blueman
+  - system-config-lvm
+  - meld
+
+[install-applications -> desktop applications]
+(base)
+  - (ppa: ppa:libreoffice/ppa)
+  - (deb: googler)
+  - libavcodec-extra
+  - libdvd-pkg
+  - gstreamer1.0-plugins-ugly
+  - gstreamer1.0-plugins-bad
+  - gstreamer1.0-libav
+  - gstreamer1.0-fluendo-mp3
+  - oxideqt-codecs-extra
+  - ffmpeg
+  - chromium-codecs-ffmpeg-extra
+  - opus-tools
+  - vorbis-tools
+  - flac
+  - wavpack
+  - handbrake-cli
+  - libav-tools
+  - ffmpeg-doc
+  - sox
+  - libsox-fmt-all
+  - speex
+  - wodim
+  - genisoimage
+  - icedax
+  - cdrdao
+  - cdrkit-doc
+  - growisofs
+  - espeak
+  - cmus
+  - cmus-plugin-ffmpeg
+  - mpv
+  - asunder
+  - kodi
+# Image Manipulation Applications
+  - imagemagick
+  - graphicsmagick
+  - libjpeg-turbo-progs
+  - netpbm
+  - gifsicle
+  - barcode
+  - icoutils
+# Console Applications
+  - units
+  - lastpass-cli
+  - lynx
+  - ncdu
+  - youtube-dl
+  - tty-clock
+  - w3m
+  - unar
+  - vrms
+  - p7zip-full
+  - cabextract
+  - lzma
+  - poppler-utils
+# Media and file sharing
+  - samba
+  - samba-dev
+  - minidlna
+# Audio Video Tools (X11)
+  - vlc
+  - vlc-plugin-samba
+  - handbrake
+# X11 Applications
+  - usb-creator-gtk
+  - freerdp-x11
+  - gnome-font-viewer
+  - font-manager
+  - synaptic
+  - vinagre
+  - vino
+  - galculator
+  - evince
+  - pidgin
+  - pidgin-data
+  - bleachbit
+  - cheese
+  - shotwell
+  - clementine
+  - get-flash-videos
+  - ntop
+  - gimp
+  - gimp-help-en
+  - gimp-plugin-registry
+  - gimp-ufraw
+  - inkscape
+  - dia
+  - krita
+  - scribus
+  - scribus-doc
+  - scribus-template
+  - libreoffice
+  - hunspell-en-us
+  - hyphen-en-us
+  - mythes-en-us
+  - libreoffice-dev
+  - libreoffice-dev-doc
+  - libreoffice-dmaths
+  - libreoffice-gtk3
+  - libreoffice-help-en-us
+  - libreoffice-lightproof-en
+  - libreoffice-report-builder
+  - libreoffice-script-provider-js
+  - libreoffice-script-provider-python
+  - libreoffice-templates
+  - unoconv
+  - openclipart-libreoffice
+  - openclipart2-libreoffice
+  - blender
+  - darktable
+  - mypaint
+  - audacity
+  - musescore
+  - qbittorrent
+  - deluge
+  - deluge-console
+  - deluge-web
+  - caffeine
+  - convertall
+## Dev packages
+  - build-essential
+  - dkms
+  - apt-transport-https
+  - ca-certificates
+  - software-properties-common
+  - virt-what
+  - patchutils
+  - module-assistant
+  - binutils
+  - cmake
+  - manpages-dev
+  - strace
+  - ltrace
+  - fakeroot
+  - autoconf
+  - autoconf-archive
+  - automake
+  - bison
+  - flex
+  - gdb
+  - libtool
+  - gnu-standards
+  - gfortran
+  - gettext
+  - cscope
+  - highlight
+  - source-highlight
+  - lintian
+  - sloccount
+  - cloc
+  - diffutils
+  - indent
+  - awscli
+  - unixodbc
+  - qtbase5-dev
+  - qtbase5-doc-html
+  - qtbase5-examples
+  - libqt5x11extras5-dev
+  - libqt5svg5-dev
+  - libmuparser-dev
+  - wdiff
+  - snapcraft
+  - lua-check
+  - phantomjs
+  - licenseutils
+# X11 Dev Applications
+  - git-cola
+  - zeal
+(dropbox - deprecated, install InSync instead)
+  - dropbox
+(flatpak)
+  - (libreoffice ppa ?? not sure why this was there)
+  - flatpak
+(flux - deprecated)
+  - (ppa: ppa:nathan-renniewaldock/flux)
+  - fluxgui
+(infinality - deprecated)
+  - (ppa: ppa:no1wantdthisname/ppa)
+  - fontconfig-infinality
+(nixnote2 - deprecated)
+  - (ppa: ppa:nixnote/nixnote2-daily)
+  - nixnote2
+(simple-screen-recorder)
+  - (ppa: ppa:maarten-baert/simplescreenrecorder)
+  - simplescreenrecorder
+(slack)
+  - (repo: https://packagecloud.io/slacktechnologies/slack/debian/ jessie main)
+  - (key: https://packagecloud.io/slacktechnologies/slack/gpgkey)
+  - slack-desktop
+(spotify - use flatpak instead)
+  - (repo: http://repository.spotify.com stable non-free)
+  - (key: hkp://keyserver.ubuntu.com:80 -> BBEBDCB318AD50EC6865090613B00F1FD2C19886)
+  - spotify-client
+(y-ppa-manager - deprecated)
+  - (ppa: ppa:webupd8team/y-ppa-manager)
+  - y-ppa-manager
+(youtube-dl-gui - deprecated)
+  - (ppa: ppa:flexiondotorg/youtube-dl-gui)
+  - youtube-dlg
+(albert - was commented out)
+  - (ppa: ppa:nilarimogard/webupd8)
+  - albert
+(hipchat - was commented out, deprecated)
+  - (repo:  https://atlassian.artifactoryonline.com/atlassian/hipchat-apt-client {{ ansible_lsb.codename }} main)
+  - (key: https://atlassian.artifactoryonline.com/atlassian/api/gpg/key/public)
+  - hipchat
+
+[install-manual-desktop-applications)
+(geeknote - deprecated)
+  - (repo: https://github.com/VitaliyRodnenko/geeknote.git)
+  - (installs with setup.py install)
+(jetbrains-toolbox)
+  - (pulls:  https://download.jetbrains.com/toolbox/jetbrains-toolbox-{{ jetbrains_toolbox_version }}.tar.gz)
+  - (doesn't seem to do anything else?)
+(packer)
+  - (pulls: https://releases.hashicorp.com/packer/{{ packer_version }}/packer_{{ packer_version }}_linux_amd64.zip)
+  - (links to: /usr/local/bin/packer)
+(pia - deprecated, write one for mulvad?)
+  - (pulls: https://installers.privateinternetaccess.com/download/pia-{{ pia_version }}-installer-linux.tar.gz)
+  - (links to: /usr/local/bin/pia-installer.sh)
+(terraform)
+  - (pulls: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip)
+  - (links to: /usr/local/bin/terraform)
+(todoist - deprecated, was already commented out)
+  - (pulls: https://s3.amazonaws.com/kamhix/downloads/todoist-linux-64bits.tar.gz)
+  - (links to: /usr/local/bin/todoist)
+(vault)
+  - (pulls: https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip)
+  - (links to: /usr/local/bin/vault)
+
+[install-applications -> vm applications, only on non-virtualized hosts]
+  - (repo: https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable)
+  - (key: https://download.docker.com/linux/ubuntu/gpg)
+# LXC and virt
+  - lxd
+  - lxd-tools
+  - virt-manager
+  - virt-viewer
+  - virt-top
+  - virt-goodies
+# Virtualbox
+  - virtualbox
+  - virtualbox-ext-pack
+  - virtualbox-guest-additions-iso
+  - virtualbox-qt
+# Vagrant
+  - vagrant
+  - vagrant-lxc
+# Docker
+  - docker-ce
+
+[install-applications -> gaming applications]
+  - (ppa: ppa:wfg/0ad)
+  - gnome-games
+  - gnuchess
+  - xboard
+  - crafty
+  - gnome-chess
+  - gameclock
+  - gnugo
+  - gnudoq
+  - supertux
+  - supertuxkart
+  - quake2
+  - quake3
+  - 0ad
+
+[install-applications -> media server applications]
+  - (repo: https://downloads.plex.tv/repo/deb ./public main)
+  - (key:  https://downloads.plex.tv/plex-keys/PlexSign.key)
+  - plexmediaserver
