@@ -3,4 +3,4 @@
   hosts: all
 
   roles:
-    - apt_configuration
+    - { role: apt_configuration, apt_proxy_url: 'http://192.168.10.20:3142' }

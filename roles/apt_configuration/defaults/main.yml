@@ -1,3 +1,4 @@
 ---
 apt_edition: ""
 apt_include_source: False
+apt_proxy_url: ""
