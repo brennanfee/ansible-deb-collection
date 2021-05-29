@@ -1,0 +1,8 @@
+---
+### Install Snap Packages
+- name: Install Snap packages ({{ package_set }})
+  become: true
+  community.general.snap:
+    name: "{{ item.name }}"
+    classic: "{{ item.classic or 'no' }}"
+  with_items: "{{ snap_packages }}"

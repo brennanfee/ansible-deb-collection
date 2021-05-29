@@ -1,0 +1,11 @@
+---
+### Install tools needed for the other install methods
+- name: Install requirements for installation support
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+  with_items:
+    - snapd
+    - flatpak
+    - curl
+    - python3-requests

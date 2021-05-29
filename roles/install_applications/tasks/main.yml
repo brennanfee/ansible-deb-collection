@@ -1,9 +1,14 @@
 ---
+## Prepare to be able to install packages
+- include: prepare.yml
 ## Handle keys first
 - include: keys.yml
 ## Then repositories
 - include: repositories.yml
-## The installs
-- include: installs.yml
-## Finally, the removals
+## Installs
+- include: packages_apt.yml
+- include: packages_deb.yml
+- include: packages_snap.yml
+- include: packages_flatpak.yml
+## Finally, the removals (should always be last)
 - include: removals.yml
