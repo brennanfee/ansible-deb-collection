@@ -1,4 +1,10 @@
 ---
+- name: Install sudo
+  become: true
+  ansible.builtin.apt:
+    name: sudo
+    state: present
+
 - name: Allow users in the sudo group to run sudo (with a password)
   become: true
   ansible.builtin.lineinfile:

@@ -1,9 +1,17 @@
 ---
-- name: Allow_Sudo Role Verify
+- name: Verify allow_sudo Role
   hosts: all
   gather_facts: false
 
   tasks:
+    - name: Gather package facts
+      ansible.builtin.package_facts:
+
+    - name: Verify package is installed
+      ansible.builtin.assert:
+        that:
+          - "'sudo' in ansible_facts.packages"
+
     - name: Sudoers has sudo group set up
       ansible.builtin.lineinfile:
         path: /etc/sudoers
