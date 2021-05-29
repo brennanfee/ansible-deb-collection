@@ -1,4 +1,7 @@
 ---
+- import_playbook: ../upgrade/verify.yml
 - import_playbook: ../allow_sudo/verify.yml
 - import_playbook: ../ssh/verify.yml
 - import_playbook: ../time/verify.yml
+- import_playbook: ../apt_configuration/verify.yml
+- import_playbook: ../popularity_contest/verify.yml

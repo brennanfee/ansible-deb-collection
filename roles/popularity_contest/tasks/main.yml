@@ -1,18 +1,11 @@
 ---
-- name: Install popularity contest
+- name: Install popularity contest (enroll requested)
   become: true
   apt:
     name: popularity-contest
-  when: ansible_virtualization_role != "guest"
+  when: enroll_in_popularity_contest
 
-- name: Remove popularity contest on virtualized guests
-  become: true
-  apt:
-    name: popularity-contest
-    state: absent
-  when: ansible_virtualization_role == "guest"
-
-- name: Copy popularity contest config
+- name: Copy popularity contest config (enroll requested)
   become: true
   template:
     src: etc--popularity-contest.conf.j2
@@ -21,4 +14,10 @@
     group: root
     mode: 0644
     backup: yes
-  when: ansible_virtualization_role != "guest"
+  when: enroll_in_popularity_contest
+
+- name: Remove popularity contest (enroll not requested)
+  become: true
+  apt:
+    name: popularity-contest
+  when: not enroll_in_popularity_contest

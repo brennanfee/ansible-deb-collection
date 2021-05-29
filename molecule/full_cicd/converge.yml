@@ -8,3 +8,4 @@
     - ssh
     - { role: time, desired_time_zone: 'Europe/Berlin' }
     - { role: apt_configuration, apt_proxy_url: 'http://192.168.10.20:3142' }
+    - popularity_contest
