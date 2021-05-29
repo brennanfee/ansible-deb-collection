@@ -1,5 +1,5 @@
 ---
-- name: Apt Configuration Verify
+- name: Verify apt_configuration Role
   hosts: all
   gather_facts: false
 
@@ -15,6 +15,7 @@
           - "'wget' in ansible_facts.packages"
           - "'apt-transport-https' in ansible_facts.packages"
           - "'dirmngr' in ansible_facts.packages"
+          - "'python3-apt' in ansible_facts.packages"
 
     - name: Sources.list config file should be managed by Ansible
       ansible.builtin.lineinfile:

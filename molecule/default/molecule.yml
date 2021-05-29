@@ -39,5 +39,11 @@ provisioner:
   name: ansible
   env:
     ANSIBLE_ROLES_PATH: "../../roles"
+  inventory:
+    host_vars:
+      instance-debian-stable:
+        apt_edition: stable
+      instance-debian-testing:
+        apt_edition: testing
 verifier:
   name: ansible

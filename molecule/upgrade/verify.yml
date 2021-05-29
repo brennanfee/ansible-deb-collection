@@ -1,5 +1,5 @@
 ---
-- name: Upgrade Role Verify
+- name: Verify upgrade Role
   hosts: all
   gather_facts: false
 

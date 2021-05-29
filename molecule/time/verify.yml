@@ -1,5 +1,5 @@
 ---
-- name: Timezone Verify
+- name: Verify time Role
   hosts: all
   gather_facts: false
 
@@ -18,8 +18,12 @@
         that:
           - "'tzdata' in ansible_facts.packages"
 
-# TODO: Re-enable this after the next Debian stable release
-#          - "'systemd-timesyncd' in ansible_facts.packages"
+# TODO: Remove this and merge it with the check above after next Debian stable release
+    - name: Verify systemd-timesyncd package is installed
+      ansible.builtin.assert:
+        that:
+          - "'systemd-timesyncd' in ansible_facts.packages"
+      when: apt_edition is undefined or apt_edition != 'stable'
 
     - name: Read current time zone
       ansible.builtin.shell: cat /etc/timezone
@@ -39,13 +43,11 @@
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 
-    - name: Timesyncd Service is running
-      ansible.builtin.assert:
-        that: "ansible_facts.services['systemd-timesyncd.service'].state == 'running'"
-
-    - name: Timesyncd Service is enabled
-      ansible.builtin.command:
-        cmd: "systemctl is-enabled systemd-timesyncd.service"
-      register: service
-      changed_when: false
-      failed_when: "service.stdout != 'enabled'"
+    - name: Timesyncd service is started and enabled
+      ansible.builtin.service:
+        name: systemd-timesyncd.service
+        state: started
+        enabled: yes
+      check_mode: yes
+      register: svc
+      failed_when: (svc is changed) or (svc is failed)

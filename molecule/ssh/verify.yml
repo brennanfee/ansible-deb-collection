@@ -1,14 +1,11 @@
 ---
-- name: SSH Role Verify
+- name: Verify ssh Role
   hosts: all
   gather_facts: false
 
   tasks:
     - name: Gather package facts
       ansible.builtin.package_facts:
-
-    - name: Gather service facts
-      ansible.builtin.service_facts:
 
     - name: Verify packages are installed
       ansible.builtin.assert:
@@ -20,26 +17,49 @@
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_keys_regenerated
         mode: 0644
+        owner: root
+        group: root
+      check_mode: yes
+      register: file
+      failed_when: (file is changed) or (file is failed)
 
     - name: RSA Host File Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_rsa_key
-        mode: 0644
+        mode: 0600
+        owner: root
+        group: root
+      check_mode: yes
+      register: file
+      failed_when: (file is changed) or (file is failed)
 
     - name: ED25519 Host File Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_ed25519_key
-        mode: 0644
+        mode: 0600
+        owner: root
+        group: root
+      check_mode: yes
+      register: file
+      failed_when: (file is changed) or (file is failed)
 
     - name: ECDSA Host File Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_ecdsa_key
-        mode: 0644
+        mode: 0600
+        owner: root
+        group: root
+      check_mode: yes
+      register: file
+      failed_when: (file is changed) or (file is failed)
 
     - name: DSA Host File DOES NOT Exists
       ansible.builtin.file:
         path: /etc/ssh/ssh_host_dsa_key
         state: absent
+      check_mode: yes
+      register: file
+      failed_when: (file is changed) or (file is failed)
 
     - name: SSHD Config File Managed By Ansible
       ansible.builtin.lineinfile:
@@ -59,13 +79,11 @@
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 
-    - name: SSH Service is running
-      ansible.builtin.assert:
-        that: "ansible_facts.services['ssh'].state == 'running'"
-
-    - name: SSH Service is enabled
-      ansible.builtin.command:
-        cmd: "systemctl is-enabled ssh"
-      register: service
-      changed_when: false
-      failed_when: "service.stdout != 'enabled'"
+    - name: SSH service is started and enabled
+      ansible.builtin.service:
+        name: ssh
+        state: started
+        enabled: yes
+      check_mode: yes
+      register: svc
+      failed_when: (svc is changed) or (svc is failed)
