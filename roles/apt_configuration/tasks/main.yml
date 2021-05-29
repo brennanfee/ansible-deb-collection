@@ -1,3 +1,10 @@
 ---
 - include: apt-defaults.yml
 - include: apt-sources.yml
+- name: Update the package cache (forced)
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    update_cache_retries: 10
+    update_cache_retry_max_delay: 10
+  changed_when: false
