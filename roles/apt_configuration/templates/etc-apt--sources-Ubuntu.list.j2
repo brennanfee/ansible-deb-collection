@@ -3,42 +3,16 @@
 
 # See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
 # newer versions of the distribution.
-deb https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} main restricted
+deb http://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} main restricted universe multiverse
 {% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} main restricted
+deb-src http://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} main restricted universe multiverse
 {% endif %}
 
 ## Major bug fix updates produced after the final release of the
 ## distribution.
-deb https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates main restricted
+deb http://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates main restricted universe multiverse
 {% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates main restricted
-{% endif %}
-
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-## team. Also, please note that software in universe WILL NOT receive any
-## review or updates from the Ubuntu security team.
-deb https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} universe
-{% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} universe
-{% endif %}
-deb https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates universe
-{% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates universe
-{% endif %}
-
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-## team, and may not be under a free licence. Please satisfy yourself as to
-## your rights to use the software. Also, please note that software in
-## multiverse WILL NOT receive any review or updates from the Ubuntu
-## security team.
-deb https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} multiverse
-{% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} multiverse
-{% endif %}
-deb https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates multiverse
-{% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-updates main restricted universe multiverse
 {% endif %}
 
 {% if apt_include_backports|default(False, True) %}
@@ -47,9 +21,9 @@ deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.
 ## newer versions of some applications which may provide useful features.
 ## Also, please note that software in backports WILL NOT receive any review
 ## or updates from the Ubuntu security team.
-deb https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main restricted universe multiverse
 {% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main restricted universe multiverse
+deb-src http://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main restricted universe multiverse
 {% endif %}
 {% endif %}
 
@@ -58,21 +32,13 @@ deb-src https://us.archive.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.
 ## 'partner' repository.
 ## This software is not part of Ubuntu, but is offered by Canonical and the
 ## respective vendors as a service to Ubuntu users.
-deb https://us.archive.canonical.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} partner
+deb http://us.archive.canonical.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} partner
 {% if apt_include_source|default(False, True) %}
-deb-src https://us.archive.canonical.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} partner
+deb-src http://us.archive.canonical.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }} partner
 {% endif %}
 {% endif %}
 
-deb https://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security main restricted
+deb http://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security main restricted universe multiverse
 {% if apt_include_source|default(False, True) %}
-deb-src https://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security main restricted
-{% endif %}
-deb https://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security universe
-{% if apt_include_source|default(False, True) %}
-deb-src https://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security universe
-{% endif %}
-deb https://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security multiverse
-{% if apt_include_source|default(False, True) %}
-deb-src https://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security multiverse
+deb-src http://security.ubuntu.com/ubuntu {{ apt_edition|default(ansible_lsb.codename, true) }}-security main restricted universe multiverse
 {% endif %}
