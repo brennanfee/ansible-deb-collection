@@ -1,0 +1,19 @@
+---
+- name: Prepare
+  hosts: all
+
+  tasks:
+    - name: Update the package cache
+      become: true
+      ansible.builtin.apt:
+        update_cache: yes
+        update_cache_retries: 10
+        update_cache_retry_max_delay: 10
+        cache_valid_time: 3600
+      changed_when: false
+
+    - name: Install something we are going to remove
+      become: true
+      ansible.builtin.apt:
+        name: cmus
+      changed_when: false

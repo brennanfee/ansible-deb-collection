@@ -92,7 +92,7 @@ class ManageAptKey:
         self.debugMessages = []
 
         self._determine_key_file_name()
-        if self.m.state == "absent":
+        if self.m.params["state"] == "absent":
             self.changed = self._remove_key()
         else:
             self.changed = self._execute_task()
@@ -102,27 +102,29 @@ class ManageAptKey:
 
     def _determine_key_file_name(self):
         # Check to make sure the key name ends in the .gpg extension, add it if not
-        _, output_ext = os.path.splitext(self.output_key_file)
+        _, output_ext = os.path.splitext(self.m.params["output_key_file"])
         if output_ext != ".gpg":
-            self.output_key_file = f"{self.output_key_file}.gpg"
+            self.m.params["output_key_file"] = f"{self.m.params['output_key_file']}.gpg"
 
         # If they included a path, use their entire path... otherwise add the key_path
-        if os.path.dirname(self.output_key_file) == "":
-            self.output_key_file = os.path.join(self.default_key_path, self.output_key_file)
+        if os.path.dirname(self.m.params["output_key_file"]) == "":
+            self.m.params["output_key_file"] = os.path.join(
+                self.m.params["default_key_path"], self.m.params["output_key_file"]
+            )
 
-        self._debug(f"Final destination file name: {self.output_key_file}")
+        self._debug(f"Final destination file name: {self.m.params['output_key_file']}")
 
     def _remove_key(self):
-        if os.path.exists(self.output_key_file):
+        if os.path.exists(self.m.params["output_key_file"]):
             self._debug("Removing key file.")
-            os.remove(self.output_key_file)
+            os.remove(self.m.params["output_key_file"])
             return True
         else:
             self._debug("No key file to remove.")
             return False
 
     def _execute_task(self):
-        if os.path.exists(self.output_key_file) and self.m.state == "present":
+        if os.path.exists(self.m.params["output_key_file"]) and self.m.params["state"] == "present":
             self._debug("State is 'present' and key file already exists.")
             return False
 
@@ -130,43 +132,44 @@ class ManageAptKey:
         gpg_file = f"{temp_file}.gpg"
         self._debug(f"Temp file: {temp_file}")
 
-        if self.input_key_file.startswith("http"):
+        if self.m.params["input_key_file"].startswith("http"):
             self._debug("Downloading key file from the internet")
-            r = requests.get(self.input_key_file, allow_redirects=True)
+            r = requests.get(self.m.params["input_key_file"], allow_redirects=True)
             with os.fdopen(temp_handle, "wb") as f:
                 f.write(r.content)
         else:
             self._debug("Copying local key file")
-            if os.path.exists(self.input_key_file):
-                shutil.copyfile(self.input_key_file, temp_file)
+            if os.path.exists(self.m.params["input_key_file"]):
+                shutil.copyfile(self.m.params["input_key_file"], temp_file)
 
         if not os.path.exists(temp_file):
             raise Exception("Unable to read key file.")
 
-        _, file_type = self.m.run_command(["file", temp_file]).stdout
+        _, file_type, _ = self.m.run_command(["file", "-b", temp_file])
+        file_type = file_type.rstrip()
         self._debug(f"Key file type: {file_type}")
 
         if file_type == "PGP public key block Public-Key (old)":
             # Note: The command automatically adds the .gpg extension
-            res = self._execute_gpg(f'--batch --yes --dearmor --keyring=gnupg-ring "{temp_file}"')
-            if res["rc"] != 0:
-                raise Exception(f"GPG returned error {res['rc']} during dearmor.")
+            resRc = self._execute_gpg(f'--batch --yes --dearmor --keyring=gnupg-ring "{temp_file}"')
+            if resRc != 0:
+                raise Exception(f"GPG returned error {resRc} during dearmor.")
         elif file_type == "PGP public key block Secret-Key":
             _, temp_keyring = tempfile.mkstemp(".gpg")
 
-            res = self._execute_gpg(
+            resRc = self._execute_gpg(
                 '--batch --yes --no-default-keyring --keyring=gnupg-ring:"'
                 f'{temp_keyring}" --quiet --import "{temp_file}"'
             )
-            if res["rc"] != 0:
-                raise Exception(f"GPG returned error {res['rc']} during import.")
+            if resRc != 0:
+                raise Exception(f"GPG returned error {resRc} during import.")
 
-            res = self._execute_gpg(
+            resRc = self._execute_gpg(
                 '--batch --yes --no-default-keyring --keyring=gnupg-ring:"'
                 f'{temp_keyring}" --export --output "{gpg_file}"'
             )
-            if res["rc"] != 0:
-                raise Exception(f"GPG returned error {res['rc']} during export.")
+            if resRc != 0:
+                raise Exception(f"GPG returned error {resRc} during export.")
 
             os.remove(temp_keyring)
         elif file_type == "PGP/GPG key public ring (v4)":
@@ -176,34 +179,28 @@ class ManageAptKey:
 
         os.remove(temp_file)
 
-        if os.path.exists(self.output_key_file) and self.m.state == "latest":
-            if filecmp.cmp(gpg_file, self.output_key_file):
+        if os.path.exists(self.m.params["output_key_file"]) and self.m.params["state"] == "latest":
+            if filecmp.cmp(gpg_file, self.m.params["output_key_file"]):
                 self._debug("Key file is already latest.")
                 return False
 
-        output_dir = os.path.dirname(self.output_key_file)
+        output_dir = os.path.dirname(self.m.params["output_key_file"])
         if not os.path.exists(output_dir):
             self._debug("Creating output key path because it does not exist.")
             os.makedirs(output_dir)
 
         self._debug("Copy new or updated key file into place.")
-        shutil.move(gpg_file, self.output_key_file)
+        shutil.move(gpg_file, self.m.params["output_key_file"])
         return True
 
     def _execute_gpg(self, cmd):
         check_mode = "--dry-run" if self.m.check_mode else ""
-        bin_path = self.m.get_bin_path(self.bin_path, True)
+        bin_path = self.m.get_bin_path(self.m.params["bin_path"], True)
 
         to_execute = f"{bin_path} {check_mode} {cmd}"
         self._debug(f"command: {to_execute}")
-        raw_res = self.m.run_command(to_execute)
-        return self._convert_to_dict(raw_res)
-
-    @staticmethod
-    def _convert_to_dict(res):
-        """turn tuple to dict"""
-        result_dictionary = dict([k, res[i]] for i, k in enumerate(("rc", "stdout", "stderr")))
-        return result_dictionary
+        rc, _, _ = self.m.run_command(to_execute)
+        return rc
 
 
 def main():

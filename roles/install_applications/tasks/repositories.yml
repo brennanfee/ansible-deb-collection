@@ -1,12 +1,4 @@
-### PPAs first, should only be Ubuntu and derivatives
-- name: Setup PPAs
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "{{ item }}"
-    mode: 0644
-    update_cache: yes
-  with_items: "{{ ppa_repositories }}"
-
+---
 ### Traditional Apt Repositories
 - name: Setup traditional Apt repositories
   become: true
@@ -17,11 +9,21 @@
     update_cache: yes
   with_items: "{{ apt_repositories }}"
 
+### PPAs, should only be Ubuntu and derivatives
+- name: Setup PPAs
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    mode: 0644
+    update_cache: yes
+  with_items: "{{ ppa_repositories }}"
+  when: ansible_distribution == 'Ubuntu'
+
 ### Setup Flatpak Remotes
 - name: Install Flatpak remote
   become: true
   community.general.flatpak_remote:
     name: "{{ item.name }}"
     flatpakrepo_url: "{{ item.url }}"
-    method: "{{ item.method or 'system' }}"
+    method: "{{ item.method | default ('system') }}"
   with_items: "{{ flatpak_remotes }}"

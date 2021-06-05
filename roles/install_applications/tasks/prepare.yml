@@ -5,7 +5,31 @@
   ansible.builtin.apt:
     name: "{{ item }}"
   with_items:
-    - snapd
     - flatpak
     - curl
     - python3-requests
+    - fuse
+    - squashfuse
+
+- name: Install snapd
+  become: true
+  ansible.builtin.apt:
+    name: snapd
+  register: reqs
+
+- name: Enable the snapd service
+  become: true
+  ansible.builtin.service:
+    name: snapd.socket
+    enabled: yes
+
+- name: Reboot (required for snapd)
+  become: true
+  ansible.builtin.reboot:
+  when: reqs.changed
+
+- name: Install flathub Flatpak repository
+  community.general.flatpak_remote:
+    name: flathub
+    flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+    method: 'system'

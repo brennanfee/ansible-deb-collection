@@ -4,6 +4,6 @@
   become: true
   community.general.flatpak:
     name: "{{ item.name }}"
-    remote: "{{ item.remote or 'flathub' }}"
-    method: "{{ item.method or 'system' }}"
+    remote: "{{ item.remote | default ('flathub') }}"
+    method: "{{ item.method | default ('system') }}"
   with_items: "{{ flatpak_packages }}"

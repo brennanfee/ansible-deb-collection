@@ -1,8 +1,12 @@
 ---
-# Apt
+package_set: "-- UNKNOWN --"
+
+# Repositories
 apt_keys: []
-ppa_repositories: []
 apt_repositories: []
+ppa_repositories: []
+
+# Apt packages
 apt_packages: []
 
 # Debs (.deb files to be installed)
@@ -12,8 +16,6 @@ deb_packages: []
 flatpak_remotes: []
 flatpak_packages: []
 snap_packages: []
-
-package_set: "-- UNKNOWN --"
 
 # Removed Apt packages
 removed_apt_packages: []
