@@ -1,0 +1,42 @@
+---
+- name: Install VirtualBox pre-reqs
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - build-essential
+    - dkms
+
+- name: Check if additions are already installed
+  become: true
+  ansible.builtin.shell: lsmod | grep -i vboxguest
+  register: additions-installed
+
+- include: install-guest-additions.yml
+  when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
+    and additions-installed.stdout != ""
+
+- include: vagrant-user.yml
+  when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
+
+- name: Add users to the VirtualBox group
+  become: true
+  user:
+    name: '{{ item }}'
+    groups: 'vboxsf'
+    append: yes
+  with_items: '{{ virtualbox_managers }}'
+  when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
+
+- name: Disable unattended upgrades
+  become: true
+  template:
+    src: etc-apt-apt.conf.d--99vm-overides.j2
+    dest: /etc/apt/apt.conf.d/99vm-overrides
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  register: apt_sources
+  when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"

@@ -11,6 +11,7 @@ tags:
   - collection
 dependencies:
   - community.general
+  - ansible.posix
 repository: https://github.com/brennanfee/ansible-deb-collection
 documentation: https://github.com/brennanfee/ansible-deb-collection/README.md
 homepage: https://github.com/brennanfee/ansible-deb-collection
