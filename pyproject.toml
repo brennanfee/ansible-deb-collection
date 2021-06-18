@@ -9,11 +9,11 @@ license = "MIT"
 python = "^3.8"
 
 [tool.poetry.dev-dependencies]
-ansible = "^4.0.0"
+ansible = "^4.1.0"
 ansible-lint = "^5.0.10"
-black = "^21.5b1"
-molecule = "^3.3.2"
-molecule-docker = "^0.3.3"
+black = "^21.6b0"
+molecule = "^3.3.4"
+molecule-docker = "^0.3.4"
 yamllint = "^1.26.1"
 
 [tool.black]

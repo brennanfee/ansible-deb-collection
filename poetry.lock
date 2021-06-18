@@ -1,17 +1,17 @@
 [[package]]
 name = "ansible"
-version = "4.0.0"
+version = "4.1.0"
 description = "Radically simple IT automation"
 category = "dev"
 optional = false
 python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*"
 
 [package.dependencies]
-ansible-core = ">=2.11.0,<2.12"
+ansible-core = ">=2.11.1,<2.12"
 
 [[package]]
 name = "ansible-core"
-version = "2.11.0"
+version = "2.11.1"
 description = "Radically simple IT automation"
 category = "dev"
 optional = false
@@ -26,7 +26,7 @@ resolvelib = ">=0.5.3,<0.6.0"
 
 [[package]]
 name = "ansible-lint"
-version = "5.0.10"
+version = "5.0.12"
 description = "Checks playbooks for practices and behaviour that could potentially be improved"
 category = "dev"
 optional = false
@@ -94,7 +94,7 @@ chardet = ">=3.0.2"
 
 [[package]]
 name = "black"
-version = "21.5b1"
+version = "21.6b0"
 description = "The uncompromising code formatter."
 category = "dev"
 optional = false
@@ -110,8 +110,9 @@ toml = ">=0.10.1"
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
-d = ["aiohttp (>=3.6.0)", "aiohttp-cors"]
+d = ["aiohttp (>=3.6.0)", "aiohttp-cors (>=0.4.0)"]
 python2 = ["typed-ast (>=1.4.2)"]
+uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "bracex"
@@ -131,7 +132,7 @@ python-versions = ">=2.7"
 
 [[package]]
 name = "certifi"
-version = "2020.12.5"
+version = "2021.5.30"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "dev"
 optional = false
@@ -320,14 +321,14 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "molecule"
-version = "3.3.2"
+version = "3.3.4"
 description = "Molecule aids in the development and testing of Ansible roles"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-ansible-lint = ">=5.0.9"
+ansible-lint = ">=5.0.12"
 cerberus = ">=1.3.1,<1.3.3 || >1.3.3,<1.3.4 || >1.3.4"
 click = ">=8.0,<9"
 click-help-colors = ">=0.9"
@@ -340,13 +341,13 @@ pluggy = ">=0.7.1,<1.0"
 PyYAML = ">=5.1,<6"
 rich = ">=9.5.1"
 selinux = {version = "*", markers = "sys_platform == \"linux\" or sys_platform == \"linux2\""}
-subprocess-tee = ">=0.2.0"
+subprocess-tee = ">=0.3.2"
 
 [package.extras]
 ansible = ["ansible (>=2.10)"]
 ansible-base = ["ansible-base (>=2.10)"]
 docker = ["molecule-docker"]
-docs = ["simplejson", "sphinx", "sphinx-ansible-theme (>=0.2.2)"]
+docs = ["Sphinx (>=4.0.2)", "simplejson (>=3.17.2)", "sphinx-notfound-page (>=0.7.1)", "sphinx-ansible-theme (>=0.2.2)"]
 lint = ["flake8 (>=3.8.4)", "pre-commit (>=2.10.1)", "yamllint"]
 podman = ["molecule-podman"]
 test = ["ansi2html (>=1.6.0)", "pexpect (>=4.8.0,<5)", "pytest-cov (>=2.10.1)", "pytest-helpers-namespace (>=2019.1.8)", "pytest-html (>=3.0.0)", "pytest-mock (>=3.3.1)", "pytest-plus (>=0.2)", "pytest-testinfra (>=6.1.0)", "pytest-verbose-parametrize (>=1.7.0)", "pytest-xdist (>=2.1.0)", "pytest (>=6.1.2)"]
@@ -354,7 +355,7 @@ windows = ["pywinrm"]
 
 [[package]]
 name = "molecule-docker"
-version = "0.3.3"
+version = "0.3.4"
 description = "Molecule aids in the development and testing of Ansible roles"
 category = "dev"
 optional = false
@@ -362,7 +363,7 @@ python-versions = ">=3.6"
 
 [package.dependencies]
 docker = ">=4.3.1"
-molecule = ">=3.2.0a0"
+molecule = ">=3.3.0"
 selinux = {version = "*", markers = "sys_platform == \"linux\" or sys_platform == \"linux2\""}
 
 [package.extras]
@@ -558,7 +559,7 @@ test = ["commentjson", "packaging", "pytest"]
 
 [[package]]
 name = "rich"
-version = "10.2.2"
+version = "10.4.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 category = "dev"
 optional = false
@@ -574,7 +575,7 @@ jupyter = ["ipywidgets (>=7.5.1,<8.0.0)"]
 
 [[package]]
 name = "ruamel.yaml"
-version = "0.17.4"
+version = "0.17.9"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 category = "dev"
 optional = false
@@ -616,7 +617,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "subprocess-tee"
-version = "0.3.1"
+version = "0.3.2"
 description = "subprocess-tee"
 category = "dev"
 optional = false
@@ -654,16 +655,16 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "urllib3"
-version = "1.26.4"
+version = "1.26.5"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 
 [package.extras]
+brotli = ["brotlipy (>=0.6.0)"]
 secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "ipaddress"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
-brotli = ["brotlipy (>=0.6.0)"]
 
 [[package]]
 name = "wcmatch"
@@ -678,7 +679,7 @@ bracex = ">=2.1.1"
 
 [[package]]
 name = "websocket-client"
-version = "1.0.1"
+version = "1.1.0"
 description = "WebSocket client for Python with low level API options"
 category = "dev"
 optional = false
@@ -703,14 +704,14 @@ content-hash = "f9f060767cdb8339496e9a4335246ca34a359b3c5fca7eedd400a7d67dabd418
 
 [metadata.files]
 ansible = [
-    {file = "ansible-4.0.0.tar.gz", hash = "sha256:6f67ca5c634e4721d1f8e206dc71d60d1a114d147945355bfc902bd37eb07080"},
+    {file = "ansible-4.1.0.tar.gz", hash = "sha256:f561cca7fbc4daa14d98e18cd0cb74bd8b173f1501b8fa11543f6ef002de3167"},
 ]
 ansible-core = [
-    {file = "ansible-core-2.11.0.tar.gz", hash = "sha256:9470ceb710711eacd75f1bcae802af036ab2a6c2cd5a13bfcb50b2d89667c9c5"},
+    {file = "ansible-core-2.11.1.tar.gz", hash = "sha256:7e75827a94d47d1c3e1930d708f0ef637a3ab9a21f757aaf55deab6e9f47c682"},
 ]
 ansible-lint = [
-    {file = "ansible-lint-5.0.10.tar.gz", hash = "sha256:e7dab22d7826ac623c7c2566e17ee5420633afc844a3a0c0db3adaaa72bc6a82"},
-    {file = "ansible_lint-5.0.10-py3-none-any.whl", hash = "sha256:a7b42c1dd8f44d611ea960c78e03436100fdb64d54bc69f5a82c0a1d33af8f4e"},
+    {file = "ansible-lint-5.0.12.tar.gz", hash = "sha256:f2b0b74bd05cf55f0bb45304767e1862ed62c05def06e1f03aa2c2d39c67907c"},
+    {file = "ansible_lint-5.0.12-py3-none-any.whl", hash = "sha256:b2193d4c299c86e4a6ae8057c83174aae28a3148a35f9bb8465648d2a8fd0e6e"},
 ]
 appdirs = [
     {file = "appdirs-1.4.4-py2.py3-none-any.whl", hash = "sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128"},
@@ -734,8 +735,8 @@ binaryornot = [
     {file = "binaryornot-0.4.4.tar.gz", hash = "sha256:359501dfc9d40632edc9fac890e19542db1a287bbcfa58175b66658392018061"},
 ]
 black = [
-    {file = "black-21.5b1-py3-none-any.whl", hash = "sha256:8a60071a0043876a4ae96e6c69bd3a127dad2c1ca7c8083573eb82f92705d008"},
-    {file = "black-21.5b1.tar.gz", hash = "sha256:23695358dbcb3deafe7f0a3ad89feee5999a46be5fec21f4f1d108be0bcdb3b1"},
+    {file = "black-21.6b0-py3-none-any.whl", hash = "sha256:dfb8c5a069012b2ab1e972e7b908f5fb42b6bbabcba0a788b86dc05067c7d9c7"},
+    {file = "black-21.6b0.tar.gz", hash = "sha256:dc132348a88d103016726fe360cb9ede02cecf99b76e3660ce6c596be132ce04"},
 ]
 bracex = [
     {file = "bracex-2.1.1-py3-none-any.whl", hash = "sha256:64e2a6d14de9c8e022cf40539ac8468ba7c4b99550a2b05fc87fd20e392e568f"},
@@ -745,8 +746,8 @@ cerberus = [
     {file = "Cerberus-1.3.2.tar.gz", hash = "sha256:302e6694f206dd85cb63f13fd5025b31ab6d38c99c50c6d769f8fa0b0f299589"},
 ]
 certifi = [
-    {file = "certifi-2020.12.5-py2.py3-none-any.whl", hash = "sha256:719a74fb9e33b9bd44cc7f3a8d94bc35e4049deebe19ba7d8e108280cfd59830"},
-    {file = "certifi-2020.12.5.tar.gz", hash = "sha256:1a4995114262bffbc2413b159f2a1a480c969de6e6eb13ee966d470af86af59c"},
+    {file = "certifi-2021.5.30-py2.py3-none-any.whl", hash = "sha256:50b1e4f8446b06f41be7dd6338db18e0990601dce795c2b1686458aa7e8fa7d8"},
+    {file = "certifi-2021.5.30.tar.gz", hash = "sha256:2bbf76fd432960138b3ef6dda3dde0544f27cbf8546c458e60baf371917ba9ee"},
 ]
 cffi = [
     {file = "cffi-1.14.5-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:bb89f306e5da99f4d922728ddcd6f7fcebb3241fc40edebcb7284d7514741991"},
@@ -886,12 +887,12 @@ markupsafe = [
     {file = "MarkupSafe-2.0.1.tar.gz", hash = "sha256:594c67807fb16238b30c44bdf74f36c02cdf22d1c8cda91ef8a0ed8dabf5620a"},
 ]
 molecule = [
-    {file = "molecule-3.3.2-py3-none-any.whl", hash = "sha256:082e04eca5ea017a558debb3a6ea719517493119dca9639407e495a18cfaece8"},
-    {file = "molecule-3.3.2.tar.gz", hash = "sha256:0ad253897052d1ae3b4b9c35c7b83eb23b203e99740bb26f4b7025ff5fe47cd0"},
+    {file = "molecule-3.3.4-py3-none-any.whl", hash = "sha256:a44c36bfc3734d561d941a90cf6ab18ede36e00decc92bd0f81623fa32dbdb2f"},
+    {file = "molecule-3.3.4.tar.gz", hash = "sha256:5794d0b39e695c4544c714ac90ab90901f22d8c9f623c2fee665b8b2dc2ce6cc"},
 ]
 molecule-docker = [
-    {file = "molecule-docker-0.3.3.tar.gz", hash = "sha256:1799d94dc9dcf3d9205b359e5ddecaaed5083e8ae39221570e57c9f1f5d45fc4"},
-    {file = "molecule_docker-0.3.3-py3-none-any.whl", hash = "sha256:5e0a633c86aa4d27603e5043be4d71d91fa15cbedf61345a5c17aab2421505fd"},
+    {file = "molecule-docker-0.3.4.tar.gz", hash = "sha256:dc9a8ad60b70ede303805cd6865deb5fb9c162e67ff5e7d1a45eb7e58cd36b88"},
+    {file = "molecule_docker-0.3.4-py3-none-any.whl", hash = "sha256:9d65761052a7a5dad6deee25e2ce9597148913532a10542c3ad8c342f56fe3b2"},
 ]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
@@ -1046,12 +1047,12 @@ resolvelib = [
     {file = "resolvelib-0.5.5.tar.gz", hash = "sha256:123de56548c90df85137425a3f51eb93df89e2ba719aeb6a8023c032758be950"},
 ]
 rich = [
-    {file = "rich-10.2.2-py3-none-any.whl", hash = "sha256:203e79c9012f57e0148a2132d0b43fe070a5c213cf080982c186e1d3ae4f8e1d"},
-    {file = "rich-10.2.2.tar.gz", hash = "sha256:17b3f486c38e79cc219d8848974b277ef532a82d12b3ad6eb37bb8c6f22ab5fc"},
+    {file = "rich-10.4.0-py3-none-any.whl", hash = "sha256:9fb2404c4e870d4de3837c11d0cd1f26c44725865535caba1379c2343a49f6a1"},
+    {file = "rich-10.4.0.tar.gz", hash = "sha256:6e8a3e2c61e6cf6193bfcffbb89865a0973af7779d3ead913fdbbbc33f457c2c"},
 ]
 "ruamel.yaml" = [
-    {file = "ruamel.yaml-0.17.4-py3-none-any.whl", hash = "sha256:ac79fb25f5476e8e9ed1c53b8a2286d2c3f5dde49eb37dbcee5c7eb6a8415a22"},
-    {file = "ruamel.yaml-0.17.4.tar.gz", hash = "sha256:44bc6b54fddd45e4bc0619059196679f9e8b79c027f4131bb072e6a22f4d5e28"},
+    {file = "ruamel.yaml-0.17.9-py3-none-any.whl", hash = "sha256:8873a6f5516e0d848c92418b0b006519c0566b6cd0dcee7deb9bf399e2bd204f"},
+    {file = "ruamel.yaml-0.17.9.tar.gz", hash = "sha256:374373b4743aee9f6d9f40bea600fe020a7ac7ae36b838b4a6a93f72b584a14c"},
 ]
 "ruamel.yaml.clib" = [
     {file = "ruamel.yaml.clib-0.2.2-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:28116f204103cb3a108dfd37668f20abe6e3cafd0d3fd40dba126c732457b3cc"},
@@ -1095,8 +1096,8 @@ six = [
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
 subprocess-tee = [
-    {file = "subprocess-tee-0.3.1.tar.gz", hash = "sha256:518b59a4cd51573749c8f063a675ff9b4ee3370742ee1d7078c2a8b73bad2567"},
-    {file = "subprocess_tee-0.3.1-py3-none-any.whl", hash = "sha256:c7cbee649ad272ed13cb1f701e70ef17612b4df99bc809f1eae571d6565595d2"},
+    {file = "subprocess-tee-0.3.2.tar.gz", hash = "sha256:62de360f2014dff831ac6dfb4fedca9c0c0d83bf20c2ac58dac894ca2afa6005"},
+    {file = "subprocess_tee-0.3.2-py3-none-any.whl", hash = "sha256:1a235f40d683cab5172a9cb3e93e25a93f3f2278a61b031a68f32c3af45d8137"},
 ]
 tenacity = [
     {file = "tenacity-7.0.0-py2.py3-none-any.whl", hash = "sha256:a0ce48587271515db7d3a5e700df9ae69cce98c4b57c23a4886da15243603dd8"},
@@ -1111,16 +1112,16 @@ toml = [
     {file = "toml-0.10.2.tar.gz", hash = "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"},
 ]
 urllib3 = [
-    {file = "urllib3-1.26.4-py2.py3-none-any.whl", hash = "sha256:2f4da4594db7e1e110a944bb1b551fdf4e6c136ad42e4234131391e21eb5b0df"},
-    {file = "urllib3-1.26.4.tar.gz", hash = "sha256:e7b021f7241115872f92f43c6508082facffbd1c048e3c6e2bb9c2a157e28937"},
+    {file = "urllib3-1.26.5-py2.py3-none-any.whl", hash = "sha256:753a0374df26658f99d826cfe40394a686d05985786d946fbe4165b5148f5a7c"},
+    {file = "urllib3-1.26.5.tar.gz", hash = "sha256:a7acd0977125325f516bda9735fa7142b909a8d01e8b2e4c8108d0984e6e0098"},
 ]
 wcmatch = [
     {file = "wcmatch-8.2-py3-none-any.whl", hash = "sha256:9146b1ab9354e0797ef6ef69bc89cb32cb9f46d1b9eeef69c559aeec8f3bffb6"},
     {file = "wcmatch-8.2.tar.gz", hash = "sha256:4d54ddb506c90b5a5bba3a96a1cfb0bb07127909e19046a71d689ddfb18c3617"},
 ]
 websocket-client = [
-    {file = "websocket-client-1.0.1.tar.gz", hash = "sha256:3e2bf58191d4619b161389a95bdce84ce9e0b24eb8107e7e590db682c2d0ca81"},
-    {file = "websocket_client-1.0.1-py2.py3-none-any.whl", hash = "sha256:abf306dc6351dcef07f4d40453037e51cc5d9da2ef60d0fc5d0fe3bcda255372"},
+    {file = "websocket-client-1.1.0.tar.gz", hash = "sha256:b68e4959d704768fa20e35c9d508c8dc2bbc041fd8d267c0d7345cffe2824568"},
+    {file = "websocket_client-1.1.0-py2.py3-none-any.whl", hash = "sha256:e5c333bfa9fa739538b652b6f8c8fc2559f1d364243c8a689d7c0e1d41c2e611"},
 ]
 yamllint = [
     {file = "yamllint-1.26.1.tar.gz", hash = "sha256:87d9462b3ed7e9dfa19caa177f7a77cd9888b3dc4044447d6ae0ab233bcd1324"},
