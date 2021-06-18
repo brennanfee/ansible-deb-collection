@@ -23,5 +23,5 @@
     owner: root
     group: root
     mode: 0644
-  when: font_info.stat.exists == False
+  when: not font_info.stat.exists
   notify: Regenerate Font Cache
