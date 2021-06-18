@@ -1,0 +1,5 @@
+---
+- name: Regenerate Font Cache
+  become: true
+  command:
+    cmd: fc-cache -r
