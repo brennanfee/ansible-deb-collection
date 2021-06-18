@@ -1,6 +1,7 @@
 ---
 - name: Check if Vagrant user exists
-  shell: /usr/bin/getent passwd vagrant | /usr/bin/wc -l | tr -d ''
+  command:
+    cmd: /usr/bin/getent passwd vagrant | /usr/bin/wc -l | tr -d ''
   register: vbox_vagrant_user_exists
   changed_when: false
 

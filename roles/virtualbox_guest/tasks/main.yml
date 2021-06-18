@@ -10,12 +10,14 @@
 
 - name: Check if additions are already installed
   become: true
-  ansible.builtin.shell: lsmod | grep -i vboxguest
-  register: additions-installed
+  ansible.builtin.command:
+    cmd: lsmod | grep -i vboxguest
+  changed_when: false
+  register: additions_installed
 
 - include: install-guest-additions.yml
   when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
-    and additions-installed.stdout != ""
+    and additions_installed.stdout != ""
 
 - include: vagrant-user.yml
   when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
