@@ -57,19 +57,22 @@
       failed_when: (file is changed) or (file is failed)
 
     - name: Verify snap installed
-      ansible.builtin.shell:
-        cmd: "snap list"
+      ansible.builtin.command:
+        cmd: snap list
       register: snaps
+      changed_when: false
       failed_when: not "core18" in snaps.stdout
 
     - name: Verify flatpak repo installed
-      ansible.builtin.shell:
-        cmd: "flatpak --columns=name remotes"
+      ansible.builtin.command:
+        cmd: flatpak --columns=name remotes
       register: repo
+      changed_when: false
       failed_when: not "plex-media-player" in repo.stdout
 
     - name: Verify flatpak installed
-      ansible.builtin.shell:
-        cmd: "flatpak --columns=application list"
+      ansible.builtin.command:
+        cmd: flatpak --columns=application list
       register: flat
+      changed_when: false
       failed_when: not "org.kde.blinken" in flat.stdout

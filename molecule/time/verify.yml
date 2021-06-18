@@ -26,7 +26,8 @@
       when: apt_edition is undefined or apt_edition != 'stable'
 
     - name: Read current time zone
-      ansible.builtin.shell: cat /etc/timezone
+      ansible.builtin.command:
+        cmd: cat /etc/timezone
       changed_when: false
       register: current_time_zone
 
