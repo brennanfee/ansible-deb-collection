@@ -2,7 +2,7 @@
 - name: Create destination directory if not present
   become: true
   ansible.builtin.file:
-    path: "/usr/share/fonts/{{ font_folder | default ('ansible') }}"
+    path: "/usr/local/share/fonts/{{ font_folder | default ('ansible') }}"
     state: directory
     owner: root
     group: root
@@ -10,7 +10,7 @@
 
 - name: Check if font already exists
   ansible.builtin.stat:
-    path: "/usr/share/fonts/{{ font_folder | default ('ansible') }}/{{ font_file }}"
+    path: "/usr/local/share/fonts/{{ font_folder | default ('ansible') }}/{{ font_file }}"
     get_checksum: false
     get_md5: false
   register: font_info
@@ -19,7 +19,7 @@
   become: true
   ansible.builtin.get_url:
     url: "{{ font_url }}"
-    dest: "/usr/share/fonts/{{ font_folder | default ('ansible') }}/{{ font_file }}"
+    dest: "/usr/local/share/fonts/{{ font_folder | default ('ansible') }}/{{ font_file }}"
     owner: root
     group: root
     mode: 0644

@@ -2,7 +2,7 @@
 - name: Create ISO destination folder
   become: true
   ansible.builtin.file:
-    path: /usr/share/virtualbox-guest
+    path: /usr/local/share/virtualbox-guest
     state: directory
     owner: root
     group: root
@@ -12,7 +12,7 @@
   become: true
   ansible.builtin.get_url:
     url: https://download.virtualbox.org/virtualbox/LATEST-STABLE.TXT
-    dest: /usr/share/virtualbox-guest/LATEST-STABLE.TXT
+    dest: /usr/local/share/virtualbox-guest/LATEST-STABLE.TXT
     backup: true
     owner: root
     group: root
@@ -21,7 +21,7 @@
 - name: Read latest version
   become: true
   ansible.builtin.slurp:
-    src: /usr/share/virtualbox-guest/LATEST-STABLE.TXT
+    src: /usr/local/share/virtualbox-guest/LATEST-STABLE.TXT
   register: vb_version
 
 - name: Download Guest Additions ISO
@@ -30,7 +30,7 @@
     url:
       https://download.virtualbox.org/virtualbox/{{ vb_version['content'] | b64decode }}
       /VBoxGuestAdditions_{{ vb_version['content'] | b64decode }}.iso
-    dest: /usr/share/virtualbox-guest/VBoxGuestAdditions.iso
+    dest: /usr/local/share/virtualbox-guest/VBoxGuestAdditions.iso
     backup: true
     owner: root
     group: root
@@ -49,7 +49,7 @@
   become: true
   ansible.posix.mount:
     path: /media/iso
-    src: /usr/share/virtualbox-guest/VBoxGuestAdditions.iso
+    src: /usr/local/share/virtualbox-guest/VBoxGuestAdditions.iso
     fstype: iso9660
     opts: loop
     state: mounted
@@ -65,7 +65,7 @@
   become: true
   ansible.posix.mount:
     path: /media/iso
-    src: /usr/share/virtualbox-guest/VBoxGuestAdditions.iso
+    src: /usr/local/share/virtualbox-guest/VBoxGuestAdditions.iso
     fstype: iso9660
     opts: loop
     state: unmounted
