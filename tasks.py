@@ -7,13 +7,28 @@ To use this script you need to install 'invoke'.  This is best done globally usi
 
 Afterword, you can execute any of these tasks in the terminal with `inv {task name}`.
 
+To target a particular sceario run `inv {task name} --scenario={scenario name}`
+
 For more info:  https://www.pyinvoke.org
 """
 
+scenarios = [
+    "default",
+    "full_cicd",
+    "bare",
+    "allow_sudo",
+    "apt_configuration",
+    "install_applications",
+    "popularity_contest",
+    "ssh",
+    "time",
+    "upgrade",
+]
 
-@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
-def lint(ctx, scenario="default"):
-    ctx.run(f"poetry run molecule lint -s {scenario}")
+
+@task()
+def lint(ctx):
+    ctx.run("./lint")
 
 
 @task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
@@ -39,3 +54,30 @@ def login(ctx, scenario="default"):
 @task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
 def verify(ctx, scenario="default"):
     ctx.run(f"poetry run molecule verify -s {scenario}")
+
+
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
+def reset(ctx, scenario="default"):
+    ctx.run(f"poetry run molecule reset -s {scenario}")
+
+
+@task(help={"scenario": "The molecule scenario to use.  Default is the default scenario."})
+def destroy(ctx, scenario="default"):
+    ctx.run(f"poetry run molecule destroy -s {scenario}")
+
+
+@task()
+def resetAll(ctx):
+    for scenario in scenarios:
+        ctx.run(f"poetry run molecule reset -s {scenario}")
+
+
+@task()
+def destroyAll(ctx):
+    for scenario in scenarios:
+        ctx.run(f"poetry run molecule destroy -s {scenario}")
+
+
+@task()
+def list(ctx):
+    ctx.run("poetry run molecule list")

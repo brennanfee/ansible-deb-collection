@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-
   roles:
     - role: install_applications
       package_set: 'TESTING'
@@ -10,14 +9,14 @@
       apt_packages:
         - tmux
       deb_packages:
-        - https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
+        - https://github.com/sharkdp/hyperfine/releases/download/v1.15.0/hyperfine_1.15.0_amd64.deb
       flatpak_remotes:
         - name: plex-media-player
           url: https://flatpak.knapsu.eu/plex-media-player.flatpakrepo
       flatpak_packages:
         - name: org.kde.blinken
-      snap_packages:
-        - name: core18
+      # snap_packages:
+      #   - name: core22
       removed_apt_packages:
         - cmus
       apt_keys:

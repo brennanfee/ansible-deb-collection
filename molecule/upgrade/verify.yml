@@ -1,9 +1,0 @@
----
-- name: Verify upgrade Role
-  hosts: all
-  gather_facts: false
-
-  tasks:
-    - name: Dummy Assert
-      assert:
-        that: true

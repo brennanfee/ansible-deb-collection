@@ -2,10 +2,8 @@
 - name: Verify time Role
   hosts: all
   gather_facts: false
-
 # US/Central
 # Europe/Berlin
-
   tasks:
     - name: Gather package facts
       ansible.builtin.package_facts:

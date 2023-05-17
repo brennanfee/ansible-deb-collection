@@ -1,2 +1,3 @@
 ---
-- import_playbook: ../full_cicd/verify.yml
+- name: Verify
+  import_playbook: ../full_cicd/verify.yml

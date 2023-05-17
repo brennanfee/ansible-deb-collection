@@ -6,19 +6,22 @@ authors = ["Brennan Fee <brennan@github.mailbots.org>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.11"
+ansible = "^7.5"
 
 [tool.poetry.dev-dependencies]
-ansible = "^4.1.0"
-ansible-lint = "^5.0.10"
-black = "^21.6b0"
-molecule = "^3.3.4"
-molecule-docker = "^0.3.4"
-yamllint = "^1.26.1"
+ansible = "^7.5"
+ansible-lint = { version = "^6.16", markers = 'platform_system != "Windows"' }
+black = "^23.3"
+flake8 = "^6.0"
+molecule = "^5.0"
+molecule-plugins = "^23.4"
+python-vagrant = "^1.0"
+yamllint = "^1.31"
 
 [tool.black]
 line-length = 120
-target-version = ['py38']
+target-version = ['py311']
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

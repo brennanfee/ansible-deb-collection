@@ -22,3 +22,15 @@
     mode: 0644
     backup: yes
   notify: Update Cache
+
+- name: Copy Debian backports configuration
+  become: true
+  ansible.builtin.template:
+    src: "etc-apt-sources.list.d--debian-backports.list.j2"
+    dest: /etc/apt/sources.list.d/debian-backports.list
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  when: apt_include_backports|default(True, True)
+  notify: Update Cache

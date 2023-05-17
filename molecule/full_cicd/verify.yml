@@ -1,8 +1,21 @@
 ---
-- import_playbook: ../upgrade/verify.yml
-- import_playbook: ../allow_sudo/verify.yml
-- import_playbook: ../ssh/verify.yml
-- import_playbook: ../time/verify.yml
-- import_playbook: ../apt_configuration/verify.yml
-- import_playbook: ../popularity_contest/verify.yml
-- import_playbook: ../install_applications/verify.yml
+- name: Verify "Bare" Scenario
+  import_playbook: ../bare/verify.yml
+
+# - name: Verify "Allow Sudo" Scenario
+#   import_playbook: ../allow_sudo/verify.yml
+
+# - name: Verify "SSH" Scenario
+#   import_playbook: ../ssh/verify.yml
+
+# - name: Verify "Time" Scenario
+#   import_playbook: ../time/verify.yml
+
+# - name: Verify "Apt Configuration" Scenario
+#   import_playbook: ../apt_configuration/verify.yml
+
+# - name: Verify "Popularity Contest" Scenario
+#   import_playbook: ../popularity_contest/verify.yml
+
+# - name: Verify "Install Applications" Scenario
+#   import_playbook: ../install_applications/verify.yml

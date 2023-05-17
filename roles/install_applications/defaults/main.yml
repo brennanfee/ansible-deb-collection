@@ -5,17 +5,23 @@ package_set: "-- UNKNOWN --"
 apt_keys: []
 apt_repositories: []
 ppa_repositories: []
+removed_apt_repositories: []
+removed_ppa_repositories: []
 
 # Apt packages
 apt_packages: []
+removed_apt_packages: []
 
 # Debs (.deb files to be installed)
 deb_packages: []
+removed_deb_packages: []
 
-# Flatpak and Snaps
+# Flatpak
 flatpak_remotes: []
 flatpak_packages: []
-snap_packages: []
+removed_flatpak_remotes: []
+removed_flatpak_packages: []
 
-# Removed Apt packages
-removed_apt_packages: []
+# Snaps
+snap_packages: []
+removed_snap_packages: []

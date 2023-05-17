@@ -1,6 +1,6 @@
 ---
 - name: Converge
   hosts: all
-
   roles:
-    - { role: apt_configuration, apt_proxy_url: 'http://192.168.10.20:3142' }
+    #- { role: apt_configuration, apt_proxy_url: 'http://192.168.10.20:3142' }
+    - { role: apt_configuration, apt_proxy_url: '' }

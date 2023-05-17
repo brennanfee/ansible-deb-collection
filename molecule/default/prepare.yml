@@ -1,2 +1,3 @@
 ---
-- import_playbook: ../full_cicd/prepare.yml
+- name: Prepare
+  import_playbook: ../full_cicd/prepare.yml

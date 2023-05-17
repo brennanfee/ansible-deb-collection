@@ -2,7 +2,6 @@
 - name: Verify install_applications Role
   hosts: all
   gather_facts: false
-
   tasks:
     - name: Gather package facts
       ansible.builtin.package_facts:
@@ -56,12 +55,12 @@
       register: file
       failed_when: (file is changed) or (file is failed)
 
-    - name: Verify snap installed
-      ansible.builtin.command:
-        cmd: snap list
-      register: snaps
-      changed_when: false
-      failed_when: not "core18" in snaps.stdout
+    # - name: Verify snap installed
+    #   ansible.builtin.command:
+    #     cmd: snap list
+    #   register: snaps
+    #   changed_when: false
+    #   failed_when: not "core18" in snaps.stdout
 
     - name: Verify flatpak repo installed
       ansible.builtin.command:

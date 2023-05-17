@@ -1,15 +1,16 @@
 ---
-# vim: set ft=yaml
+# vim: set ft=yaml.ansible:
 
 namespace: brennanfee
 name: deb_collection
-version: 0.1.0
+version: 1.0.0
 readme: README.md
 authors:
   - Brennan Fee (https://github.com/brennanfee)
 description: My collection of shared Ansible Debian/Ubuntu content to be used in multiple playbooks.
 license_file: license.md
 tags:
+  - linux
   - collection
 dependencies:
   community.general: ">=6.5.0"

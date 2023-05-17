@@ -1,14 +1,26 @@
 ---
-## Prepare to be able to install packages
-- include: prepare.yml
-## Handle keys first
-- include: keys.yml
-## Then repositories
-- include: repositories.yml
+- name: Prepare to be able to install packages
+  ansible.builtin.import_tasks: prepare.yml
+
+- name: Handle APT keys first
+  ansible.builtin.import_tasks: keys.yml
+
+- name: Handle APT repositories
+  ansible.builtin.import_tasks: repositories.yml
+
 ## Installs
-- include: packages_apt.yml
-- include: packages_deb.yml
-- include: packages_snap.yml
-- include: packages_flatpak.yml
+- name: APT packages
+  ansible.builtin.import_tasks: packages_apt.yml
+
+- name: Deb packages
+  ansible.builtin.import_tasks: packages_deb.yml
+
+- name: Snap packages
+  ansible.builtin.import_tasks: packages_snap.yml
+
+- name: Flatpak packages
+  ansible.builtin.import_tasks: packages_flatpak.yml
+
 ## Finally, the removals (should always be last)
-- include: removals.yml
+- name: Package removals and exclusions
+  ansible.builtin.import_tasks: removals.yml

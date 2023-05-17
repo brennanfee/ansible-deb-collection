@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from ansible.module_utils.basic import AnsibleModule
 import tempfile
 import requests
 import os
 import shutil
 import filecmp
+from ansible.module_utils.basic import AnsibleModule
 
 DOCUMENTATION = """
 ---

@@ -6,5 +6,10 @@
   with_items: "{{ font_packages }}"
 
 - name: Install fonts from URL
-  include: install-font-from-url.yml font_url={{ item.url }} font_file={{ item.file }} font_folder={{ item.folder | default ('ansible') }}
+  ansible.builtin.include_tasks:
+    file: install-font-from-url.yml
+    apply:
+      font_url: "{{ item.url }}"
+      font_file: "{{ item.file }}"
+      font_folder: "{{ item.folder | default('ansible') }}"
   with_items: "{{ url_fonts }}"

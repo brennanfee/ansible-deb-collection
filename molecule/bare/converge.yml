@@ -1,0 +1,5 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - { role: bare, desired_domain: 'bfee.org' }

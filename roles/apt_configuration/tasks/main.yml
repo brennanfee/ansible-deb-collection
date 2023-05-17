@@ -1,6 +1,10 @@
 ---
-- include: apt-defaults.yml
-- include: apt-sources.yml
+- name: Setup APT defaults
+  ansible.builtin.import_tasks: apt-defaults.yml
+
+- name: Setup APT Sources
+  ansible.builtin.import_tasks: apt-sources.yml
+
 - name: Update the package cache (forced)
   become: true
   ansible.builtin.apt:

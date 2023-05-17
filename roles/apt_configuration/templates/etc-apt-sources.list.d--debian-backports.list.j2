@@ -1,0 +1,7 @@
+# APT Backports Source
+# {{ ansible_managed }}
+
+deb https://deb.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main
+{% if apt_include_source|default(False, True) %}
+deb-src https://deb.debian.org/debian {{ apt_edition|default(ansible_lsb.codename, true) }}-backports main
+{% endif %}

@@ -1,0 +1,37 @@
+---
+# vim: set ft=yaml.ansible:
+#
+# This role aligns with the bare installation from my machine OS installation
+# scripts.  It is here ensure a base line minimum below anything else being built
+# or added on top.  This could have been rolled into base, which all machines get
+# but I wanted to specifically document this here as opposed to the "other" things
+# that base does to set up a "normal" base machine.
+#
+# From a practical perspective, you should be able to install the OS on a machine
+# using the scripts and then run this Ansible role and NOTHING should change.  The
+# end result here should simply be an "enforced" or "under management" version of
+# a bootstrapped machine with nothing else added.
+#
+# The only noticeable part of the bootstrap that is not replicated here is user setup.
+# I leave that to be done in the higher Ansible roles as it is more machine specific.
+
+- name: Ensure basic package installations
+  ansible.builtin.import_tasks: apt-installs.yml
+
+- name: Configure locale
+  ansible.builtin.import_tasks: configure-locale.yml
+
+- name: Configure console
+  ansible.builtin.import_tasks: configure-console.yml
+
+- name: Configure storage
+  ansible.builtin.import_tasks: configure-storage.yml
+
+- name: Configure hostname
+  ansible.builtin.import_tasks: configure-hostname.yml
+
+- name: Configure timezone
+  ansible.builtin.import_tasks: configure-timezone.yml
+
+- name: Configure boot settings
+  ansible.builtin.import_tasks: configure-bootSettings.yml

@@ -2,48 +2,66 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
-lint: |
-  set -e
-  ./molecule/lint
+  name: vagrant
+  provider:
+    name: virtualbox
 platforms:
-  - name: instance-ubuntu-lts
-    image: brennanfee/docker-ubuntu-latest-systemd
-    command: ""
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
-  - name: instance-ubuntu-rolling
-    image: brennanfee/docker-ubuntu-rolling-systemd
-    command: ""
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
-  - name: instance-debian-stable
-    image: brennanfee/docker-debian-stable-systemd
-    command: ""
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
-  - name: instance-debian-testing
-    image: brennanfee/docker-debian-testing-systemd
-    command: ""
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
+  - name: instance-stable
+    box: bfee-vagrantVbox-debian-stable-bare
+    hostname: false
+    config_options:
+      ssh.keep_alive: yes
+      ssh.remote_user: vagrant
+    provider_options:
+      name: "molecule-test-default-debian-stable"
+      gui: false
+  - name: instance-backportsdual
+    box: bfee-vagrantVbox-debian-backportsdual-bare
+    hostname: false
+    config_options:
+      ssh.keep_alive: yes
+      ssh.remote_user: vagrant
+    provider_options:
+      name: "molecule-test-default-debian-backportsdual"
+      gui: false
+  - name: instance-testing
+    box: bfee-vagrantVbox-debian-testing-bare
+    hostname: false
+    config_options:
+      ssh.keep_alive: yes
+      ssh.remote_user: vagrant
+    provider_options:
+      name: "molecule-test-default-debian-testing"
+      gui: false
+  - name: instance-ubuntuLts
+    box: bfee-vagrantVbox-ubuntu-lts-bare
+    hostname: false
+    config_options:
+      ssh.keep_alive: yes
+      ssh.remote_user: vagrant
+    provider_options:
+      name: "molecule-test-default-ubuntu-lts"
+      gui: false
 provisioner:
   name: ansible
+  log: ${MOLECULE_ANSIBLE_LOG:-true}
   env:
     ANSIBLE_ROLES_PATH: "../../roles"
+    ANSIBLE_LIBRARY: "../../plugins/modules"
+    ANSIBLE_VERBOSITY: ${MOLECULE_ANSIBLE_VERBOSITY:-0}
+  config_options:
+    defaults:
+      remote_user: vagrant
+      remote_password: vagrant
   inventory:
     host_vars:
-      instance-debian-stable:
+      instance-stable:
         apt_edition: stable
-      instance-debian-testing:
+      instance-backportsdual:
+        apt_edition: stable
+      instance-testing:
         apt_edition: testing
+      instance-ubuntuLts:
+        apt_edition: jammy
 verifier:
   name: ansible

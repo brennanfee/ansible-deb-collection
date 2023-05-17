@@ -2,21 +2,33 @@
 dependency:
   name: galaxy
 driver:
-  name: docker
-lint: |
-  set -e
-  ./molecule/lint
+  name: vagrant
+  provider:
+    name: virtualbox
 platforms:
-  - name: instance
-    image: brennanfee/docker-${MOLECULE_DISTRO:-ubuntu-latest}-systemd
-    command: ""
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    privileged: true
-    pre_build_image: true
+  - name: instance-fullcicd
+    box: bfee-vagrantVbox-${MOLECULE_DISTRO:-debian-stable}-bare
+    hostname: false
+    config_options:
+      ssh.keep_alive: yes
+      ssh.remote_user: vagrant
+    provider_options:
+      name: "molecule-test-fullcicd-${MOLECULE_DISTRO:-debian-stable}"
+      gui: false
 provisioner:
   name: ansible
+  log: ${MOLECULE_ANSIBLE_LOG:-true}
   env:
     ANSIBLE_ROLES_PATH: "../../roles"
+    ANSIBLE_LIBRARY: "../../plugins/modules"
+    ANSIBLE_VERBOSITY: ${MOLECULE_ANSIBLE_VERBOSITY:-0}
+  config_options:
+    defaults:
+      remote_user: vagrant
+      remote_password: vagrant
+  inventory:
+    host_vars:
+      instance-fullcicd:
+        apt_edition: stable
 verifier:
   name: ansible

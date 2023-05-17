@@ -13,7 +13,7 @@
     path: /etc/ssh/ssh_host_keys_regenerated
     get_checksum: false
     get_md5: false
-  register: host_keys
+  register: ssh_host_keys
 
 - name: Remove Existing Keys
   become: true
@@ -27,28 +27,28 @@
     - /etc/ssh/ssh_host_ed25519_key.pub
     - /etc/ssh/ssh_host_ecdsa_key
     - /etc/ssh/ssh_host_ecdsa_key.pub
-  when: not host_keys.stat.exists
+  when: not ssh_host_keys.stat.exists
 
 - name: Regenerate RSA Keys
   become: true
   ansible.builtin.command: /usr/bin/ssh-keygen -t rsa -b 4096 -o -a 100 -f /etc/ssh/ssh_host_rsa_key -N ''
   args:
     creates: /etc/ssh/ssh_host_rsa_key
-  when: not host_keys.stat.exists
+  when: not ssh_host_keys.stat.exists
 
 - name: Regenerate ed25519 Key
   become: true
   ansible.builtin.command: /usr/bin/ssh-keygen -t ed25519 -o -a 100 -f /etc/ssh/ssh_host_ed25519_key -N ''
   args:
     creates: /etc/ssh/ssh_host_ed25519_key
-  when: not host_keys.stat.exists
+  when: not ssh_host_keys.stat.exists
 
 - name: Regenerate ecdsa Key
   become: true
   ansible.builtin.command: /usr/bin/ssh-keygen -t ecdsa -b 521 -o -a 100 -f /etc/ssh/ssh_host_ecdsa_key -N ''
   args:
     creates: /etc/ssh/ssh_host_ecdsa_key
-  when: not host_keys.stat.exists
+  when: not ssh_host_keys.stat.exists
 
 - name: Write Regenerate File
   become: true
@@ -60,7 +60,7 @@
     owner: root
     group: root
     mode: 0644
-  when: not host_keys.stat.exists
+  when: not ssh_host_keys.stat.exists
 
 - name: Remove outdated host keys
   become: true

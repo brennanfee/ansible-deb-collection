@@ -1,0 +1,12 @@
+---
+# vim: set ft=yaml.ansible:
+
+desired_locale: en_US.UTF-8
+desired_language: en_US:en:C
+desired_time_zone: null
+#
+desired_keymap: us
+desired_charmap: UTF-8
+desired_console_font_size: 20x10
+#
+desired_domain: null

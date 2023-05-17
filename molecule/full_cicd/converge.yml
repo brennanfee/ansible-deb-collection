@@ -1,34 +1,34 @@
 ---
 - name: Converge
   hosts: all
-
   roles:
-    - upgrade
-    - allow_sudo
-    - ssh
-    - { role: time, desired_time_zone: 'Europe/Berlin' }
-    - { role: apt_configuration, apt_proxy_url: 'http://192.168.10.20:3142' }
-    - popularity_contest
-    - role: install_applications
-      package_set: 'TESTING'
-      ppa_repositories:
-        - ppa:git-core/ppa
-      apt_packages:
-        - tmux
-      deb_packages:
-        - https://github.com/sharkdp/hyperfine/releases/download/v1.11.0/hyperfine_1.11.0_amd64.deb
-      flatpak_remotes:
-        - name: plex-media-player
-          url: https://flatpak.knapsu.eu/plex-media-player.flatpakrepo
-      flatpak_packages:
-        - name: org.kde.blinken
-      snap_packages:
-        - name: core18
-      removed_apt_packages:
-        - cmus
-      apt_keys:
-        - input_key_file: "https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg"
-          output_key_file: /usr/local/share/keyrings/docker-archive-keyring.gpg
-      apt_repositories:
-        - repo: "deb [arch=amd64 signed-by=/usr/local/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_lsb.codename }} stable"
-          filename: docker
+    - { role: bare, desired_domain: 'bfee.org' }
+    # - allow_sudo
+    # - ssh
+    # - { role: time, desired_time_zone: 'Europe/Berlin' }
+    # #- { role: apt_configuration, apt_proxy_url: 'http://192.168.10.20:3142' }
+    # - { role: apt_configuration }
+    # - popularity_contest
+    # - role: install_applications
+    #   package_set: 'TESTING'
+    #   ppa_repositories:
+    #     - ppa:git-core/ppa
+    #   apt_packages:
+    #     - tmux
+    #   deb_packages:
+    #     - https://github.com/sharkdp/hyperfine/releases/download/v1.15.0/hyperfine_1.15.0_amd64.deb
+    #   flatpak_remotes:
+    #     - name: plex-media-player
+    #       url: https://flatpak.knapsu.eu/plex-media-player.flatpakrepo
+    #   flatpak_packages:
+    #     - name: org.kde.blinken
+    #   #snap_packages:
+    #   #  - name: core22
+    #   removed_apt_packages:
+    #     - cmus
+    #   apt_keys:
+    #     - input_key_file: "https://download.docker.com/linux/{{ ansible_distribution|lower }}/gpg"
+    #       output_key_file: /usr/local/share/keyrings/docker-archive-keyring.gpg
+    #   apt_repositories:
+    #     - repo: "deb [arch=amd64 signed-by=/usr/local/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_lsb.codename }} stable"
+    #       filename: docker

@@ -1,9 +1,8 @@
 ---
-### Install Flatpak Packages
 - name: Install Flatpak packages ({{ package_set }})
   become: true
   community.general.flatpak:
     name: "{{ item.name }}"
-    remote: "{{ item.remote | default ('flathub') }}"
-    method: "{{ item.method | default ('system') }}"
+    remote: "{{ item.remote | default('flathub') }}"
+    method: "{{ item.method | default('system') }}"
   with_items: "{{ flatpak_packages }}"
