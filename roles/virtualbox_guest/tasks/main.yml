@@ -10,7 +10,7 @@
 
 - name: Check if additions are already installed
   become: true
-  ansible.builtin.command:
+  ansible.builtin.shell:
     cmd: lsmod | grep -i vboxguest
   changed_when: false
   register: virtualbox_guest_additions_installed
@@ -18,11 +18,10 @@
 - name: Install Guest Additions
   ansible.builtin.import_tasks: install-guest-additions.yml
   when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
-    and virtualbox_guest_additions_installed.stdout != ""
+    and virtualbox_guest_additions_installed.stdout == ""
 
 - name: Setup Vagrant user
   ansible.builtin.import_tasks: vagrant-user.yml
-  when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
 
 - name: Add users to the VirtualBox group
   become: true

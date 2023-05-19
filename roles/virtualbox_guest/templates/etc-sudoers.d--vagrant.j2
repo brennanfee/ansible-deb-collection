@@ -1,0 +1,6 @@
+# sudo permissions for Vagrant user
+# {{ ansible_managed }}
+
+Defaults:vagrant !requiretty
+
+vagrant ALL=(ALL) NOPASSWD: ALL

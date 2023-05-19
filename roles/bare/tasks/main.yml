@@ -35,3 +35,8 @@
 
 - name: Configure boot settings
   ansible.builtin.import_tasks: configure-bootSettings.yml
+
+- name: Setup Virtualbox Guest (if needed)
+  ansible.builtin.include_role:
+    name: brennanfee.deb_collection.virtualbox_guest
+  when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"

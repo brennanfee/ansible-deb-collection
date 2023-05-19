@@ -27,9 +27,7 @@
 - name: Download Guest Additions ISO
   become: true
   ansible.builtin.get_url:
-    url:
-      https://download.virtualbox.org/virtualbox/{{ virtualbox_guest_vb_version['content'] | b64decode }}
-      /VBoxGuestAdditions_{{ virtualbox_guest_vb_version['content'] | b64decode }}.iso
+    url: https://download.virtualbox.org/virtualbox/{{ virtualbox_guest_vb_version['content'] | b64decode | trim }}/VBoxGuestAdditions_{{ virtualbox_guest_vb_version['content'] | b64decode | trim }}.iso
     dest: /usr/local/share/virtualbox-guest/VBoxGuestAdditions.iso
     backup: true
     owner: root
@@ -57,7 +55,7 @@
 
 - name: Run the install
   become: true
-  ansible.builtin.command:
+  ansible.builtin.shell:
     cmd: /media/iso/VBoxLinuxAdditions.run --nox11
   changed_when: false
 

@@ -26,9 +26,5 @@ provisioner:
     defaults:
       remote_user: vagrant
       remote_password: vagrant
-  inventory:
-    host_vars:
-      instance-bare:
-        desired_domain: 'bfee.org'
 verifier:
   name: ansible
