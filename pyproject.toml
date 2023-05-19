@@ -8,6 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.11"
 ansible = "^7.5"
+dnspython = "^2.3"
 
 [tool.poetry.dev-dependencies]
 ansible = "^7.5"
