@@ -4,4 +4,4 @@
 - name: Converge
   hosts: all
   roles:
-    - { role: brennanfee.deb_collection.bare, desired_domain: 'bfee.org' }
+    - brennanfee.deb_collection.bare

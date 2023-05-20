@@ -8,7 +8,7 @@
     #### Apt Installs Verifications
 
     - name: Gather package facts
-      ansible.builtin.package_facts:
+      ansible.builtin.package_facts: null
 
     - name: Verify package is installed
       ansible.builtin.assert:
@@ -82,7 +82,7 @@
     - name: US Locale always enabled
       ansible.builtin.lineinfile:
         path: /etc/locale.gen
-        line: "en_US.UTF-8 UTF-8"
+        line: en_US.UTF-8 UTF-8
         backup: false
       check_mode: true
       register: conf
@@ -91,7 +91,7 @@
     - name: LANG is set correctly
       ansible.builtin.lineinfile:
         path: /etc/default/locale
-        line: "LANG=en_US.UTF-8"
+        line: LANG=en_US.UTF-8
         backup: false
       check_mode: true
       register: conf
@@ -100,7 +100,7 @@
     - name: LANGUAGE is set correctly
       ansible.builtin.lineinfile:
         path: /etc/default/locale
-        line: "LANGUAGE=en_US:en:C"
+        line: LANGUAGE=en_US:en:C
         backup: false
       check_mode: true
       register: conf
@@ -111,7 +111,7 @@
     - name: KEYMAP is set in console
       ansible.builtin.lineinfile:
         path: /etc/vconsole.conf
-        line: "KEYMAP=us"
+        line: KEYMAP=us
         backup: false
       check_mode: true
       register: conf
@@ -120,7 +120,7 @@
     - name: FONT is set in console
       ansible.builtin.lineinfile:
         path: /etc/vconsole.conf
-        line: "FONT=Lat15-Terminus20x10"
+        line: FONT=Lat15-Terminus20x10
         backup: false
       check_mode: true
       register: conf
@@ -129,7 +129,7 @@
     - name: Charmap is set in console-setup
       ansible.builtin.lineinfile:
         path: /etc/default/console-setup
-        line: 'CHARMAP="UTF-8"'
+        line: CHARMAP="UTF-8"
         backup: false
       check_mode: true
       register: conf
@@ -138,7 +138,7 @@
     - name: Codeset is set in console-setup
       ansible.builtin.lineinfile:
         path: /etc/default/console-setup
-        line: 'CODESET="guess"'
+        line: CODESET="guess"
         backup: false
       check_mode: true
       register: conf
@@ -147,7 +147,7 @@
     - name: Font face is set in console-setup
       ansible.builtin.lineinfile:
         path: /etc/default/console-setup
-        line: 'FONTFACE="Terminus"'
+        line: FONTFACE="Terminus"
         backup: false
       check_mode: true
       register: conf
@@ -156,7 +156,7 @@
     - name: Font size is set in console-setup
       ansible.builtin.lineinfile:
         path: /etc/default/console-setup
-        line: 'FONTSIZE="20x10"'
+        line: FONTSIZE="20x10"
         backup: false
       check_mode: true
       register: conf
@@ -164,7 +164,7 @@
 
     #### Storage
 
-    - name: Ensure fstrim timer is enabled
+    - name: Ensure trim timer is enabled
       ansible.builtin.systemd:
         name: fstrim.timer
         state: started
@@ -186,7 +186,7 @@
     - name: Swap file exists
       ansible.builtin.file:
         path: /swapfile
-        mode: 0600
+        mode: "0600"
         owner: root
         group: root
       check_mode: true
@@ -215,7 +215,7 @@
         line: "{{ ansible_hostname }}"
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
         backup: false
       check_mode: true
       register: conf
@@ -224,10 +224,12 @@
     - name: Ensure hostname in hosts file (when domain given)
       ansible.builtin.lineinfile:
         path: /etc/hosts
-        line: "127.0.1.1 {{ ansible_hostname }} {{ ansible_hostname }}.{{ hostvars['instance-bare'].desired_domain }}"
+        line: >-
+          127.0.1.1 {{ ansible_hostname }} {{ ansible_hostname }}.
+          {{ hostvars['instance-bare'].desired_domain }}
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
         backup: false
       check_mode: true
       when: hostvars['instance-bare'].desired_domain is defined
@@ -237,10 +239,10 @@
     - name: Ensure hostname in hosts file (when no domain given)
       ansible.builtin.lineinfile:
         path: /etc/hosts
-        line: "127.0.1.1 {{ ansible_hostname }}"
+        line: 127.0.1.1 {{ ansible_hostname }}
         owner: root
         group: root
-        mode: 0644
+        mode: "0644"
         backup: false
       check_mode: true
       when: hostvars['instance-bare'].desired_domain is not defined
@@ -251,9 +253,9 @@
 
     - name: Setup timezone
       community.general.timezone:
-        name: "America/Chicago"
-        hwclock: "UTC"
-      check_mode: yes
+        name: America/Chicago
+        hwclock: UTC
+      check_mode: true
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 
@@ -262,27 +264,27 @@
     - name: Verify Initramfs Compression
       ansible.builtin.lineinfile:
         path: /etc/initramfs-tools/initramfs.conf
-        line: "COMPRESS=lz4"
-        backup: no
-      check_mode: yes
+        line: COMPRESS=lz4
+        backup: false
+      check_mode: true
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 
     - name: Verify Grub Linux Cmd Line Sets IOMMU
       ansible.builtin.lineinfile:
         path: /etc/default/grub
-        line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iommu=pt"'
-        backup: no
-      check_mode: yes
+        line: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iommu=pt"
+        backup: false
+      check_mode: true
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 
     - name: Verify Grub Graphics Mode
       ansible.builtin.lineinfile:
         path: /etc/default/grub
-        line: "GRUB_GFXMODE=1920x1080"
-        backup: no
-      check_mode: yes
+        line: GRUB_GFXMODE=1920x1080
+        backup: false
+      check_mode: true
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 

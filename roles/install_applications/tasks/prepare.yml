@@ -23,11 +23,11 @@
   become: true
   ansible.builtin.service:
     name: snapd.socket
-    enabled: yes
+    enabled: true
 
 - name: Reboot (required for snapd)
   become: true
-  ansible.builtin.reboot:
+  ansible.builtin.reboot: null
   when: install_applications_reqs.changed
 
 - name: Install flathub Flatpak repository
@@ -35,4 +35,4 @@
   community.general.flatpak_remote:
     name: flathub
     flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
-    method: 'system'
+    method: system

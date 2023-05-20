@@ -10,7 +10,7 @@
 - name: Install base packages
   become: true
   ansible.builtin.apt:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: present
   loop:
     - apt-transport-https
@@ -87,7 +87,7 @@
 - name: Install critical packages
   become: true
   ansible.builtin.apt:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: present
   loop:
     - tzdata

@@ -7,8 +7,8 @@
   ansible.builtin.apt_repository:
     repo: "{{ item.repo }}"
     filename: "{{ item.filename }}"
-    mode: 0644
-    update_cache: yes
+    mode: "0644"
+    update_cache: true
   loop: "{{ apt_repositories }}"
 
 ### PPAs, should only be Ubuntu and derivatives
@@ -16,8 +16,8 @@
   become: true
   ansible.builtin.apt_repository:
     repo: "{{ item }}"
-    mode: 0644
-    update_cache: yes
+    mode: "0644"
+    update_cache: true
   loop: "{{ ppa_repositories }}"
   when: ansible_distribution == 'Ubuntu'
 

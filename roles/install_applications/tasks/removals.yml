@@ -42,7 +42,7 @@
     repo: "{{ item.repo }}"
     filename: "{{ item.filename }}"
     state: absent
-    update_cache: yes
+    update_cache: true
   loop: "{{ removed_apt_repositories }}"
 
 ### Remove PPAs, should only be Ubuntu and derivatives
@@ -51,7 +51,7 @@
   ansible.builtin.apt_repository:
     repo: "{{ item }}"
     state: absent
-    update_cache: yes
+    update_cache: true
   loop: "{{ removed_ppa_repositories }}"
   when: ansible_distribution == 'Ubuntu'
 

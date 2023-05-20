@@ -8,7 +8,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 - name: Download the Virtualbox latest stable version file
   become: true
@@ -18,7 +18,7 @@
     backup: true
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
 
 - name: Read latest version
   become: true
@@ -29,12 +29,15 @@
 - name: Download Guest Additions ISO
   become: true
   ansible.builtin.get_url:
-    url: https://download.virtualbox.org/virtualbox/{{ virtualbox_guest_vb_version['content'] | b64decode | trim }}/VBoxGuestAdditions_{{ virtualbox_guest_vb_version['content'] | b64decode | trim }}.iso
+    url: >-
+      https://download.virtualbox.org/virtualbox/{{ virtualbox_guest_vb_version['content']
+      | b64decode | trim }}/VBoxGuestAdditions_{{ virtualbox_guest_vb_version['content']
+      | b64decode | trim }}.iso
     dest: /usr/local/share/virtualbox-guest/VBoxGuestAdditions.iso
     backup: true
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
 
 - name: Create ISO mount point
   become: true
@@ -43,7 +46,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
 
 - name: Extract the ISO
   become: true
@@ -57,7 +60,7 @@
 
 - name: Run the install
   become: true
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: /media/iso/VBoxLinuxAdditions.run --nox11
   changed_when: false
 

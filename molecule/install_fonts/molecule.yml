@@ -10,17 +10,17 @@ platforms:
     box: bfee-vagrantVbox-${MOLECULE_DISTRO:-debian-stable}-bare
     hostname: false
     config_options:
-      ssh.keep_alive: yes
+      ssh.keep_alive: true
       ssh.remote_user: vagrant
     provider_options:
-      name: "molecule-test-install-fonts-${MOLECULE_DISTRO:-debian-stable}"
+      name: molecule-test-install-fonts-${MOLECULE_DISTRO:-debian-stable}
       gui: false
 provisioner:
   name: ansible
   log: ${MOLECULE_ANSIBLE_LOG:-true}
   env:
-    ANSIBLE_ROLES_PATH: "../../roles"
-    ANSIBLE_LIBRARY: "../../plugins/modules"
+    ANSIBLE_ROLES_PATH: ../../roles
+    ANSIBLE_LIBRARY: ../../plugins/modules
     ANSIBLE_VERBOSITY: ${MOLECULE_ANSIBLE_VERBOSITY:-0}
   config_options:
     defaults:
@@ -33,7 +33,7 @@ provisioner:
           - fonts-jetbrains-mono
         url_fonts_system:
           - url: https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Arimo/Regular/ArimoNerdFont-Regular.ttf
-            file: "ArimoNerdFont-Regular.ttf"
+            file: ArimoNerdFont-Regular.ttf
         url_fonts_user:
           - url: https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Hack/Regular/HackNerdFont-Regular.ttf
             file: HackNerdFont-Regular.ttf

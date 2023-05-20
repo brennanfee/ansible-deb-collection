@@ -1,7 +1,7 @@
 ---
 # vim: set ft=yaml.ansible:
 
-package_set: "-- UNKNOWN --"
+package_set: -- UNKNOWN --
 
 # Repositories
 apt_keys: []

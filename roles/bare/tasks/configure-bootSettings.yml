@@ -5,8 +5,8 @@
   become: true
   ansible.builtin.lineinfile:
     path: /etc/initramfs-tools/initramfs.conf
-    regexp: "COMPRESS="
-    line: "COMPRESS=lz4"
+    regexp: COMPRESS=
+    line: COMPRESS=lz4
     backup: true
   notify:
     - Rebuild Initramfs
@@ -16,8 +16,8 @@
   become: true
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: 'GRUB_CMDLINE_LINUX_DEFAULT='
-    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iommu=pt"'
+    regexp: GRUB_CMDLINE_LINUX_DEFAULT=
+    line: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash iommu=pt"
     backup: true
   notify: Rebuild Grub
 
@@ -25,7 +25,7 @@
   become: true
   ansible.builtin.lineinfile:
     path: /etc/default/grub
-    regexp: "GRUB_GFXMODE="
-    line: "GRUB_GFXMODE=1920x1080"
+    regexp: GRUB_GFXMODE=
+    line: GRUB_GFXMODE=1920x1080
     backup: true
   notify: Rebuild Grub

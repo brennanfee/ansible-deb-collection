@@ -16,16 +16,16 @@
     file: install-font-from-url.yml
   loop: "{{ url_fonts_system }}"
   vars:
-    font_url: "{{ item.url }}"
-    font_file: "{{ item.file }}"
-    font_folder: "{{ item.folder | default('ansible') }}"
+    install_fonts_url: "{{ item.url }}" # noqa: var-naming[no-role-prefix]
+    install_fonts_file: "{{ item.file }}"
+    install_fonts_folder: "{{ item.folder | default('ansible') }}"
 
 - name: Install fonts from URL (user)
   ansible.builtin.include_tasks:
     file: install-font-from-url.yml
   loop: "{{ url_fonts_user }}"
   vars:
-    font_url: "{{ item.url }}"
-    font_file: "{{ item.file }}"
-    font_folder: "{{ item.folder | default('ansible') }}"
-    font_user: "{{ item.user }}"
+    install_fonts_url: "{{ item.url }}" # noqa: var-naming[no-role-prefix]
+    install_fonts_file: "{{ item.file }}"
+    install_fonts_folder: "{{ item.folder | default('ansible') }}"
+    install_fonts_user: "{{ item.user }}"
