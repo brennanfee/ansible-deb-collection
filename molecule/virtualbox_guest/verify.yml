@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Verify Virtualbox Guest Role
   hosts: all
   gather_facts: true

@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Create ISO destination folder
   become: true
   ansible.builtin.file:

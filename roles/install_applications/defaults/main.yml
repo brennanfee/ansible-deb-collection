@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 package_set: "-- UNKNOWN --"
 
 # Repositories

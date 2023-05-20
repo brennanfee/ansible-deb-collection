@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Verify install_applications Role
   hosts: all
   gather_facts: false

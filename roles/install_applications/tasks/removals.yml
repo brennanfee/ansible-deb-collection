@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 ### Removed apt packages
 - name: Remove apt packages ({{ package_set }})
   become: true

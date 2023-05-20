@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Verify Install Fonts Role
   hosts: all
   gather_facts: true

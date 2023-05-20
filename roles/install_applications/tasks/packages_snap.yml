@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 ### Install Snap Packages
 - name: Install Snap packages ({{ package_set }})
   become: true

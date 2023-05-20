@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Prepare
   import_playbook: ../full_cicd/prepare.yml
 

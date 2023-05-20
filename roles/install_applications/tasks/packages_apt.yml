@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 ### Install traditional apt packages
 - name: Install apt packages ({{ package_set }})
   become: true

@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 ### Install apt keys
 - name: Setup new apt signing key
   become: true

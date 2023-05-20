@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Install font utilities and prerequisites
   become: true
   ansible.builtin.apt:

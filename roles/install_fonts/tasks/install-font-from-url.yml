@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Create destination directory if not present (system)
   become: true
   ansible.builtin.file:

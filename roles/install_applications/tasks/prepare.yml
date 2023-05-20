@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 ### Install tools needed for the other install methods
 - name: Install requirements for installation support
   become: true

@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 ### Traditional Apt Repositories
 - name: Setup traditional Apt repositories
   become: true

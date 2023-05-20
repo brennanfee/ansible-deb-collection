@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Check if Vagrant user exists
   ansible.builtin.shell:
     cmd: /usr/bin/getent passwd vagrant | /usr/bin/wc -l | tr -d ''

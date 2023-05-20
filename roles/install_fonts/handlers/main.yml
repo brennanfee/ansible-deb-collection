@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Regenerate Font Cache
   become: true
   ansible.builtin.shell:

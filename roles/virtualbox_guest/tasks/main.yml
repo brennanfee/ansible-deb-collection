@@ -1,4 +1,6 @@
 ---
+# vim: set ft=yaml.ansible:
+
 - name: Install VirtualBox pre-reqs
   become: true
   ansible.builtin.apt:
