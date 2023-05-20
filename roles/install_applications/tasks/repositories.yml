@@ -7,7 +7,7 @@
     filename: "{{ item.filename }}"
     mode: 0644
     update_cache: yes
-  with_items: "{{ apt_repositories }}"
+  loop: "{{ apt_repositories }}"
 
 ### PPAs, should only be Ubuntu and derivatives
 - name: Setup PPAs
@@ -16,7 +16,7 @@
     repo: "{{ item }}"
     mode: 0644
     update_cache: yes
-  with_items: "{{ ppa_repositories }}"
+  loop: "{{ ppa_repositories }}"
   when: ansible_distribution == 'Ubuntu'
 
 ### Setup Flatpak Remotes
@@ -26,4 +26,4 @@
     name: "{{ item.name }}"
     flatpakrepo_url: "{{ item.url }}"
     method: "{{ item.method | default('system') }}"
-  with_items: "{{ flatpak_remotes }}"
+  loop: "{{ flatpak_remotes }}"

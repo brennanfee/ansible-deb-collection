@@ -5,4 +5,4 @@
   community.general.snap:
     name: "{{ item.name }}"
     classic: "{{ item.classic | default('no') }}"
-  with_items: "{{ snap_packages }}"
+  loop: "{{ snap_packages }}"

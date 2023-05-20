@@ -4,4 +4,4 @@
   become: true
   ansible.builtin.apt:
     name: "{{ item }}"
-  with_items: "{{ apt_packages }}"
+  loop: "{{ apt_packages }}"

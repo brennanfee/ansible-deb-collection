@@ -5,4 +5,4 @@
     name: "{{ item.name }}"
     remote: "{{ item.remote | default('flathub') }}"
     method: "{{ item.method | default('system') }}"
-  with_items: "{{ flatpak_packages }}"
+  loop: "{{ flatpak_packages }}"

@@ -4,4 +4,4 @@
   become: true
   ansible.builtin.apt:
     deb: "{{ item }}"
-  with_items: "{{ deb_packages }}"
+  loop: "{{ deb_packages }}"

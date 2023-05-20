@@ -4,7 +4,7 @@
   become: true
   ansible.builtin.apt:
     name: "{{ item }}"
-  with_items:
+  loop:
     - flatpak
     - curl
     - python3-requests
