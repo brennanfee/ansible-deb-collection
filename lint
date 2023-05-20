@@ -26,3 +26,9 @@ poetry run yamllint .
 
 echo "Calling ansible-lint..."
 poetry run ansible-lint
+
+if command -v "mdl" &> /dev/null; then
+  mdl .
+elif command -v "markdownlint" &> /dev/null; then
+  markdownlint .
+fi

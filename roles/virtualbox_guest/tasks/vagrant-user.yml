@@ -4,6 +4,7 @@
 - name: Check if Vagrant user exists
   ansible.builtin.shell:
     cmd: set -o pipefail && /usr/bin/getent passwd vagrant | /usr/bin/wc -l | tr -d ''
+    executable: /bin/bash
   register: virtualbox_guest_vbox_vagrant_user_exists
   changed_when: false
 

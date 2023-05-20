@@ -14,8 +14,8 @@
 - name: Check if system font already exists
   ansible.builtin.stat:
     path: >-
-      /usr/local/share/fonts/{{ install_fonts_folder | default('ansible') }}/
-      {{ install_fonts_file }}
+      /usr/local/share/fonts/{{ install_fonts_folder
+      | default('ansible') }}/{{ install_fonts_file }}
     get_checksum: false
     get_md5: false
   register: install_fonts_font_info
@@ -26,8 +26,8 @@
   ansible.builtin.get_url:
     url: "{{ install_fonts_url }}"
     dest: >-
-      /usr/local/share/fonts/{{ install_fonts_folder | default('ansible') }}/
-      {{ install_fonts_file }}
+      /usr/local/share/fonts/{{ install_fonts_folder
+      | default('ansible') }}/{{ install_fonts_file }}
     owner: root
     group: root
     mode: "0644"

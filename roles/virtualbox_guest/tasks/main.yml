@@ -14,6 +14,7 @@
   become: true
   ansible.builtin.shell:
     cmd: set -o pipefail && lsmod | grep -i vboxguest
+    executable: /bin/bash
   changed_when: false
   register: virtualbox_guest_additions_installed
 

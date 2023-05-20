@@ -225,8 +225,8 @@
       ansible.builtin.lineinfile:
         path: /etc/hosts
         line: >-
-          127.0.1.1 {{ ansible_hostname }} {{ ansible_hostname }}.
-          {{ hostvars['instance-bare'].desired_domain }}
+          127.0.1.1 {{ ansible_hostname }}
+          {{ ansible_hostname }}.{{ hostvars['instance-bare'].desired_domain }}
         owner: root
         group: root
         mode: "0644"

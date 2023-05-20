@@ -21,6 +21,7 @@
       become: true
       ansible.builtin.shell:
         cmd: set -o pipefail && lsmod | grep -i vboxguest
+        executable: /bin/bash
       changed_when: false
       register: verify_guest_additions_installed
       failed_when: verify_guest_additions_installed.stdout == ""
@@ -29,6 +30,7 @@
     - name: Check if Vagrant user exists
       ansible.builtin.shell:
         cmd: set -o pipefail && /usr/bin/getent passwd vagrant | /usr/bin/wc -l | tr -d ''
+        executable: /bin/bash
       register: verify_vagrant_user_exists
       changed_when: false
 

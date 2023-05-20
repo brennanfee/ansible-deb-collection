@@ -20,7 +20,7 @@
   ansible.builtin.lineinfile:
     path: /etc/vconsole.conf
     regexp: ^FONT=
-    line: FONT=Lat15-Terminus{{ desired_console_font_size | default(\"20x10\", true) }}
+    line: FONT=Lat15-Terminus{{ desired_console_font_size | default("20x10", true) }}
     backup: true
 
 - name: Set the charmap for the console
