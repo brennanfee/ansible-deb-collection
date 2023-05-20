@@ -58,7 +58,7 @@
     #     name: '{{ item }}'
     #     groups: 'vagrant'
     #     append: yes
-    #   with_items: '{{ vagrant_users }}'
+    #   loop: '{{ vagrant_users }}'
     #   check_mode: yes
     #   when: verify_vagrant_user_exists.stdout == "1"
     #   register: conf
@@ -71,7 +71,7 @@
     #     name: '{{ item }}'
     #     groups: 'vboxsf'
     #     append: yes
-    #   with_items: '{{ virtualbox_managers }}'
+    #   loop: '{{ virtualbox_managers }}'
     #   check_mode: yes
     #   when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
     #   register: conf

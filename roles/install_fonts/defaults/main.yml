@@ -3,4 +3,5 @@
 font_packages: []
 
 # Font files to download and install using a url
-url_fonts: []
+url_fonts_system: []
+url_fonts_user: []

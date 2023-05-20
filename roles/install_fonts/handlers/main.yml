@@ -1,6 +1,6 @@
 ---
 - name: Regenerate Font Cache
   become: true
-  ansible.builtin.command:
+  ansible.builtin.shell:
     cmd: fc-cache -fr
   changed_when: false

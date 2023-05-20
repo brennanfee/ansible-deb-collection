@@ -1,5 +1,5 @@
 ---
-- name: Create destination directory if not present
+- name: Create destination directory if not present (system)
   become: true
   ansible.builtin.file:
     path: "/usr/local/share/fonts/{{ font_folder | default('ansible') }}"
@@ -7,15 +7,17 @@
     owner: root
     group: root
     mode: 0755
+  when: font_user is not defined
 
-- name: Check if font already exists
+- name: Check if font already exists (system)
   ansible.builtin.stat:
     path: "/usr/local/share/fonts/{{ font_folder | default('ansible') }}/{{ font_file }}"
     get_checksum: false
     get_md5: false
   register: install_fonts_font_info
+  when: font_user is not defined
 
-- name: Install the font {{ font_file }}
+- name: Install the font {{ font_file }} (system)
   become: true
   ansible.builtin.get_url:
     url: "{{ font_url }}"
@@ -23,5 +25,34 @@
     owner: root
     group: root
     mode: 0644
-  when: not install_fonts_font_info.stat.exists
+  when: font_user is not defined and not install_fonts_font_info.stat.exists
+  notify: Regenerate Font Cache
+
+- name: Create destination directory if not present (user)
+  become: true
+  ansible.builtin.file:
+    path: "/home/{{ font_user }}/.local/share/fonts/{{ font_folder | default('ansible') }}"
+    state: directory
+    owner: "{{ font_user }}"
+    group: "{{ font_user }}"
+    mode: 0776
+  when: font_user is defined
+
+- name: Check if font already exists (user)
+  ansible.builtin.stat:
+    path: "/home/{{ font_user }}/.local/share/fonts/{{ font_folder | default('ansible') }}/{{ font_file }}"
+    get_checksum: false
+    get_md5: false
+  register: install_fonts_font_info_user
+  when: font_user is defined
+
+- name: Install the font {{ font_file }} (user)
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ font_url }}"
+    dest: "/home/{{ font_user }}/.local/share/fonts/{{ font_folder | default('ansible') }}/{{ font_file }}"
+    owner: "{{ font_user }}"
+    group: "{{ font_user }}"
+    mode: 0664
+  when: font_user is defined and not install_fonts_font_info_user.stat.exists
   notify: Regenerate Font Cache

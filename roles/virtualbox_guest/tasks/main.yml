@@ -4,7 +4,7 @@
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
-  with_items:
+  loop:
     - build-essential
     - dkms
 
@@ -29,7 +29,7 @@
     name: '{{ item }}'
     groups: 'vboxsf'
     append: yes
-  with_items: '{{ virtualbox_managers }}'
+  loop: '{{ virtualbox_managers }}'
   when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
 
 - name: Disable unattended upgrades

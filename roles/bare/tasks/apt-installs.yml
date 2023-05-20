@@ -12,7 +12,7 @@
   ansible.builtin.apt:
     name: '{{ item }}'
     state: present
-  with_items:
+  loop:
     - apt-transport-https
     - ca-certificates
     - curl
@@ -89,5 +89,5 @@
   ansible.builtin.apt:
     name: '{{ item }}'
     state: present
-  with_items:
+  loop:
     - tzdata

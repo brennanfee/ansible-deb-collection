@@ -30,5 +30,5 @@
     name: '{{ item }}'
     groups: 'vagrant'
     append: yes
-  with_items: '{{ vagrant_users }}'
+  loop: '{{ vagrant_users }}'
   when: virtualbox_guest_vbox_vagrant_user_exists.stdout == "1"

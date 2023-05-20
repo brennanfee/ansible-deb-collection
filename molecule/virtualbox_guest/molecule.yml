@@ -6,14 +6,14 @@ driver:
   provider:
     name: virtualbox
 platforms:
-  - name: instance-bare
+  - name: instance-vbox-guest
     box: bfee-vagrantVbox-${MOLECULE_DISTRO:-debian-stable}-bare
     hostname: false
     config_options:
       ssh.keep_alive: yes
       ssh.remote_user: vagrant
     provider_options:
-      name: "molecule-test-bare-${MOLECULE_DISTRO:-debian-stable}"
+      name: "molecule-test-vbox-guest-${MOLECULE_DISTRO:-debian-stable}"
       gui: false
 provisioner:
   name: ansible

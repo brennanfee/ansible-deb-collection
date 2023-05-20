@@ -1,15 +1,29 @@
 ---
+- name: Install font utilities and prerequisites
+  become: true
+  ansible.builtin.apt:
+    name: fontconfig
+
 - name: Install fonts from packages
   become: true
   ansible.builtin.apt:
-    name: "{{ item }}"
-  with_items: "{{ font_packages }}"
+    name: "{{ font_packages }}"
 
-- name: Install fonts from URL
+- name: Install fonts from URL (system)
   ansible.builtin.include_tasks:
     file: install-font-from-url.yml
-    apply:
-      font_url: "{{ item.url }}"
-      font_file: "{{ item.file }}"
-      font_folder: "{{ item.folder | default('ansible') }}"
-  with_items: "{{ url_fonts }}"
+  loop: "{{ url_fonts_system }}"
+  vars:
+    font_url: "{{ item.url }}"
+    font_file: "{{ item.file }}"
+    font_folder: "{{ item.folder | default('ansible') }}"
+
+- name: Install fonts from URL (user)
+  ansible.builtin.include_tasks:
+    file: install-font-from-url.yml
+  loop: "{{ url_fonts_user }}"
+  vars:
+    font_url: "{{ item.url }}"
+    font_file: "{{ item.file }}"
+    font_folder: "{{ item.folder | default('ansible') }}"
+    font_user: "{{ item.user }}"
