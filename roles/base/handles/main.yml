@@ -1,0 +1,22 @@
+---
+# vim: set ft=yaml.ansible:
+
+- name: Update Apt Cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    update_cache_retries: 10
+    update_cache_retry_max_delay: 10
+    cache_valid_time: 3600
+
+- name: Restart ssh
+  become: true
+  ansible.builtin.service:
+    name: ssh
+    state: restarted
+
+- name: Restart timesyncd
+  become: true
+  ansible.builtin.service:
+    name: systemd-timesyncd.service
+    state: restarted

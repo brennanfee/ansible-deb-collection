@@ -1,0 +1,26 @@
+---
+# vim: set ft=yaml.ansible:
+
+## Apt Defaults
+- name: Copy apt defaults
+  become: true
+  ansible.builtin.template:
+    src: etc-apt-apt.conf.d--90custom-defaults.j2
+    dest: /etc/apt/apt.conf.d/90custom-defaults
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  notify: Update Apt Cache
+
+- name: Copy apt proxy config
+  become: true
+  ansible.builtin.template:
+    src: etc-apt-apt.conf.d--00apt-proxy.j2
+    dest: /etc/apt/apt.conf.d/00apt-proxy
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  notify: Update Cache
+  when: apt_proxy_url | length > 0

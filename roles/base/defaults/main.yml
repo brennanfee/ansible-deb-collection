@@ -1,0 +1,13 @@
+---
+# vim: set ft=yaml.ansible:
+
+# Apt configuration
+apt_edition: ""
+apt_include_sources: false
+apt_proxy_url: ""
+
+# Popularity Contest
+enroll_in_popularity_contest: true
+
+# Time
+desired_time_zone: null

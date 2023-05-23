@@ -1,2 +1,17 @@
 ---
 # vim: set ft=yaml.ansible:
+
+- name: APT Configuration
+  ansible.builtin.import_tasks: apt-configuration.yml
+
+- name: SSH Configuration
+  ansible.builtin.import_tasks: ssh.yml
+
+- name: Sudo Configuration
+  ansible.builtin.import_tasks: sudo.yml
+
+- name: Popularity Contest
+  ansible.builtin.import_tasks: popularity_contest.yml
+
+- name: Time Setup
+  ansible.builtin.import_tasks: time.yml

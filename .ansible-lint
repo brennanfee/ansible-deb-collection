@@ -2,6 +2,7 @@
 parseable: true
 skip_list:
   - no-handler
+  - key-order
 use_default_rules: true
 verbosity: 1
 exclude_paths:
