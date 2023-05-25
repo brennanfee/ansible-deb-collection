@@ -3,7 +3,7 @@
 
 - name: Prepare
   hosts: all
-
+  gather_facts: false
   tasks:
     - name: Update the package cache
       become: true

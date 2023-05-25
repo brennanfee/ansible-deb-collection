@@ -226,13 +226,13 @@
         path: /etc/hosts
         line: >-
           127.0.1.1 {{ ansible_hostname }}
-          {{ ansible_hostname }}.{{ hostvars['instance-bare'].desired_domain }}
+          {{ ansible_hostname }}.{{ desired_domain }}
         owner: root
         group: root
         mode: "0644"
         backup: false
       check_mode: true
-      when: hostvars['instance-bare'].desired_domain is defined
+      when: desired_domain is defined
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 
@@ -245,7 +245,7 @@
         mode: "0644"
         backup: false
       check_mode: true
-      when: hostvars['instance-bare'].desired_domain is not defined
+      when: desired_domain is not defined
       register: conf
       failed_when: (conf is changed) or (conf is failed)
 
