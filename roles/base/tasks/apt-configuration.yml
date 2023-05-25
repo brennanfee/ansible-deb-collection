@@ -22,5 +22,59 @@
     group: root
     mode: "0644"
     backup: true
-  notify: Update Cache
-  when: apt_proxy_url | length > 0
+  when: apt_proxy_url | default("", true) | length > 0
+  notify: Update Apt Cache
+
+## Apt Sources
+- name: Install apt required tools
+  become: true
+  ansible.builtin.apt:
+    state: present
+    name:
+      - apt-utils
+      - curl
+      - wget
+      - apt-transport-https
+      - dirmngr
+      - python3-apt
+
+- name: Copy apt sources configuration
+  become: true
+  ansible.builtin.template:
+    src: etc-apt--sources-{{ ansible_distribution }}.list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  notify: Update Apt Cache
+
+- name: Copy Debian backports configuration
+  become: true
+  ansible.builtin.template:
+    src: etc-apt-sources.list.d--debian-backports.list.j2
+    dest: /etc/apt/sources.list.d/debian-backports.list
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  when: ansible_distribution == "Debian" and ansible_distribution_release == "bullseye"
+    and (apt_include_backports | default(true, true))
+  notify: Update Apt Cache
+
+## Kill Ubuntu's APT integrations with Ubuntu Pro and esm-apps offering
+- name: Remove Ubuntu Pro APT integrations
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/apt.conf.d/20apt-esm-hook.conf
+    state: absent
+  notify: Update Apt Cache
+
+## Force update cache
+- name: Update the package cache (forced)
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    update_cache_retries: 10
+    update_cache_retry_max_delay: 10
+  changed_when: false

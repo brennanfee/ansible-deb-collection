@@ -1,0 +1,8 @@
+# APT Backports Source
+# {{ ansible_managed }}
+
+deb https://deb.debian.org/debian {{ ansible_distribution_release }}-backports main contrib non-free
+{% if apt_include_source | default(false, true) %}
+deb-src https://deb.debian.org/debian {{ ansible_distribution_release }}-backports main contrib non-free
+{% endif %}
+

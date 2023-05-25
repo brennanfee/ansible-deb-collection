@@ -1,6 +1,8 @@
 ---
 # Prettier Settings
-editorconfig: true # due to this, don't add overlapping values (like printWidth or tabWidth)
+printWidth: 100
+tabWidth: 2
+editorconfig: true
 semi: false
 singleQuote: false
 quoteProps: preserve
@@ -11,8 +13,8 @@ bracketSameLine: false
 arrowParens: always
 requirePragma: false
 insertPragma: false
-proseWrap: never
-htmlWhitespaceSensitvity: css
+proseWrap: preserve
+htmlWhitespaceSensitivity: css
 vueIndentScriptAndStyle: false
 endOfLine: lf
 embeddedLanguageFormatting: auto

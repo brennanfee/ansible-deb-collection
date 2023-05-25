@@ -1,5 +1,7 @@
-# {{ ansible_managed }}
+# SSH Client Config File (System Wide Version)
 # vim: set ft=sshconfig:
+#
+# {{ ansible_managed }}
 #
 # This is the ssh client system-wide configuration file.  See
 # ssh_config(5) for more information.  This file provides defaults for
@@ -22,14 +24,16 @@ Include /etc/ssh/ssh_config.d/*.conf
 
 Host localhost 127.0.0.1
   Compression no
-#  Algorithms (allow the old\deprecated RSA)
-  CASignatureAlgorithms sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256,ssh-rsa
+#  Algorithms (allow the old\deprecated RSA, lists should work for SSH 8.4+)
+  CASignatureAlgorithms sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,ssh-rsa
 
-  HostbasedAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,ssh-rsa-cert-v01@openssh.com,ssh-rsa
+# New name in 8.5+:  HostbasedAcceptedAlgorithms
+  HostbasedKeyTypes sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,ssh-rsa-cert-v01@openssh.com,ssh-rsa
 
-  HostKeyAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,ssh-rsa-cert-v01@openssh.com,ssh-rsa
+  HostKeyAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,ssh-rsa-cert-v01@openssh.com,ssh-rsa
 
-  PubkeyAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,ssh-rsa-cert-v01@openssh.com,ssh-rsa
+# New name in 8.5+:  PubkeyAcceptedAlgorithms
+  PubkeyAcceptedKeyTypes sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,ssh-rsa-cert-v01@openssh.com,ssh-rsa
 
 Host *
   Compression yes
@@ -39,10 +43,8 @@ Host *
   ForwardX11Trusted no
   GatewayPorts no
   HashKnownHosts yes
-  IdentityFile ~/.ssh/id_ed25519
   IdentityFile ~/.ssh/id_ed25519_sk
-  IdentityFile ~/.ssh/id_ecdsa
-  IdentityFile ~/.ssh/id_ecdsa_sk
+  IdentityFile ~/.ssh/id_ed25519
   NoHostAuthenticationForLocalhost yes
   PermitLocalCommand no
   RequestTTY auto
@@ -59,24 +61,48 @@ Host *
 
   PreferredAuthentications publickey,keyboard-interactive,password
 
-#  Algorithms
-  CASignatureAlgorithms sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256
+# Algorithms (should work for SSH 8.4+) - Note: I am attempting to lock down
+# to just the "best" most secure and modern algorithms.  It may be possible
+# that for a specific connection to a specific host that other algorithms may
+# need to be accepted.  For those situations either this list can be updated
+# or, better, a host section could be created for that specific host and
+# the necessary algorithm enabled.
+
+  CASignatureAlgorithms sk-ssh-ed25519@openssh.com,ssh-ed25519
 # Old: ssh-rsa, ssh-dss
+# Ok, but trying to get rid of all RSA: rsa-sha2-512,rsa-sha2-256
+# Not trusted: sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256,webauthn-sk-ecdsa-sha2-nistp256@openssh.com
 
-  Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+  Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com
 # Old: aes256-cbc,aes192-cbc,aes128-cbc,3des-cbc
+# Ok, but trying only gcm's: aes256-ctr,aes192-ctr,aes128-ctr
+# Too short: aes128-gcm@openssh.com
 
-  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com,umac-64-etm@openssh.com,umac-64@openssh.com
+  MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com
 # Old: hmac-sha1-96-etm@openssh.com,hmac-sha1-etm@openssh.com,hmac-md5-96-etm@openssh.com,
 #      hamc-md5-etm@openshh.com,hmac-sha1-96,hmac-sha1,hmac-md5-96,hmac-md5
+# Ok, but trying to only use etm's: hmac-sha2-512,hmac-sha2-256
+# Too short: umac-128-etm@openssh.com,umac-128@openssh.com,umac-64-etm@openssh.com,umac-64@openssh.com
 
-  KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,sntrup761x25519-sha512@openssh.com,diffie-hellman-group18-sha512,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256,diffie-hellman-group-exchange-sha256,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256
-# Old: diffie-hellman-group14-sha1,diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha1
+  KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org
+# Old: diffie-hellman-group18-sha512,diffie-hellman-group16-sha512,diffie-hellman-group14-sha256,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1,diffie-hellman-group-exchange-sha1
+# Not Trusted: ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256
+# Too new: sntrup761x25519-sha512@openssh.com - when added above, make it first
 
-  HostbasedAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256
-
-  HostKeyAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256
-#Old: ssh-rsa-cert-v01@openssh.com,ssh-rsa,ssh-dss-cert-v01@openssh.com,ssh-dss
-
-  PubkeyAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256
+# New name in 8.5+:  HostbasedAcceptedAlgorithms
+  HostbasedKeyTypes sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
 # Old: ssh-rsa-cert-v01@openssh.com,ssh-rsa,ssh-dss-cert-v01@openssh.com,ssh-dss
+# Ok, but trying to get rid of all RSA: rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256
+# Not Trusted: sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256
+
+  HostKeyAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
+# Old: ssh-rsa-cert-v01@openssh.com,ssh-rsa,ssh-dss-cert-v01@openssh.com,ssh-dss
+# Ok, but trying to get rid of all RSA: rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256
+# Not Trusted: sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,webauthn-sk-ecdsa-sha2-nistp256@openssh.com
+
+# New name in 8.5+:  PubkeyAcceptedAlgorithms
+  PubkeyAcceptedKeyTypes sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519
+# Old: ssh-rsa-cert-v01@openssh.com,ssh-rsa,ssh-dss-cert-v01@openssh.com,ssh-dss
+# Ok, but trying to get rid of all RSA: rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256
+# Not Trusted: sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,webauthn-sk-ecdsa-sha2-nistp256@openssh.com
+

@@ -30,28 +30,12 @@
     - /etc/ssh/ssh_host_ecdsa_key.pub
   when: not base_ssh_host_keys_regenerated.stat.exists
 
-- name: Regenerate RSA Keys
+- name: Regenerate Host Keys
   become: true
   ansible.builtin.command:
-    cmd: /usr/bin/ssh-keygen -t rsa -b 4096 -o -a 100 -f /etc/ssh/ssh_host_rsa_key -N ''
-  args:
-    creates: /etc/ssh/ssh_host_rsa_key
-  when: not base_ssh_host_keys_regenerated.stat.exists
-
-- name: Regenerate ed25519 Key
-  become: true
-  ansible.builtin.command:
-    cmd: /usr/bin/ssh-keygen -t ed25519 -o -a 100 -f /etc/ssh/ssh_host_ed25519_key -N ''
+    cmd: /usr/bin/ssh-keygen -A -a 100
   args:
     creates: /etc/ssh/ssh_host_ed25519_key
-  when: not base_ssh_host_keys_regenerated.stat.exists
-
-- name: Regenerate ecdsa Key
-  become: true
-  ansible.builtin.command:
-    cmd: /usr/bin/ssh-keygen -t ecdsa -b 521 -o -a 100 -f /etc/ssh/ssh_host_ecdsa_key -N ''
-  args:
-    creates: /etc/ssh/ssh_host_ecdsa_key
   when: not base_ssh_host_keys_regenerated.stat.exists
 
 - name: Write Regenerate File
