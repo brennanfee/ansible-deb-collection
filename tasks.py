@@ -15,14 +15,11 @@ For more info:  https://www.pyinvoke.org
 scenarios = [
     "default",
     "full_cicd",
-    "bare",
-    "allow_sudo",
-    "apt_configuration",
+    "bootstrap",
+    "common",
     "install_applications",
-    "popularity_contest",
-    "ssh",
-    "time",
-    "upgrade",
+    "install_fonts",
+    "virtualbox_guest",
 ]
 
 

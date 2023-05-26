@@ -4,4 +4,4 @@
 - name: Converge
   hosts: all
   roles:
-    - brennanfee.deb_collection.bare
+    - brennanfee.deb_collection.bootstrap

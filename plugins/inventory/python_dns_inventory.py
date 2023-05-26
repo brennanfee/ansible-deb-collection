@@ -104,7 +104,11 @@ class DNSInventory(object):
                         if store["hostname"] not in inventory["_meta"]["hostvars"]:
                             inventory["_meta"]["hostvars"][store["hostname"]] = {}
                         var, val = hostvar.split(":")
-                        value = val[1:-1].split("|") if val.startswith("[") and val.endswith("]") else val
+                        value = (
+                            val[1:-1].split("|")
+                            if val.startswith("[") and val.endswith("]")
+                            else val
+                        )
                         inventory["_meta"]["hostvars"][store["hostname"]].update({var: value})
             elif ("group" in store) and ("vars" in store or "children" in store):
                 if store["group"] not in inventory:
@@ -116,7 +120,11 @@ class DNSInventory(object):
                                 inventory[group].update({"vars": {}})
                             for groupvar in store["vars"].split(","):
                                 var, val = groupvar.split(":")
-                                value = val[1:-1].split("|") if val.startswith("[") and val.endswith("]") else val
+                                value = (
+                                    val[1:-1].split("|")
+                                    if val.startswith("[") and val.endswith("]")
+                                    else val
+                                )
                                 inventory[group]["vars"].update({var: value})
                         if "children" in store:
                             if "children" not in group:

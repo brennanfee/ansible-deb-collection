@@ -14,7 +14,7 @@
   ansible.builtin.stat:
     path: /etc/ssh/ssh_host_keys_regenerated
     get_checksum: false
-  register: base_ssh_host_keys_regenerated
+  register: common_ssh_host_keys_regenerated
 
 - name: Remove Existing Keys
   become: true
@@ -28,7 +28,7 @@
     - /etc/ssh/ssh_host_ed25519_key.pub
     - /etc/ssh/ssh_host_ecdsa_key
     - /etc/ssh/ssh_host_ecdsa_key.pub
-  when: not base_ssh_host_keys_regenerated.stat.exists
+  when: not common_ssh_host_keys_regenerated.stat.exists
 
 - name: Regenerate Host Keys
   become: true
@@ -36,7 +36,7 @@
     cmd: /usr/bin/ssh-keygen -A -a 100
   args:
     creates: /etc/ssh/ssh_host_ed25519_key
-  when: not base_ssh_host_keys_regenerated.stat.exists
+  when: not common_ssh_host_keys_regenerated.stat.exists
 
 - name: Write Regenerate File
   become: true
@@ -48,7 +48,7 @@
     owner: root
     group: root
     mode: "0644"
-  when: not base_ssh_host_keys_regenerated.stat.exists
+  when: not common_ssh_host_keys_regenerated.stat.exists
 
 - name: Remove outdated host keys
   become: true

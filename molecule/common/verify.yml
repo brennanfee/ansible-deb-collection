@@ -1,7 +1,7 @@
 ---
 # vim: set ft=yaml.ansible:
 
-- name: Verify "Base" Role
+- name: Verify "Common" Role
   hosts: all
   gather_facts: true
   tasks:
@@ -69,8 +69,8 @@
       ansible.builtin.stat:
         path: /etc/apt/apt.conf.d/20apt-esm-hook.conf
         get_checksum: false
-      register: base_ubuntu_esm_hook
-      failed_when: base_ubuntu_esm_hook.stat.exists
+      register: common_ubuntu_esm_hook
+      failed_when: common_ubuntu_esm_hook.stat.exists
 
     ### SSH Configuration
 
@@ -84,8 +84,8 @@
       ansible.builtin.stat:
         path: /etc/ssh/ssh_host_keys_regenerated
         get_checksum: false
-      register: base_ssh_host_keys_regenerated
-      failed_when: not base_ssh_host_keys_regenerated.stat.exists
+      register: common_ssh_host_keys_regenerated
+      failed_when: not common_ssh_host_keys_regenerated.stat.exists
 
     - name: Verify the ssh client config is Ansible managed
       become: true

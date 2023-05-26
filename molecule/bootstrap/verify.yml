@@ -1,7 +1,7 @@
 ---
 # vim: set ft=yaml.ansible:
 
-- name: Verify "Bare" Role
+- name: Verify "Bootstrap" Role
   hosts: all
   gather_facts: true
   tasks:

@@ -7,7 +7,7 @@
     update_cache: true
     cache_valid_time: 3600
 
-- name: Install base packages
+- name: Install bootstrap packages
   become: true
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -61,14 +61,14 @@
     name: lvm2
   when: ansible_devices["sdb"] is defined
 
-- name: Install base packages (Debian Only)
+- name: Install core packages (Debian Only)
   become: true
   ansible.builtin.apt:
     state: present
     name: installation-report
   when: ansible_distribution == 'Debian'
 
-- name: Install base packages (Ubuntu Only)
+- name: Install core packages (Ubuntu Only)
   become: true
   ansible.builtin.apt:
     state: present

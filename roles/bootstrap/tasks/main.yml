@@ -2,15 +2,17 @@
 # vim: set ft=yaml.ansible:
 #
 # This role aligns with the bare installation from my machine OS installation
-# scripts.  It is here ensure a base line minimum below anything else being built
-# or added on top.  This could have been rolled into base, which all machines get
-# but I wanted to specifically document this here as opposed to the "other" things
-# that base does to set up a "normal" base machine.
+# scripts (aka the bootstrap scripts).  It is here to ensure a baseline minimum
+# below anything else being built or added on top with Ansible.  This could have
+# been rolled into the "common" role, which all machines receive but I wanted to
+# specifically provide a separation from what was done in bootstrap versus
+# what I consider to be a "common" or default system setup.
 #
 # From a practical perspective, you should be able to install the OS on a machine
-# using the scripts and then run this Ansible role and NOTHING should change.  The
-# end result here should simply be an "enforced" or "under management" version of
-# a bootstrapped machine with nothing else added.
+# using the bootstrap scripts and then run this Ansible role and NOTHING should
+# change (or very little at any rate).  The end result here should simply be an
+# "enforced" or "under management" version of a bootstrapped machine with nothing
+# else added.
 #
 # The only noticeable part of the bootstrap that is not replicated here is user setup.
 # I leave that to be done in the higher Ansible roles as it is more machine specific.

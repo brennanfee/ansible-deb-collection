@@ -15,8 +15,8 @@
     mode: "0644"
     backup: true
 
-# In the "bare" script I don't want to "manage" the entire hosts file, that is
-# better done at a higher more specific level like "base" (or even higher).  So,
+# In the "bootstrap" script I don't want to "manage" the entire hosts file, that is
+# better done at a higher more specific level like "common" (or even higher).  So,
 # no use of a template here, instead just check for the line we need to verify the
 # hostname is placed in the hosts file (this should pass for an Ansible managed
 # and non-managed file).

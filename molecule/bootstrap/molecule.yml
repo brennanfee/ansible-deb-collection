@@ -6,14 +6,14 @@ driver:
   provider:
     name: virtualbox
 platforms:
-  - name: instance-bare
+  - name: instance-bootstrap
     box: bfee-vagrantVbox-${MOLECULE_DISTRO:-debian-stable}-bare
     hostname: false
     config_options:
       ssh.keep_alive: true
       ssh.remote_user: vagrant
     provider_options:
-      name: molecule-test-bare-${MOLECULE_DISTRO:-debian-stable}
+      name: molecule-test-bootstrap-${MOLECULE_DISTRO:-debian-stable}
       gui: false
 provisioner:
   name: ansible
@@ -28,7 +28,7 @@ provisioner:
       remote_password: vagrant
   inventory:
     host_vars:
-      instance-bare:
+      instance-bootstrap:
         desired_domain: bfee.org
 verifier:
   name: ansible

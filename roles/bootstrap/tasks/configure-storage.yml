@@ -23,7 +23,7 @@
   ansible.builtin.command:
     cmd: fallocate -l "6G" /swapfile
     creates: /swapfile
-  register: bare_swap_created
+  register: bootstrap_swap_created
 
 - name: Set swap file permissions
   become: true
@@ -39,7 +39,7 @@
   ansible.builtin.command:
     cmd: mkswap /swapfile
   changed_when: false
-  when: bare_swap_created.changed
+  when: bootstrap_swap_created.changed
 
 - name: Add swap file to fstab
   become: true
