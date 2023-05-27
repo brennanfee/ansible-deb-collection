@@ -10,3 +10,5 @@ desired_charmap: UTF-8
 desired_console_font_size: 20x10
 #
 desired_domain: null
+#
+bootstrap_use_data_folder: false

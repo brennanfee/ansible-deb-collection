@@ -16,6 +16,21 @@
     append: true
   when: virtualbox_guest_vbox_vagrant_user_exists.stdout == "1"
 
+- name: Check if data-user groupr exists
+  ansible.builtin.shell:
+    cmd: set -o pipefail && /usr/bin/getent group data-user | /usr/bin/wc -l | tr -d ''
+    executable: /bin/bash
+  register: virtualbox_guest_vbox_data_user_exists
+  changed_when: false
+
+- name: Add vagrant user to the data-user group
+  become: true
+  ansible.builtin.user:
+    name: vagrant
+    groups: data-user
+    append: true
+  when: virtualbox_guest_vbox_data_user_exists.stdout == "1"
+
 - name: Setup vagrant user for passwordless sudo
   become: true
   ansible.builtin.template:
