@@ -10,8 +10,17 @@
 - name: Sudo Configuration
   ansible.builtin.import_tasks: sudo.yml
 
+- name: Firewall Configuration (Basic)
+  ansible.builtin.import_tasks: firewall.yml
+
 - name: Popularity Contest
   ansible.builtin.import_tasks: popularity_contest.yml
 
 - name: Time Setup
   ansible.builtin.import_tasks: time.yml
+
+- name: Common Package Installation
+  ansible.builtin.import_tasks: common-packages.yml
+
+- name: User Setup
+  ansible.builtin.import_tasks: users.yml

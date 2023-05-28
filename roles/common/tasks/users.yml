@@ -1,0 +1,62 @@
+---
+# vim: set ft=yaml.ansible:
+
+- name: Add user primary groups
+  become: true
+  ansible.builtin.group:
+    name: "{{ item.name }}"
+    state: present
+  with_items: "{{ users }}"
+
+- name: Create users
+  become: true
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    comment: "{{ item.comment }}"
+    group: "{{ item.name }}"
+    shell: "{{ item.shell }}"
+    password: "{{ item.password }}"
+    createhome: true
+  with_items: "{{ users }}"
+
+- name: Add users to the default groups
+  become: true
+  ansible.builtin.user:
+    name: "{{ item[0].name }}"
+    groups: "{{ item[1] }}"
+    append: true
+  with_nested:
+    - "{{ users }}"
+    - "{{ default_groups }}"
+
+- name: Add users to the sudo group
+  become: true
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: sudo
+    append: true
+  with_items: "{{ sudo_users }}"
+
+- name: Add users to the ssh group
+  become: true
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    groups:
+      - ssh
+      - _ssh
+    append: true
+  with_items: "{{ ssh_users }}"
+
+- name: Add users authorized RSA SSH key
+  become: true
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', item.public_rsa_key) }}"
+  with_items: "{{ ssh_users }}"
+
+- name: Add users authorized ED25519 SSH key
+  become: true
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', item.public_ed25519_key) }}"
+  with_items: "{{ ssh_users }}"
