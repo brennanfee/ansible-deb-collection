@@ -208,7 +208,7 @@ def main():
         argument_spec=dict(
             input_key_file=dict(required=True, type="str"),
             output_key_file=dict(required=True, type="str"),
-            default_key_path=dict(default="/usr/local/share/keyrings", type="str"),
+            default_key_path=dict(default="/etc/apt/keyrings", type="str"),
             bin_path=dict(default="/usr/bin/gpg", type="str"),
             state=dict(default="present", choices=["absent", "present", "latest"]),
         ),
