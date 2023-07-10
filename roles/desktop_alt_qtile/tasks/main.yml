@@ -1,4 +1,6 @@
 ---
 # vim: set ft=yaml.ansible:
 
-# TBD
+- name: Desktop Alt Qtile TBD
+  ansible.builtin.debug:
+    msg: Desktop alt (Qtile) role not yet developed.

@@ -1,4 +1,6 @@
 ---
 # vim: set ft=yaml.ansible:
 
-# TBD
+- name: Desktop TBD
+  ansible.builtin.debug:
+    msg: Desktop role not yet developed.

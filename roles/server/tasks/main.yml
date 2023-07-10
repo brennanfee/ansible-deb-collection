@@ -1,4 +1,6 @@
 ---
 # vim: set ft=yaml.ansible:
 
-# TBD
+- name: Server TBD
+  ansible.builtin.debug:
+    msg: Server role not yet developed.
