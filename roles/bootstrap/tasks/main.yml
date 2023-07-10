@@ -47,7 +47,7 @@
   when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest"
 
 - name: Setup Vagrant User  (if needed)
-  ansible-builtin-import_tasks: configure-vagrant-user.yml
+  ansible.builtin.import_tasks: configure-vagrant-user.yml
 
 - name: Setup Service Account User (if needed)
-  ansible-builtin-import_tasks: configure-svcacct-user.yml
+  ansible.builtin.import_tasks: configure-svcacct-user.yml
