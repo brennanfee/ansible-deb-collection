@@ -22,7 +22,7 @@
     group: root
     mode: "0644"
     backup: true
-  when: apt_proxy_url | default("", true) | length > 0
+  when: common_apt_proxy_url | default("", true) | length > 0
   notify: Update Apt Cache
 
 ## Apt Sources
@@ -59,7 +59,7 @@
     mode: "0644"
     backup: true
   when: ansible_distribution == "Debian" and ansible_distribution_release == "bullseye"
-    and (apt_include_backports | default(true, true))
+    and (common_apt_include_backports | default(true, true))
   notify: Update Apt Cache
 
 ## Kill Ubuntu's APT integrations with Ubuntu Pro and esm-apps offering

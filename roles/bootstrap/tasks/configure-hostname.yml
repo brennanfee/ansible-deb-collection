@@ -25,12 +25,12 @@
   ansible.builtin.lineinfile:
     path: /etc/hosts
     regexp: ^127.0.1.1[[:blank:]]
-    line: 127.0.1.1 {{ ansible_hostname }} {{ ansible_hostname }}.{{ desired_domain }}
+    line: 127.0.1.1 {{ ansible_hostname }} {{ ansible_hostname }}.{{ bootstrap_domain }}
     owner: root
     group: root
     mode: "0644"
     backup: true
-  when: desired_domain is defined
+  when: bootstrap_domain is defined
 
 - name: Ensure hostname in hosts file (without domain)
   become: true
@@ -42,4 +42,4 @@
     group: root
     mode: "0644"
     backup: true
-  when: desired_domain is not defined
+  when: bootstrap_domain is not defined

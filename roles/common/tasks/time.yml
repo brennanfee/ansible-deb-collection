@@ -12,7 +12,7 @@
 - name: Set the time zone
   become: true
   community.general.timezone:
-    name: "{{ desired_time_zone | default('America/Chicago', true) }}"
+    name: "{{ common_time_zone | default('America/Chicago', true) }}"
     hwclock: UTC
 
 - name: Setup time sync settings

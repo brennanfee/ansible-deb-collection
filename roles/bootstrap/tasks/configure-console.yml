@@ -4,7 +4,7 @@
 - name: Loadkeys for keymap
   become: true
   ansible.builtin.command:
-    cmd: loadkeys "{{ desired_keymap | default('us', true) }}"
+    cmd: loadkeys "{{ bootstrap_keymap | default('us', true) }}"
   changed_when: false
 
 - name: Set the vconsole keymap
@@ -12,7 +12,7 @@
   ansible.builtin.lineinfile:
     path: /etc/vconsole.conf
     regexp: ^KEYMAP=
-    line: KEYMAP={{ desired_keymap | default('us', true) }}
+    line: KEYMAP={{ bootstrap_keymap | default('us', true) }}
     backup: true
 
 - name: Set the vconsole font size
@@ -20,7 +20,7 @@
   ansible.builtin.lineinfile:
     path: /etc/vconsole.conf
     regexp: ^FONT=
-    line: FONT=Lat15-Terminus{{ desired_console_font_size | default("20x10", true) }}
+    line: FONT=Lat15-Terminus{{ bootstrap_console_font_size | default("20x10", true) }}
     backup: true
 
 - name: Set the charmap for the console
@@ -28,7 +28,7 @@
   ansible.builtin.lineinfile:
     path: /etc/default/console-setup
     regexp: ^CHARMAP=
-    line: CHARMAP="{{ desired_charmap | default('UTF-8', true) }}"
+    line: CHARMAP="{{ bootstrap_charmap | default('UTF-8', true) }}"
     backup: true
 
 - name: Set the codeset for the console
@@ -52,11 +52,11 @@
   ansible.builtin.lineinfile:
     path: /etc/default/console-setup
     regexp: ^FONTSIZE=
-    line: FONTSIZE="{{ desired_console_font_size | default('20x10', true) }}"
+    line: FONTSIZE="{{ bootstrap_console_font_size | default('20x10', true) }}"
     backup: true
 
 - name: Set font for console
   become: true
   ansible.builtin.command:
-    cmd: setfont "Lat15-Terminus{{ desired_console_font_size | default('20x10', true) }}"
+    cmd: setfont "Lat15-Terminus{{ bootstrap_console_font_size | default('20x10', true) }}"
   changed_when: false

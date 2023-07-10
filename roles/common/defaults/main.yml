@@ -2,14 +2,14 @@
 # vim: set ft=yaml.ansible:
 
 # Apt configuration
-apt_edition: null
-apt_include_sources: false
-apt_include_backports: true
-apt_include_partners: false
-apt_proxy_url: null
+common_apt_edition: null
+common_apt_include_sources: false
+common_apt_include_backports: true
+common_apt_include_partners: false
+common_apt_proxy_url: null
 
 # Popularity Contest
-enroll_in_popularity_contest: false
+common_enroll_in_popularity_contest: false
 
 # Time
-desired_time_zone: null
+common_time_zone: null

@@ -3,7 +3,7 @@
 
 - name: Setup timezone
   community.general.timezone:
-    name: "{{ desired_time_zone | default('America/Chicago', true) }}"
+    name: "{{ bootstrap_time_zone | default('America/Chicago', true) }}"
     hwclock: UTC
 
 - name: Ensure fallback NTP list is enabled

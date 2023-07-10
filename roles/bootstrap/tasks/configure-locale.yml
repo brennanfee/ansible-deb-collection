@@ -4,7 +4,7 @@
 - name: Enable desired locale
   become: true
   community.general.locale_gen:
-    name: "{{ desired_locale | default('en_US.UTF-8', true) }}"
+    name: "{{ bootstrap_locale | default('en_US.UTF-8', true) }}"
     state: present
   notify: Rebuild locales database
 
@@ -20,7 +20,7 @@
   ansible.builtin.lineinfile:
     path: /etc/default/locale
     regexp: ^LANG=
-    line: LANG={{ desired_locale | default('en_US.UTF-8', true) }}
+    line: LANG={{ bootstrap_locale | default('en_US.UTF-8', true) }}
     backup: true
   notify: Rebuild locales database
 
@@ -29,6 +29,6 @@
   ansible.builtin.lineinfile:
     path: /etc/default/locale
     regexp: ^LANGUAGE=
-    line: LANGUAGE={{ desired_language | default('en_US:en:C', true) }}
+    line: LANGUAGE={{ bootstrap_language | default('en_US:en:C', true) }}
     backup: true
   notify: Rebuild locales database
