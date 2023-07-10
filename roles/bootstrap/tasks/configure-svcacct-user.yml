@@ -11,7 +11,7 @@
   become: true
   ansible.builtin.user:
     name: svcacct
-    groups: "{{ items }}"
+    groups: "{{ item }}"
     append: true
   with_items:
     - audio
@@ -22,7 +22,7 @@
     - _ssh
     - users
     - data-user
-  when: ansible_facts.getent_passwd != ""
+  when: ansible_facts.getent_passwd.svcacct != None
 
 - name: Add Service Account user to the Virtualbox Group
   become: true
@@ -30,7 +30,7 @@
     name: svcacct
     groups: vboxsf
     append: true
-  when: ansible_facts.getent_passwd != ""
+  when: ansible_facts.getent_passwd.svcacct != None
     and ansible_virtualization_type == "virtualbox"
     and ansible_virtualization_role == "guest"
 
@@ -43,7 +43,7 @@
     group: root
     mode: "0440"
     backup: true
-  when: ansible_facts.getent_passwd != ""
+  when: ansible_facts.getent_passwd.svcacct != None
 
 - name: Add Service Account users authorized SSH key
   become: true
@@ -52,4 +52,4 @@
     key: >-
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAH5mZH2G4fD3f5ofopNdg1NfA4wE4ASwD4drU+w8RYR
       ansible@bfee.org
-  when: ansible_facts.getent_passwd != ""
+  when: ansible_facts.getent_passwd.svcacct != None
