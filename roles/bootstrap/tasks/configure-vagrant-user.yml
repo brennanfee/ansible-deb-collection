@@ -4,7 +4,7 @@
 - name: Check If Vagrant User Exists
   ansible.builtin.getent:
     database: passwd
-    key: vagrant
+    key: blahblah
     fail_key: false
 
 - name: Show getent value
