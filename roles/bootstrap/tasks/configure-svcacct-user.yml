@@ -2,7 +2,7 @@
 # vim: set ft=yaml.ansible:
 
 - name: Check If Service Account User Exists
-  getent:
+  ansible.builtin.getent:
     database: passwd
     key: svcacct
     fail_key: false

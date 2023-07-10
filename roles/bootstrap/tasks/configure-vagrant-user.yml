@@ -2,11 +2,12 @@
 # vim: set ft=yaml.ansible:
 
 - name: Check If Vagrant User Exists
-  getent:
+  ansible.builtin.getent:
     database: passwd
     key: vagrant
     fail_key: false
 
+- name: Show getent value
   ansible.builtin.debug:
     var: ansible_facts.getent_passwd
 
