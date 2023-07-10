@@ -17,6 +17,7 @@
   when: bootstrap_use_data_folder | default(false)
 
 - name: Set ownership of srv directory
+  become: true
   ansible.builtin.file:
     path: /srv
     state: directory
@@ -24,4 +25,3 @@
     group: data-user
     mode: "0775"
   when: bootstrap_use_data_folder | default(false)
-
