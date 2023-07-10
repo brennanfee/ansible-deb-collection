@@ -4,6 +4,7 @@
 - name: Install popularity contest (enroll requested)
   become: true
   ansible.builtin.apt:
+    state: present
     name: popularity-contest
   when: common_enroll_in_popularity_contest | default(false)
 
@@ -21,6 +22,6 @@
 - name: Remove popularity contest (enroll not requested)
   become: true
   ansible.builtin.apt:
-    name: popularity-contest
     state: absent
+    name: popularity-contest
   when: not (common_enroll_in_popularity_contest | default(false))

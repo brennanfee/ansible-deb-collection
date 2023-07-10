@@ -4,11 +4,10 @@
 - name: Install ssh
   become: true
   ansible.builtin.apt:
-    name: "{{ item }}"
     state: present
-  loop:
-    - openssh-server
-    - openssh-client
+    name:
+      - openssh-server
+      - openssh-client
 
 - name: Examine if we need to regenerate host keys
   ansible.builtin.stat:

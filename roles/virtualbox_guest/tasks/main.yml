@@ -4,13 +4,12 @@
 - name: Install VirtualBox pre-reqs
   become: true
   ansible.builtin.apt:
-    name: "{{ item }}"
     state: present
-  loop:
-    - build-essential
-    - dkms
-    - libxt6
-    - libxmu6
+    name:
+      - build-essential
+      - dkms
+      - libxt6
+      - libxmu6
 
 - name: Check if additions are already installed
   become: true
@@ -22,8 +21,7 @@
 
 - name: Install Guest Additions
   ansible.builtin.import_tasks: install-guest-additions.yml
-  when:
-    ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest" and
+  when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest" and
     virtualbox_guest_additions_installed.stdout == ""
 
 - name: Setup Vagrant user

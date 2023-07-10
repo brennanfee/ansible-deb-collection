@@ -4,10 +4,8 @@
 - name: Install Timesyncd
   become: true
   ansible.builtin.apt:
-    name: "{{ item }}"
     state: present
-  with_items:
-    - systemd-timesyncd
+    name: systemd-timesyncd
 
 - name: Set the time zone
   become: true
