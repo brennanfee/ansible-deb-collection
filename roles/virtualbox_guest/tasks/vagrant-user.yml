@@ -1,27 +1,20 @@
 ---
 # vim: set ft=yaml.ansible:
 
-- name: Check if Vagrant user exists
-  ansible.builtin.shell:
-    cmd: set -o pipefail && /usr/bin/getent passwd vagrant | /usr/bin/wc -l | tr -d ''
-    executable: /bin/bash
-  register: virtualbox_guest_vbox_vagrant_user_exists
-  changed_when: false
-
-- name: Add vagrant user to the VirtualBox group
+- name: Add Vagrant user to the default groups
   become: true
   ansible.builtin.user:
     name: vagrant
-    groups: vboxsf
+    groups: "{{ item }}"
     append: true
-  when: virtualbox_guest_vbox_vagrant_user_exists.stdout == "1"
-
-- name: Check if data-user groupr exists
-  ansible.builtin.shell:
-    cmd: set -o pipefail && /usr/bin/getent group data-user | /usr/bin/wc -l | tr -d ''
-    executable: /bin/bash
-  register: virtualbox_guest_vbox_data_user_exists
-  changed_when: false
+  with_items:
+    - audio
+    - video
+    - plugdev
+    - netdev
+    - sudo
+    - _ssh
+    - users
 
 - name: Add vagrant user to the data-user group
   become: true
@@ -29,7 +22,16 @@
     name: vagrant
     groups: data-user
     append: true
-  when: virtualbox_guest_vbox_data_user_exists.stdout == "1"
+  when: ansible_facts.getent_group.data-user != None
+
+- name: Add Vagrant user to the Virtualbox Group
+  become: true
+  ansible.builtin.user:
+    name: vagrant
+    groups: vboxsf
+    append: true
+  when: ansible_virtualization_type == "virtualbox"
+    and ansible_virtualization_role == "guest"
 
 - name: Setup vagrant user for passwordless sudo
   become: true
@@ -40,7 +42,6 @@
     group: root
     mode: "0640"
     backup: false
-  when: virtualbox_guest_vbox_vagrant_user_exists.stdout == "1"
 
 - name: Add users to the vagrant group (to allow access to vagrant share)
   become: true
@@ -48,5 +49,4 @@
     name: "{{ item }}"
     groups: vagrant
     append: true
-  loop: "{{ vagrant_users }}"
-  when: virtualbox_guest_vbox_vagrant_user_exists.stdout == "1"
+  loop: "{{ virtualbox_guest_vagrant_users }}"

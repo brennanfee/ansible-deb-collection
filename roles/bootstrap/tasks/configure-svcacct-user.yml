@@ -1,11 +1,17 @@
 ---
 # vim: set ft=yaml.ansible:
 
-- name: Check If Service Account User Exists
-  ansible.builtin.getent:
-    database: passwd
-    key: svcacct
-    fail_key: false
+- name: Create Service Account user
+  become: true
+  ansible.builtin.user:
+    state: present
+    name: svcacct
+    password: >-
+      $6$PvQd5pfH7E3q9P8H$3HOJkfn88SNf1Jr2Wyk1KYvqPnMFvi0f4R1cv4vjnzFB73wZ4XGhJrIggA6v91voAOjDog609Krrthgbq9C07.
+    shell: /bin/bash
+    create_home: true
+    system: true
+    update_password: always
 
 - name: Add Service Account user to the default groups
   become: true
@@ -21,8 +27,14 @@
     - sudo
     - _ssh
     - users
-    - data-user
-  when: ansible_facts.getent_passwd.svcacct != None
+
+- name: Add Service Account user to the data-user group
+  become: true
+  ansible.builtin.user:
+    name: svcacct
+    groups: data-user
+    append: true
+  when: ansible_facts.getent_group.data-user != None
 
 - name: Add Service Account user to the Virtualbox Group
   become: true
@@ -30,8 +42,7 @@
     name: svcacct
     groups: vboxsf
     append: true
-  when: ansible_facts.getent_passwd.svcacct != None
-    and ansible_virtualization_type == "virtualbox"
+  when: ansible_virtualization_type == "virtualbox"
     and ansible_virtualization_role == "guest"
 
 - name: Setup Service Account user for password-less sudo
@@ -43,7 +54,6 @@
     group: root
     mode: "0440"
     backup: true
-  when: ansible_facts.getent_passwd.svcacct != None
 
 - name: Add Service Account users authorized SSH key
   become: true
@@ -52,4 +62,3 @@
     key: >-
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAH5mZH2G4fD3f5ofopNdg1NfA4wE4ASwD4drU+w8RYR
       ansible@bfee.org
-  when: ansible_facts.getent_passwd.svcacct != None
