@@ -21,14 +21,16 @@ Include /etc/ssh/sshd_config.d/*.conf
 #ListenAddress ::
 
 #HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_ed25519_key
 #HostKey /etc/ssh/ssh_host_ecdsa_key
+#HostKey /etc/ssh/ssh_host_ed25519_key
+HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Ciphers and keying
 #RekeyLimit default none
 
 # Logging
 #SyslogFacility AUTH
+#LogLevel INFO
 LogLevel VERBOSE
 
 # Authentication:
@@ -37,7 +39,9 @@ LogLevel VERBOSE
 #PermitRootLogin prohibit-password
 PermitRootLogin no
 #StrictModes yes
+#MaxAuthTries 6
 MaxAuthTries 5
+#MaxSessions 10
 MaxSessions 3
 
 # Expect .ssh/authorized_keys2 to be disregarded by default in future.
@@ -64,14 +68,16 @@ IgnoreRhosts yes
 
 # Change to yes to enable challenge-response passwords (beware issues with
 # some PAM modules and threads)
-#KbdInteractiveAuthentication yes
+#KbdInteractiveAuthentication no
 
 # Kerberos options
+#KerberosAuthentication no
 #KerberosOrLocalPasswd yes
 #KerberosTicketCleanup yes
 #KerberosGetAFSToken no
 
 # GSSAPI options
+#GSSAPIAuthentication no
 #GSSAPICleanupCredentials yes
 #GSSAPIStrictAcceptorCheck yes
 #GSSAPIKeyExchange no
@@ -87,6 +93,7 @@ IgnoreRhosts yes
 # and KbdInteractiveAuthentication to 'no'.
 UsePAM yes
 
+#AllowAgentForwarding yes
 AllowAgentForwarding no
 #AllowTcpForwarding yes
 #GatewayPorts no
@@ -122,7 +129,7 @@ Banner /etc/issue.net
 AcceptEnv LANG LC_*
 
 # override default of no subsystems
-Subsystem sftp /usr/lib/openssh/sftp-server -l INFO
+Subsystem sftp /usr/lib/openssh/sftp-server
 
 #  Types of Authentications (What's allowed client side)
 GSSAPIAuthentication no
@@ -178,4 +185,8 @@ PubkeyAcceptedKeyTypes sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openss
 # Old: ssh-rsa-cert-v01@openssh.com,ssh-rsa,ssh-dss-cert-v01@openssh.com,ssh-dss
 # Ok, but trying to get rid of all RSA: rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256
 # Not Trusted: sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,webauthn-sk-ecdsa-sha2-nistp256@openssh.com
+
+# Example of overriding settings on a per-user basis
+Match User vagrant
+  PubkeyAcceptedKeyTypes sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,ssh-rsa-cert-v01@openssh.com,ssh-rsa,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256
 
