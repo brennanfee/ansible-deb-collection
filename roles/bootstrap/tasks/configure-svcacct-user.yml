@@ -38,7 +38,7 @@
     name: svcacct
     groups: data-user
     append: true
-  when: ansible_facts.getent_group.data-user != None
+  when: ansible_facts.getent_group["data-user"] != None
 
 - name: Add Service Account user to the Virtualbox Group
   become: true
@@ -55,7 +55,7 @@
     name: svcacct
     groups: vagrant
     append: true
-  when: ansible_facts.getent_group.vagrant != None
+  when: ansible_facts.getent_group["vagrant"] != None
 
 - name: Setup Service Account user for password-less sudo
   become: true

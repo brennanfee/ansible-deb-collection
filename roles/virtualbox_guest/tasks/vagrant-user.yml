@@ -27,7 +27,7 @@
     name: vagrant
     groups: data-user
     append: true
-  when: ansible_facts.getent_group.data-user != None
+  when: ansible_facts.getent_group["data-user"] != None
 
 - name: Add Vagrant user to the Virtualbox Group
   become: true
