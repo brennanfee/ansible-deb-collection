@@ -6,6 +6,7 @@
   ansible.builtin.user:
     state: present
     name: svcacct
+    comment: Service Account
     password: $6$PvQd5pfH7E3q9P8H$3HOJkfn88SNf1Jr2Wyk1KYvqPnMFvi0f4R1cv4vjnzFB73wZ4XGhJrIggA6v91voAOjDog609Krrthgbq9C07.
     shell: /bin/bash
     create_home: true

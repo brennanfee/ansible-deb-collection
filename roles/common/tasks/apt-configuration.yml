@@ -58,7 +58,7 @@
     group: root
     mode: "0644"
     backup: true
-  when: ansible_distribution == "Debian" and ansible_distribution_release == "bullseye"
+  when: ansible_distribution == "Debian"
     and (common_apt_include_backports | default(true, true))
   notify: Update Apt Cache
 
