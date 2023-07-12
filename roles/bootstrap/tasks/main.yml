@@ -39,7 +39,7 @@
   ansible.builtin.import_tasks: configure-bootSettings.yml
 
 - name: Configure data user
-  ansible.builtin.import_tasks: configure-data-user.yml
+  ansible.builtin.import_tasks: configure-data-user-group.yml
 
 - name: Setup Virtualbox Guest (if needed)
   ansible.builtin.include_role:
