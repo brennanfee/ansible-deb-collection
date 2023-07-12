@@ -6,8 +6,7 @@
   ansible.builtin.user:
     state: present
     name: svcacct
-    password: >-
-      $6$PvQd5pfH7E3q9P8H$3HOJkfn88SNf1Jr2Wyk1KYvqPnMFvi0f4R1cv4vjnzFB73wZ4XGhJrIggA6v91voAOjDog609Krrthgbq9C07.
+    password: $6$PvQd5pfH7E3q9P8H$3HOJkfn88SNf1Jr2Wyk1KYvqPnMFvi0f4R1cv4vjnzFB73wZ4XGhJrIggA6v91voAOjDog609Krrthgbq9C07.
     shell: /bin/bash
     create_home: true
     system: true
@@ -45,6 +44,14 @@
   when: ansible_virtualization_type == "virtualbox"
     and ansible_virtualization_role == "guest"
 
+- name: Add Service Accont user to the vagrant group (to allow access to vagrant share)
+  become: true
+  ansible.builtin.user:
+    name: svcacct
+    groups: vagrant
+    append: true
+  when: ansible_facts.getent_group.vagrant != None
+
 - name: Setup Service Account user for password-less sudo
   become: true
   ansible.builtin.template:
@@ -62,3 +69,4 @@
     key: >-
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAH5mZH2G4fD3f5ofopNdg1NfA4wE4ASwD4drU+w8RYR
       ansible@bfee.org
+

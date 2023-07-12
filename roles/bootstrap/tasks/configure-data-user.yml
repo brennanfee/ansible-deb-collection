@@ -6,6 +6,7 @@
     name: data-user
     system: true
   when: bootstrap_use_data_folder | default(false)
+  notify: Reload User Groups
 
 - name: Set ownership of data directory
   ansible.builtin.file:
