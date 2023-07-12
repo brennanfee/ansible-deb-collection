@@ -19,8 +19,3 @@
   ansible.builtin.command:
     cmd: update-grub
   changed_when: false
-
-- name: Reload User Groups
-  ansible.builtin.getent:
-    database: group
-  changed_when: false

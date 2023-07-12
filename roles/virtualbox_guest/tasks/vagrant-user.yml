@@ -16,6 +16,11 @@
     - _ssh
     - users
 
+- name: Gather group information
+  ansible.builtin.getent:
+    database: group
+    split: ":"
+
 - name: Add vagrant user to the data-user group
   become: true
   ansible.builtin.user:

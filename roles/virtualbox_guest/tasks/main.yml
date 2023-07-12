@@ -24,6 +24,10 @@
   when: ansible_virtualization_type == "virtualbox" and ansible_virtualization_role == "guest" and
     virtualbox_guest_additions_installed.stdout == ""
 
+- name: Gather user information
+  ansible.builtin.getent:
+    database: passwd
+
 - name: Setup Vagrant user
   ansible.builtin.import_tasks: vagrant-user.yml
   when: ansible_facts.getent_passwd.vagrant != None

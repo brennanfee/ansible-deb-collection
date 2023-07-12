@@ -27,6 +27,11 @@
     - _ssh
     - users
 
+- name: Gather group information
+  ansible.builtin.getent:
+    database: group
+    split: ":"
+
 - name: Add Service Account user to the data-user group
   become: true
   ansible.builtin.user:
@@ -69,4 +74,3 @@
     key: >-
       ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAH5mZH2G4fD3f5ofopNdg1NfA4wE4ASwD4drU+w8RYR
       ansible@bfee.org
-
