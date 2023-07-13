@@ -52,6 +52,7 @@
       - util-linux-locales
       - man
       - tasksel
+      - fbset
 
 - name: Ensure LVM on multi-disk systems
   become: true

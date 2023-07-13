@@ -27,7 +27,7 @@ Host localhost 127.0.0.1
 # This list of algorithms in the settings below have been tested and verified
 # for OpenSSH 8.9 and above.
 #
-#  Algorithms (allow the old\deprecated RSA)
+#  Algorithms (allow the older RSAs)
   CASignatureAlgorithms sk-ssh-ed25519@openssh.com,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,ssh-rsa
 
   HostbasedAcceptedAlgorithms sk-ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed25519@openssh.com,ssh-ed25519-cert-v01@openssh.com,ssh-ed25519,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-256,ssh-rsa-cert-v01@openssh.com,ssh-rsa
@@ -53,7 +53,7 @@ Host *
   StrictHostKeyChecking ask
   UpdateHostKeys yes
 
-#  Types of Authentications (What's allowed client side)
+#  Types of Authentications (What's allowed client side, this is and should be more liberal than a server configuration)
   GSSAPIAuthentication no
   HostbasedAuthentication no
   KbdInteractiveAuthentication yes
