@@ -1,29 +1,29 @@
 ---
 # vim: set ft=yaml.ansible:
 
-package_set: -- UNKNOWN --
+install_apps_package_set: -- UNKNOWN --
 
 # Repositories
-apt_keys: []
-apt_repositories: []
-ppa_repositories: []
-removed_apt_repositories: []
-removed_ppa_repositories: []
+install_apps_apt_keys: []
+install_apps_apt_repositories: []
+install_apps_ppa_repositories: []
+install_apps_removed_apt_repositories: []
+install_apps_removed_ppa_repositories: []
 
 # Apt packages
-apt_packages: []
-removed_apt_packages: []
+install_apps_apt_packages: []
+install_apps_removed_apt_packages: []
 
 # Debs (.deb files to be installed)
-deb_packages: []
-removed_deb_packages: []
+install_apps_deb_packages: []
+install_apps_removed_deb_packages: []
 
 # Flatpak
-flatpak_remotes: []
-flatpak_packages: []
-removed_flatpak_remotes: []
-removed_flatpak_packages: []
+install_apps_flatpak_remotes: []
+install_apps_flatpak_packages: []
+install_apps_removed_flatpak_remotes: []
+install_apps_removed_flatpak_packages: []
 
 # Snaps
-snap_packages: []
-removed_snap_packages: []
+install_apps_snap_packages: []
+install_apps_removed_snap_packages: []

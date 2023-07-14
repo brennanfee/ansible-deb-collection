@@ -2,8 +2,8 @@
 # vim: set ft=yaml.ansible:
 
 ### Install traditional apt packages
-- name: Install apt packages ({{ package_set }})
+- name: Install apt packages ({{ install_app_package_set }})
   become: true
   ansible.builtin.apt:
     name: "{{ item }}"
-  loop: "{{ apt_packages }}"
+  loop: "{{ install_app_apt_packages }}"

@@ -2,7 +2,7 @@
 # vim: set ft=yaml.ansible:
 
 ### Install tools needed for the other install methods
-- name: Install requirements for installation support
+- name: Install requirements for installation support ({{ package_set }})
   become: true
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -13,24 +13,24 @@
     - fuse3
     - squashfuse
 
-- name: Install snapd
+- name: Install snapd ({{ package_set }})
   become: true
   ansible.builtin.apt:
     name: snapd
   register: install_apps_snapd_installed
 
-- name: Enable the snapd service
+- name: Enable the snapd service ({{ package_set }})
   become: true
   ansible.builtin.service:
     name: snapd.socket
     enabled: true
 
-- name: Reboot (required for snapd)
+- name: Reboot (required for snapd) ({{ package_set }})
   become: true
   ansible.builtin.reboot: null
   when: install_apps_snapd_installed.changed
 
-- name: Install flathub Flatpak repository
+- name: Install flathub Flatpak repository ({{ package_set }})
   become: true
   community.general.flatpak_remote:
     name: flathub
