@@ -17,7 +17,7 @@
   become: true
   ansible.builtin.apt:
     name: snapd
-  register: install_applications_snapd_installed
+  register: install_apps_snapd_installed
 
 - name: Enable the snapd service
   become: true
@@ -28,7 +28,7 @@
 - name: Reboot (required for snapd)
   become: true
   ansible.builtin.reboot: null
-  when: install_applications_snapd_installed.changed
+  when: install_apps_snapd_installed.changed
 
 - name: Install flathub Flatpak repository
   become: true

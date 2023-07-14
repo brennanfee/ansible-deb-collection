@@ -17,7 +17,7 @@ scenarios = [
     "full_cicd",
     "bootstrap",
     "common",
-    "install_applications",
+    "install_apps",
     "install_fonts",
     "virtualbox_guest",
 ]

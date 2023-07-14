@@ -4,7 +4,7 @@
 - name: Converge
   hosts: all
   roles:
-    - role: install_applications
+    - role: install_appls
       package_set: TESTING
       ppa_repositories:
         - ppa:git-core/ppa
