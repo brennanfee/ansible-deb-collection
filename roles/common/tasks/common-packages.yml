@@ -1,12 +1,31 @@
 ---
 # vim: set ft=yaml.ansible:
 
+# NOTE: I could have just used ansible.builtin.apt directly because the install_apps
+# role is usually reserved for more complex setups such as things requiring apt
+# keys, apt repo's, or the use of other package managers.  However, I wanted to
+# make sure that all the pre-reqs for the install_apps role are included as part
+# of the common role that all machines get.
+
+## Drivers & Firmware
+# - name: Install Drivers And Firmware
+#   become: true
+#   ansible.builtin.apt:
+#     state: present
+#     name:
+#       - amd64-microcode
+#       - intel-microcode
+#       - firmware-iwlwifi
+#       - firmware-realtek
+#       - bluez-firmware
+#       - task-laptop
+
 ## Drivers & Firmware
 - name: Install Drivers And Firmware
-  become: true
-  ansible.builtin.apt:
-    state: present
-    name:
+  ansible.builtin.include_role:
+    name: brennanfee.deb_collection.install_apps
+  vars:
+    install_apps_apt_packages:
       - amd64-microcode
       - intel-microcode
       - firmware-iwlwifi
