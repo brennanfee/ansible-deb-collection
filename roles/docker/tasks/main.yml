@@ -1,7 +1,7 @@
 ---
 # vim: set ft=yaml.ansible:
 
-- name: Make sure old docker packages are missing
+- name: Make sure old Docker packages are missing
   become: true
   ansible.builtin.apt:
     state: absent
@@ -25,8 +25,8 @@
       - repo: >-
           deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg]
           https://download.docker.com/linux/debian
-          "{{ ansible_distribution_release }}" stable
-        filename: docker.list
+          {{ ansible_distribution_release }} stable
+        filename: docker
     install_apps_apt_packages:
       - docker-ce
       - docker-ce-cli
