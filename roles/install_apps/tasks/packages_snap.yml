@@ -2,7 +2,7 @@
 # vim: set ft=yaml.ansible:
 
 ### Install Snap Packages
-- name: Install Snap packages ({{ install_app_package_set }})
+- name: Install Snap packages ( "{{ install_apps_package_set }}" )
   become: true
   community.general.snap:
     name: "{{ item.name }}"

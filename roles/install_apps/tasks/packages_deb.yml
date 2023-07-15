@@ -2,7 +2,7 @@
 # vim: set ft=yaml.ansible:
 
 ### Install deb files
-- name: Install deb packages ({{ install_app_package_set }})
+- name: Install deb packages ( "{{ install_apps_package_set }}" )
   become: true
   ansible.builtin.apt:
     deb: "{{ item }}"

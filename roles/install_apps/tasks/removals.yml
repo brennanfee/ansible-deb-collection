@@ -2,7 +2,7 @@
 # vim: set ft=yaml.ansible:
 
 ### Removed apt packages
-- name: Remove apt packages ({{ install_apps_package_set }})
+- name: Remove apt packages ( "{{ install_apps_package_set }}" )
   become: true
   ansible.builtin.apt:
     name: "{{ item }}"
@@ -10,7 +10,7 @@
   loop: "{{ install_apps_removed_apt_packages }}"
 
 ### Removed deb files
-- name: Removed deb packages ({{ install_apps_package_set }})
+- name: Removed deb packages ( "{{ install_apps_package_set }}" )
   become: true
   ansible.builtin.apt:
     deb: "{{ item }}"
@@ -18,7 +18,7 @@
   loop: "{{ install_apps_removed_deb_packages }}"
 
 ### Removed snap packages
-- name: Remove Snap packages ({{ install_apps_package_set }})
+- name: Remove Snap packages ( "{{ install_apps_package_set }}" )
   become: true
   community.general.snap:
     name: "{{ item.name }}"
@@ -26,7 +26,7 @@
   loop: "{{ install_apps_removed_snap_packages }}"
 
 ### Removed flatpak packages
-- name: Remove Flatpak packages ({{ install_apps_package_set }})
+- name: Remove Flatpak packages ( "{{ install_apps_package_set }}" )
   become: true
   community.general.flatpak:
     name: "{{ item.name }}"
@@ -36,7 +36,7 @@
   loop: "{{ install_apps_removed_flatpak_packages }}"
 
 ### Remove Traditional Apt Repositories
-- name: Remove traditional Apt repositories ({{ install_apps_package_set }})
+- name: Remove traditional Apt repositories ( "{{ install_apps_package_set }}" )
   become: true
   ansible.builtin.apt_repository:
     repo: "{{ item.repo }}"
@@ -46,7 +46,7 @@
   loop: "{{ install_apps_removed_apt_repositories }}"
 
 ### Remove PPAs, should only be Ubuntu and derivatives
-- name: Removed PPAs ({{ install_apps_package_set }})
+- name: Removed PPAs ( "{{ install_apps_package_set }}" )
   become: true
   ansible.builtin.apt_repository:
     repo: "{{ item }}"
@@ -56,7 +56,7 @@
   when: ansible_distribution == 'Ubuntu'
 
 ### Remove Flatpak Remotes
-- name: Removed Flatpak remotes ({{ install_apps_package_set }})
+- name: Removed Flatpak remotes ( "{{ install_apps_package_set }}" )
   become: true
   community.general.flatpak_remote:
     name: "{{ item.name }}"

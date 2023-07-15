@@ -2,7 +2,7 @@
 # vim: set ft=yaml.ansible:
 
 ### Install apt keys
-- name: Setup new apt signing key ({{ install_app_package_set }})
+- name: Setup new apt signing key ( "{{ install_app_package_set }}" )
   become: true
   manage_apt_key:
     input_key_file: "{{ item.input_key_file }}"

@@ -1,7 +1,7 @@
 ---
 # vim: set ft=yaml.ansible:
 
-- name: Install Flatpak packages ({{ install_app_package_set }})
+- name: Install Flatpak packages ( "{{ install_apps_package_set }}" )
   become: true
   community.general.flatpak:
     name: "{{ item.name }}"
