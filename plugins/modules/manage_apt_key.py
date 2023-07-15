@@ -41,7 +41,7 @@ options:
     required: false
     default: /usr/local/share/keyrings
 
-  bin_path:
+  gpg_bin_path:
     description:
       - Location of GPG binary
     require: false
@@ -195,9 +195,9 @@ class ManageAptKey:
 
     def _execute_gpg(self, cmd):
         check_mode = "--dry-run" if self.m.check_mode else ""
-        bin_path = self.m.get_bin_path(self.m.params["bin_path"], True)
+        gpg_bin_path = self.m.get_bin_path(self.m.params["gpg_bin_path"], True)
 
-        to_execute = f"{bin_path} {check_mode} {cmd}"
+        to_execute = f"{gpg_bin_path} {check_mode} {cmd}"
         self._debug(f"command: {to_execute}")
         rc, _, _ = self.m.run_command(to_execute)
         return rc
@@ -209,7 +209,7 @@ def main():
             input_key_file=dict(required=True, type="str"),
             output_key_file=dict(required=True, type="str"),
             default_key_path=dict(default="/etc/apt/keyrings", type="str"),
-            bin_path=dict(default="/usr/bin/gpg", type="str"),
+            gpg_bin_path=dict(default="/usr/bin/gpg", type="str"),
             state=dict(default="present", choices=["absent", "present", "latest"]),
         ),
         supports_check_mode=True,
