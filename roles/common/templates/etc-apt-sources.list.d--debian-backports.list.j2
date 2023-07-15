@@ -1,9 +1,0 @@
-# APT Backports Source
-# vim: set ft=debsources :
-# {{ ansible_managed }}
-
-deb https://deb.debian.org/debian {{ ansible_distribution_release }}-backports main contrib non-free non-free-firmware
-{% if common_apt_include_sources | default(false, true) %}
-deb-src https://deb.debian.org/debian {{ ansible_distribution_release }}-backports main contrib non-free non-free-firmware
-{% endif %}
-
