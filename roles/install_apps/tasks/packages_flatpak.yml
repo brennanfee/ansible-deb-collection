@@ -7,4 +7,4 @@
     name: "{{ item.name }}"
     remote: "{{ item.remote | default('flathub') }}"
     method: "{{ item.method | default('system') }}"
-  loop: "{{ install_app_flatpak_packages }}"
+  loop: "{{ install_apps_flatpak_packages }}"
