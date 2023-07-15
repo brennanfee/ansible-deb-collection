@@ -1,0 +1,35 @@
+---
+# vim: set ft=yaml.ansible:
+
+- name: Make sure old docker packages are missing
+  become: true
+  ansible.builtin.apt:
+    state: absent
+    name:
+      - docker.io
+      - docker-compose
+      - docker-doc
+      - podman-docker
+      - containerd
+      - runc
+
+- name: Install Docker
+  ansible.builtin.include_role:
+    name: brennanfee.deb_collection.install_apps
+  vars:
+    install_apps_package_set: Docker
+    install_apps_apt_keys:
+      - input_key_file: https://download.docker.com/linux/debian/gpg
+        output_key_file: docker.gpg
+    install_apps_apt_repositories:
+      - repo: >-
+          deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg]
+          https://download.docker.com/linux/debian
+          "{{ ansible_distribution_release }}" stable
+        filename: docker.list
+    install_apps_apt_packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
