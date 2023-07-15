@@ -1,6 +1,6 @@
 ---
 # vim: set ft=yaml.ansible:
 
-- name: Server TBD
-  ansible.builtin.debug:
-    msg: Server role not yet developed.
+- name: Setup Docker
+  ansible.builtin.include_role:
+    name: brennanfee.deb_collection.docker
